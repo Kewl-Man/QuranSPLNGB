@@ -117,16 +117,17 @@
             font-weight: 300;
         }
 
+        /* UPDATED: Now uses Arabic Font for the prompt */
         .word-prompt {
+            font-family: 'Amiri', serif;
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-            margin-bottom: 35px;
-            text-transform: uppercase;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
             color: var(--gold);
             text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
             animation: floatText 3s ease-in-out infinite;
+            line-height: 1.2;
         }
 
         @keyframes floatText {
@@ -477,7 +478,7 @@
             .glass-panel { padding: 30px 20px; border-radius: 20px; }
             .form-grid { grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px;}
             .key { min-width: 34px; padding: 12px 6px; font-size: 1.3rem; }
-            .word-prompt { font-size: 2rem; margin-bottom: 25px;}
+            .word-prompt { font-size: 3rem; margin-bottom: 25px;} /* Scaled for mobile */
             .arabic-input { font-size: 2rem !important; padding: 12px;}
             .flashcard-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
         }
@@ -533,7 +534,7 @@
             <div class="progress-fill" id="progress-bar"></div>
         </div>
 
-        <div class="word-prompt" id="transliteration-prompt" style="margin-top: 25px;"></div>
+        <div class="word-prompt" id="word-prompt-display" style="margin-top: 25px;" dir="rtl"></div>
 
         <div class="form-grid">
             <div class="input-group">
@@ -561,7 +562,8 @@
             </div>
 
             <div class="input-group full-width">
-                <label>Spell in Arabic</label>
+                <!-- UPDATED LABEL for Sight-Typing -->
+                <label>Type the Arabic Word</label>
                 <input type="text" id="input-arabic" class="arabic-input" dir="rtl" placeholder="Type here..." readonly>
                 
                 <div class="keyboard" id="arabic-keyboard">
@@ -648,7 +650,7 @@
             { a: "احسن", t: "'ahsan", m: "best", o: 36, p: "Noun" }
         ];
 
-        // Arabic Keyboard Layout (UPDATED: Added 'ذ' to the top row)
+        // Arabic Keyboard Layout
         const kbLayout = [
             ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'ج', 'د', 'ذ'],
             ['ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط'],
@@ -680,7 +682,7 @@
             });
             setTimeout(() => {
                 getEl(screenId).classList.add('active');
-            }, 100); // Slight delay for smoother cross-fade
+            }, 100); 
         }
 
         function showMenu() { switchScreen('screen-menu'); }
@@ -789,10 +791,11 @@
             updateProgress();
             getEl('score-text').innerText = `Score: ${score}`;
             
-            const promptEl = getEl('transliteration-prompt');
+            const promptEl = getEl('word-prompt-display');
             promptEl.style.opacity = 0;
             setTimeout(() => {
-                promptEl.innerText = word.t;
+                // UPDATED: Display Arabic word instead of Transliteration
+                promptEl.innerText = word.a; 
                 promptEl.style.opacity = 1;
                 promptEl.style.transition = 'opacity 0.4s ease';
             }, 200);
@@ -901,7 +904,7 @@
                 getEl('screen-quiz').classList.add('shake');
                 setTimeout(() => getEl('screen-quiz').classList.remove('shake'), 600);
                 
-                msgEl.innerHTML = `Incorrect. Exact spelling is <b>${word.a}</b> (${word.p}), meaning <b>${word.m}</b> (Occurs <b>${word.o}</b> times).`;
+                msgEl.innerHTML = `Incorrect. The exact spelling requires specific keys, meaning <b>${word.m}</b> (Occurs <b>${word.o}</b> times).`;
                 msgEl.style.color = "var(--danger)";
             }
 
