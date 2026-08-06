@@ -1,9 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="indigo">
+<html lang="en" data-theme="indigo" data-mode="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qur'anic Words App - Modern Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Interactive Qur'anic vocabulary study guide, quiz & sight-spelling application.">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="QuranSPLNGB">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="./icon.svg">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js').catch(function(err) {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,12 +45,47 @@
             --card-bg: rgba(0, 0, 0, 0.35);
         }
 
-        /* --- THEMES --- */
-        [data-theme="emerald"] {
-            --bg-color-1: #064e3b;
-            --bg-color-2: #022c22;
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(16, 185, 129, 0.25);
+        /* --- THEMES ENGINE (DARK & LIGHT MODES) --- */
+
+        /* Global Theme Transition */
+        html {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body, .glass-panel, .btn, .theme-pill, .modal-card, select, input, .keyboard, .key, .option-btn {
+            transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* DARK MODE COLOR PALETTES */
+        [data-mode="dark"][data-theme="indigo"],
+        :root:not([data-mode="light"])[data-theme="indigo"] {
+            --bg-color-1: #0c0821;
+            --bg-color-2: #1e174c;
+            --glass-bg: rgba(99, 102, 241, 0.08);
+            --glass-border: rgba(167, 139, 250, 0.28);
+            --primary: #818cf8;
+            --primary-glow: rgba(129, 140, 248, 0.5);
+            --primary-hover: #6366f1;
+            --secondary: #f472b6;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #c084fc;
+            --gold: #fbbf24;
+            --orb-1: #6366f1;
+            --orb-2: #ec4899;
+            --orb-3: #8b5cf6;
+            --card-bg: rgba(15, 12, 36, 0.45);
+        }
+
+        [data-mode="dark"][data-theme="emerald"],
+        :root:not([data-mode="light"])[data-theme="emerald"] {
+            --bg-color-1: #022c22;
+            --bg-color-2: #064e3b;
+            --glass-bg: rgba(16, 185, 129, 0.08);
+            --glass-border: rgba(52, 211, 153, 0.3);
             --primary: #10b981;
             --primary-glow: rgba(16, 185, 129, 0.5);
             --primary-hover: #059669;
@@ -43,32 +96,36 @@
             --gold: #fbbf24;
             --orb-1: #10b981;
             --orb-2: #f59e0b;
-            --orb-3: #059669;
+            --orb-3: #047857;
+            --card-bg: rgba(2, 44, 34, 0.45);
         }
 
-        [data-theme="obsidian"] {
-            --bg-color-1: #090d16;
-            --bg-color-2: #111827;
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.5);
-            --primary-hover: #2563eb;
-            --secondary: #8b5cf6;
+        [data-mode="dark"][data-theme="obsidian"],
+        :root:not([data-mode="light"])[data-theme="obsidian"] {
+            --bg-color-1: #02040a;
+            --bg-color-2: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(148, 163, 184, 0.22);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.5);
+            --primary-hover: #0284c7;
+            --secondary: #64748b;
             --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent: #06b6d4;
-            --gold: #f59e0b;
-            --orb-1: #3b82f6;
-            --orb-2: #8b5cf6;
-            --orb-3: #06b6d4;
+            --text-muted: #94a3b8;
+            --accent: #e2e8f0;
+            --gold: #fbbf24;
+            --orb-1: #0284c7;
+            --orb-2: #38bdf8;
+            --orb-3: #475569;
+            --card-bg: rgba(3, 7, 18, 0.6);
         }
 
-        [data-theme="sunset"] {
+        [data-mode="dark"][data-theme="sunset"],
+        :root:not([data-mode="light"])[data-theme="sunset"] {
             --bg-color-1: #2a0818;
             --bg-color-2: #451a03;
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(245, 158, 11, 0.25);
+            --glass-bg: rgba(249, 115, 22, 0.08);
+            --glass-border: rgba(251, 146, 60, 0.3);
             --primary: #f97316;
             --primary-glow: rgba(249, 115, 22, 0.5);
             --primary-hover: #ea580c;
@@ -80,43 +137,288 @@
             --orb-1: #f97316;
             --orb-2: #e11d48;
             --orb-3: #f59e0b;
+            --card-bg: rgba(42, 8, 24, 0.45);
         }
 
-        [data-theme="cyber"] {
-            --bg-color-1: #030712;
-            --bg-color-2: #17072b;
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(236, 72, 153, 0.3);
-            --primary: #06b6d4;
-            --primary-glow: rgba(6, 182, 212, 0.5);
-            --primary-hover: #0891b2;
-            --secondary: #d946ef;
+        [data-mode="dark"][data-theme="cyber"],
+        :root:not([data-mode="light"])[data-theme="cyber"] {
+            --bg-color-1: #18042c;
+            --bg-color-2: #051329;
+            --glass-bg: rgba(34, 211, 238, 0.08);
+            --glass-border: rgba(217, 70, 239, 0.45);
+            --primary: #22d3ee;
+            --primary-glow: rgba(34, 211, 238, 0.65);
+            --primary-hover: #06b6d4;
+            --secondary: #f43f5e;
             --text-main: #ecfeff;
             --text-muted: #a5f3fc;
-            --accent: #22d3ee;
+            --accent: #d946ef;
             --gold: #facc15;
             --orb-1: #06b6d4;
-            --orb-2: #d946ef;
-            --orb-3: #a855f7;
+            --orb-2: #f43f5e;
+            --orb-3: #d946ef;
+            --card-bg: rgba(24, 4, 44, 0.55);
         }
 
-        [data-theme="light"] {
-            --bg-color-1: #f1f5f9;
-            --bg-color-2: #e2e8f0;
+        /* LIGHT MODE COLOR PALETTES */
+        [data-mode="light"] {
             --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(148, 163, 184, 0.35);
+            --glass-border: rgba(0, 0, 0, 0.12);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-bg: rgba(255, 255, 255, 0.94);
+        }
+
+        [data-mode="light"][data-theme="indigo"] {
+            --bg-color-1: #eef2ff;
+            --bg-color-2: #e0e7ff;
             --primary: #4f46e5;
             --primary-glow: rgba(79, 70, 229, 0.3);
             --primary-hover: #4338ca;
             --secondary: #db2777;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --accent: #0284c7;
+            --accent: #7c3aed;
             --gold: #d97706;
-            --orb-1: #818cf8;
-            --orb-2: #f472b6;
-            --orb-3: #38bdf8;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --orb-1: #c7d2fe;
+            --orb-2: #fbcfe8;
+            --orb-3: #ddd6fe;
+            --glass-border: rgba(79, 70, 229, 0.25);
+        }
+
+        [data-mode="light"][data-theme="emerald"] {
+            --bg-color-1: #ecfdf5;
+            --bg-color-2: #d1fae5;
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.3);
+            --primary-hover: #047857;
+            --secondary: #d97706;
+            --accent: #0d9488;
+            --gold: #d97706;
+            --orb-1: #a7f3d0;
+            --orb-2: #fef08a;
+            --orb-3: #6ee7b7;
+            --glass-border: rgba(5, 150, 105, 0.25);
+        }
+
+        [data-mode="light"][data-theme="obsidian"] {
+            --bg-color-1: #f8fafc;
+            --bg-color-2: #cbd5e1;
+            --primary: #0f172a;
+            --primary-glow: rgba(15, 23, 42, 0.25);
+            --primary-hover: #1e293b;
+            --secondary: #2563eb;
+            --accent: #475569;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --gold: #d97706;
+            --orb-1: #cbd5e1;
+            --orb-2: #93c5fd;
+            --orb-3: #94a3b8;
+            --glass-border: rgba(15, 23, 42, 0.2);
+        }
+
+        [data-mode="light"][data-theme="sunset"] {
+            --bg-color-1: #fff7ed;
+            --bg-color-2: #ffedd5;
+            --primary: #ea580c;
+            --primary-glow: rgba(234, 88, 12, 0.3);
+            --primary-hover: #c2410c;
+            --secondary: #e11d48;
+            --accent: #d97706;
+            --gold: #b45309;
+            --orb-1: #ffedd5;
+            --orb-2: #fecdd3;
+            --orb-3: #fef08a;
+            --glass-border: rgba(234, 88, 12, 0.25);
+        }
+
+        [data-mode="light"][data-theme="cyber"] {
+            --bg-color-1: #ecfeff;
+            --bg-color-2: #fdf4ff;
+            --primary: #0891b2;
+            --primary-glow: rgba(8, 145, 178, 0.35);
+            --primary-hover: #0e7490;
+            --secondary: #c026d3;
+            --accent: #e11d48;
+            --gold: #d97706;
+            --orb-1: #a5f3fc;
+            --orb-2: #f5d0fe;
+            --orb-3: #67e8f9;
+            --glass-border: rgba(8, 145, 178, 0.25);
+        }
+
+        /* LIGHT MODE COMPONENT OVERRIDES */
+        [data-mode="light"] .glass-panel {
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        [data-mode="light"] select option {
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .flashcard {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .flashcard-front {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .flashcard-front .arabic {
+            color: var(--primary);
+        }
+
+        [data-mode="light"] .word-prompt {
+            color: var(--primary);
+            text-shadow: 0 2px 10px var(--primary-glow);
+        }
+
+        [data-mode="light"] .keyboard {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-mode="light"] .key {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-mode="light"] .theme-pill {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #475569;
+        }
+
+        [data-mode="light"] .theme-pill:hover,
+        [data-mode="light"] .theme-pill.active {
+            background: #ffffff;
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        [data-mode="light"] .option-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #475569;
+        }
+
+        [data-mode="light"] .option-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        [data-mode="light"] .progress-container {
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .progress-badge,
+        [data-mode="light"] .score-badge {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .btn-secondary {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+        }
+
+        [data-mode="light"] .bg-orb {
+            opacity: 0.75;
+        }
+
+        /* --- Dark / Light Mode Toggle Switch --- */
+        .mode-toggle-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 22px;
+            margin-bottom: 10px;
+        }
+
+        .mode-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: var(--card-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .mode-toggle-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            border-color: var(--primary);
+            box-shadow: 0 10px 22px var(--primary-glow);
+        }
+
+        .mode-icon-spin {
+            font-size: 1.25rem;
+            display: inline-block;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mode-toggle-btn:hover .mode-icon-spin {
+            transform: rotate(25deg) scale(1.2);
+        }
+
+        /* --- Theme Switch Ripple & Pulse Animation --- */
+        .theme-switch-ripple {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform, opacity;
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleExpand 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes rippleExpand {
+            0% {
+                opacity: 0.95;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 0.65;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(40);
+            }
+        }
+
+        body.theme-swapping .glass-panel {
+            animation: themeSwapPulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes themeSwapPulse {
+            0% { transform: scale(1); }
+            35% { transform: scale(0.975); }
+            100% { transform: scale(1); }
         }
 
         * {
@@ -138,17 +440,20 @@
             padding: 20px 0;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* --- Modern Animated Background Orbs --- */
         .bg-orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(100px);
+            filter: blur(65px);
             z-index: -1;
             opacity: 0.55;
-            animation: floatOrb 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            animation: floatOrb 22s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
             transition: background 0.8s ease;
         }
         .orb-1 { width: 450px; height: 450px; background: var(--orb-1); top: -10%; left: -10%; }
@@ -156,9 +461,9 @@
         .orb-3 { width: 350px; height: 350px; background: var(--orb-3); top: 30%; left: 60%; animation-delay: -10s; }
 
         @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 80px) scale(1.2); }
-            100% { transform: translate(-50px, 40px) scale(0.9); }
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(50px, 80px, 0) scale(1.15); }
+            100% { transform: translate3d(-50px, 40px, 0) scale(0.92); }
         }
 
         /* --- Glassmorphism Panels --- */
@@ -228,17 +533,21 @@
         .word-prompt {
             font-family: 'Amiri', serif;
             text-align: center;
-            font-size: 4rem;
+            font-size: 3.8rem;
             font-weight: 700;
+            margin-top: 25px;
             margin-bottom: 25px;
+            padding: 16px 20px;
             color: var(--gold);
             text-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
-            animation: floatText 3s ease-in-out infinite;
-            line-height: 1.2;
-            min-height: 90px;
+            animation: floatText 3.5s ease-in-out infinite;
+            line-height: 1.45;
+            min-height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
+            will-change: transform;
+            direction: rtl;
         }
 
         .word-prompt.aralish-mode {
@@ -378,36 +687,63 @@
         .keyboard {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 14px;
-            border-radius: 20px;
+            gap: 5px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.28);
+            padding: 8px 5px;
+            border-radius: 18px;
             border: 1px solid var(--glass-border);
+            direction: ltr !important;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .keyboard-row {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: nowrap;
+            width: 100%;
+            max-width: 100%;
+            direction: ltr !important;
+            box-sizing: border-box;
+        }
+
+        .keyboard-row.centered-row {
             justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 3px;
         }
 
         .key {
-            background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            flex: 1 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            max-width: 100%;
+            background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: var(--text-main);
             font-family: 'Amiri', serif;
-            font-size: 1.6rem;
-            padding: 8px 12px;
-            border-radius: 12px;
+            font-size: clamp(0.72rem, 3.2vw, 1.35rem);
+            padding: 0 !important;
+            height: 40px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.15s ease;
-            min-width: 44px;
+            transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.25);
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(8px);
+            user-select: none;
+            -webkit-user-select: none;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            letter-spacing: normal !important;
         }
 
         .key.show {
@@ -416,35 +752,63 @@
         }
 
         .key:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px) scale(1.08);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+            border-color: rgba(255,255,255,0.45);
         }
 
         .key:active {
-            transform: translateY(2px) scale(0.95);
+            transform: translateY(1px) scale(0.96);
             background: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
+            box-shadow: 0 0 12px var(--primary-glow);
             border-color: var(--primary);
         }
 
-        .key.action-key {
+        .key.space-key {
+            flex: 4 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            min-width: 75px;
+            font-size: clamp(0.65rem, 2.3vw, 0.8rem);
             font-weight: 600;
+            letter-spacing: 0.3px !important;
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
+        }
+
+        .key.backspace-key {
+            flex: 1.25 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            font-weight: 700;
+        }
+
+        .key.action-key {
+            flex: 1.2 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.6rem, 2.1vw, 0.75rem);
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.2px !important;
+            padding: 0 !important;
+            height: 40px;
+            white-space: nowrap;
         }
 
         .key.clear-key {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.4);
+            flex: 1.8 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            background: linear-gradient(145deg, rgba(239, 68, 68, 0.35), rgba(185, 28, 28, 0.22));
+            border-color: rgba(239, 68, 68, 0.45);
             color: #fca5a5;
         }
         .key.clear-key:hover {
-            background: rgba(239, 68, 68, 0.35);
+            background: rgba(239, 68, 68, 0.4);
             color: #ffffff;
         }
 
@@ -453,20 +817,22 @@
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
             border: none;
-            padding: 16px 28px;
-            font-size: 1rem;
+            padding: 15px 22px;
+            font-size: 0.95rem;
             font-weight: 700;
             border-radius: 16px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            box-shadow: 0 10px 25px var(--primary-glow);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 22px var(--primary-glow);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-align: center;
+            line-height: 1.35;
+            box-sizing: border-box;
         }
 
         .btn:hover {
@@ -687,20 +1053,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
         .setting-row:last-child { border-bottom: none; }
+
+        .setting-info {
+            flex: 1;
+            min-width: 0;
+        }
 
         .setting-label {
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
+            line-height: 1.35;
         }
         .setting-sublabel {
             font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 3px;
+            line-height: 1.35;
         }
 
         /* Toggle Switch */
@@ -709,6 +1083,8 @@
             display: inline-block;
             width: 50px;
             height: 26px;
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -869,7 +1245,70 @@
             border-color: var(--primary);
         }
 
-        /* Animation utilities */
+        /* --- Whitelist / Known Words Excluder Styles --- */
+        .whitelist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            gap: 10px;
+        }
+        .whitelist-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+        .whitelist-item.is-whitelisted {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .whitelist-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .whitelist-tag {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .flashcard-whitelist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .flashcard-whitelist-btn:hover {
+            transform: scale(1.08);
+            background: var(--primary);
+            color: white;
+        }
+        .flashcard-whitelist-btn.is-known {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* --- Animation utilities --- */
         .shake { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
@@ -878,19 +1317,70 @@
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        /* Scrollbar */
+        /* --- Scrollbar --- */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        @media (max-width: 600px) {
-            .glass-panel { padding: 25px 20px; }
-            .form-grid { grid-template-columns: 1fr; gap: 15px; }
-            .word-prompt { font-size: 3rem; }
-            .key { min-width: 32px; padding: 8px 4px; font-size: 1.2rem; }
-            .key.action-key { font-size: 0.75rem; min-width: 60px; }
-            h1 { font-size: 2rem; }
+        /* --- Tablet & Mobile Responsiveness & Auto Orientation Engine --- */
+        @media (max-width: 900px) {
+            .glass-panel { width: 95%; max-width: 100%; padding: 26px 20px; box-sizing: border-box; }
+            .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        }
+
+        @media (max-width: 680px) {
+            html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+            body { padding: 6px 4px; align-items: flex-start; }
+            .glass-panel { padding: 18px 10px; border-radius: 20px; width: 100%; max-width: 100%; box-sizing: border-box; max-height: 94vh; overflow-y: auto; overflow-x: hidden; }
+            h1 { font-size: 1.65rem; letter-spacing: -0.5px; }
+            p.subtitle { font-size: 0.88rem; margin-bottom: 16px; }
+            .word-prompt { font-size: 2.4rem; min-height: 65px; margin-top: 8px; margin-bottom: 14px; padding: 6px; }
+            .word-prompt.aralish-mode { font-size: 1.9rem; }
+            .form-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+            .quiz-header { flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; width: 100%; flex-wrap: wrap; }
+            .progress-badge, .score-badge { padding: 5px 10px; font-size: 0.78rem; }
+            .btn { padding: 12px 12px; font-size: 0.86rem; letter-spacing: 0.2px; border-radius: 14px; }
+            .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; max-height: 58vh; }
+            .flashcard { height: 180px; border-radius: 18px; }
+            .flashcard-front .arabic { font-size: 1.8rem; }
+            .keyboard { padding: 5px 2px; gap: 2px; }
+            .key { height: 40px; padding: 0 !important; font-size: clamp(0.7rem, 3.2vw, 1.25rem) !important; flex: 1 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.space-key { height: 40px; font-size: clamp(0.6rem, 2.2vw, 0.75rem) !important; flex: 4 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.backspace-key { height: 40px; font-size: clamp(0.75rem, 2.8vw, 1rem) !important; flex: 1.25 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.action-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; padding: 0 !important; flex: 1.2 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.clear-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; flex: 1.8 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .modal-card { width: 95%; max-height: 88vh; padding: 16px; overflow-y: auto; overflow-x: hidden; }
+            .order-item-num { min-width: 24px; font-size: 0.8rem; }
+            .order-item-arabic { font-size: 1.2rem; min-width: 60px; }
+        }
+
+        @media (max-width: 420px) {
+            h1 { font-size: 1.4rem; }
+            .glass-panel { padding: 12px 6px; }
+            .word-prompt { font-size: 1.9rem; min-height: 50px; }
+            .keyboard { padding: 4px 2px; gap: 2px; }
+            .key { height: 38px; font-size: clamp(0.65rem, 3vw, 1.15rem) !important; }
+            .key.space-key { height: 38px; font-size: clamp(0.55rem, 2vw, 0.72rem) !important; }
+            .key.backspace-key { height: 38px; font-size: clamp(0.7rem, 2.5vw, 0.95rem) !important; }
+            .key.action-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .key.clear-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .mode-toggle-btn { padding: 7px 12px; font-size: 0.76rem; }
+            .theme-pill { padding: 5px 8px; font-size: 0.72rem; }
+            .flashcard-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Landscape Orientation Support for Phones & Tablets */
+        @media (orientation: landscape) and (max-height: 580px) {
+            body { padding: 6px 10px; align-items: flex-start; overflow-y: auto; }
+            .glass-panel { max-height: none; padding: 16px 20px; margin: 10px auto; }
+            .word-prompt { font-size: 2.2rem; min-height: 48px; margin-bottom: 10px; }
+            .bg-orb { opacity: 0.25; }
+            .flashcard-grid { max-height: 52vh; }
+            .modal-card { max-height: 92vh; overflow-y: auto; }
+            .keyboard { padding: 6px; gap: 4px; }
+            .key { padding: 4px 6px; font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -903,34 +1393,45 @@
 
     <!-- MAIN MENU SCREEN -->
     <div class="glass-panel active" id="screen-menu">
-        <h1>Qur'anic Words</h1>
-        <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & flashcards.</p>
+        <h1>QuranSPLNGB</h1>
+        <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
         
         <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
             <button class="btn" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
             <button class="btn btn-secondary" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
+            <button class="btn btn-secondary" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
+                <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; text-align: left;">🛡️ Whitelist Known Words</span>
+                <span style="background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; color: var(--text-main);">
+                    <span id="menu-whitelist-badge">0</span> Excluded
+                </span>
+            </button>
             <button class="btn btn-secondary" onclick="openSettings()">⚙️ Quiz & Test Settings</button>
+        </div>
+
+        <!-- Dark / Light Mode Toggle Button -->
+        <div class="mode-toggle-wrapper">
+            <button class="mode-toggle-btn" onclick="toggleMode(event)">
+                <span class="mode-icon-spin">🌙</span>
+                <span class="mode-text">Dark Mode</span>
+            </button>
         </div>
 
         <!-- Theme Selector Pills -->
         <div class="theme-selector-bar">
-            <div class="theme-pill active" onclick="setTheme('indigo')">
+            <div class="theme-pill active" onclick="setTheme('indigo', event)">
                 <span class="theme-dot" style="background:#6366f1;"></span> Indigo
             </div>
-            <div class="theme-pill" onclick="setTheme('emerald')">
+            <div class="theme-pill" onclick="setTheme('emerald', event)">
                 <span class="theme-dot" style="background:#10b981;"></span> Emerald
             </div>
-            <div class="theme-pill" onclick="setTheme('obsidian')">
+            <div class="theme-pill" onclick="setTheme('obsidian', event)">
                 <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
             </div>
-            <div class="theme-pill" onclick="setTheme('sunset')">
+            <div class="theme-pill" onclick="setTheme('sunset', event)">
                 <span class="theme-dot" style="background:#f97316;"></span> Sunset
             </div>
-            <div class="theme-pill" onclick="setTheme('cyber')">
+            <div class="theme-pill" onclick="setTheme('cyber', event)">
                 <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
-            </div>
-            <div class="theme-pill" onclick="setTheme('light')">
-                <span class="theme-dot" style="background:#818cf8;"></span> Light
             </div>
         </div>
     </div>
@@ -961,12 +1462,28 @@
             </div>
         </div>
 
+        <!-- Section 2: Whitelisted / Known Words Excluder -->
+        <div class="settings-section">
+            <h2 class="section-title">🛡️ Whitelisted Known Words Excluder</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; margin-bottom: 12px;">
+                Check the words you already know to exclude them from quizzes and practice remaining words.
+            </p>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="openWhitelistModal()" style="width: auto;">
+                    🛡️ Manage Whitelisted Words (<span id="settings-whitelist-badge">0</span> Excluded)
+                </button>
+                <button class="btn btn-outline-danger" onclick="clearAllWhitelistedWords()" style="width: auto; padding: 10px 14px;" id="btn-reset-whitelist">
+                    🔄 Reset Whitelist
+                </button>
+            </div>
+        </div>
+
         <!-- Section 2: Question Fields Per Word -->
         <div class="settings-section">
             <h2 class="section-title">📝 Tested Fields Per Word</h2>
             
             <div class="setting-row">
-                <div>
+                <div class="setting-info">
                     <div class="setting-label">Ask for Meaning</div>
                     <div class="setting-sublabel">Select correct English translation dropdown</div>
                 </div>
@@ -977,7 +1494,7 @@
             </div>
 
             <div class="setting-row">
-                <div>
+                <div class="setting-info">
                     <div class="setting-label">Ask for Word Category</div>
                     <div class="setting-sublabel">Categorize as Noun, Verb, or Particle</div>
                 </div>
@@ -988,7 +1505,7 @@
             </div>
 
             <div class="setting-row">
-                <div>
+                <div class="setting-info">
                     <div class="setting-label">Ask for Occurrences</div>
                     <div class="setting-sublabel">Identify occurrence frequency count in Qur'an</div>
                 </div>
@@ -999,7 +1516,7 @@
             </div>
 
             <div class="setting-row">
-                <div>
+                <div class="setting-info">
                     <div class="setting-label">Ask for Arabic Sight-Spelling</div>
                     <div class="setting-sublabel">Type Arabic spelling using interactive keyboard</div>
                 </div>
@@ -1019,6 +1536,34 @@
                 </div>
                 <div class="option-btn" id="display-opt-aralish" onclick="setWordDisplay('aralish')">
                     Aralish Transliteration (e.g. Shayṭān)
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Theme & Appearance Settings -->
+        <div class="settings-section">
+            <h2 class="section-title">🎨 Appearance & Color Theme</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px; align-items: center;">
+                <button class="mode-toggle-btn" onclick="toggleMode(event)">
+                    <span class="mode-icon-spin">🌙</span>
+                    <span class="mode-text">Dark Mode</span>
+                </button>
+                <div class="theme-selector-bar" style="margin-top: 5px;">
+                    <div class="theme-pill active" onclick="setTheme('indigo', event)">
+                        <span class="theme-dot" style="background:#6366f1;"></span> Indigo
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('emerald', event)">
+                        <span class="theme-dot" style="background:#10b981;"></span> Emerald
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('obsidian', event)">
+                        <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('sunset', event)">
+                        <span class="theme-dot" style="background:#f97316;"></span> Sunset
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('cyber', event)">
+                        <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
+                    </div>
                 </div>
             </div>
         </div>
@@ -1152,6 +1697,58 @@
         </div>
     </div>
 
+    <!-- MODAL: WHITELIST KNOWN WORDS MANAGER -->
+    <div class="modal-overlay" id="modal-whitelist-words" onclick="if(event.target === this) closeModal('modal-whitelist-words')">
+        <div class="glass-panel modal-card wide" style="max-width: 720px;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section-title" style="margin-bottom: 0;">🛡️ Whitelisted Known Words</h2>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-whitelist-words')">✕</button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+                Check the words you already know well. Whitelisted words will be automatically excluded from all quizzes and tests.
+            </p>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; align-items: center;">
+                <input type="text" id="whitelist-search" placeholder="Search Arabic, Aralish, or English meaning..." oninput="renderWhitelistList()" style="flex: 1; min-width: 180px; padding: 10px 15px; font-size: 0.9rem;">
+                <button class="btn-mini" onclick="toggleSelectAllWhitelist(true)" style="padding: 10px 14px; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.4);">Check All</button>
+                <button class="btn-mini" onclick="toggleSelectAllWhitelist(false)" style="padding: 10px 14px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);">Uncheck All</button>
+            </div>
+
+            <div class="custom-order-list" id="whitelist-container" style="max-height: 380px;">
+                <!-- Injected via JS -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px;">
+                <span id="whitelist-summary-text" style="font-size: 0.88rem; font-weight: 700; color: var(--accent);">
+                    0 / 74 words whitelisted (74 remaining in test)
+                </span>
+                <button class="btn" style="width: auto; padding: 10px 24px;" onclick="closeModal('modal-whitelist-words')">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ALL WORDS WHITELISTED WARNING -->
+    <div class="modal-overlay" id="modal-all-whitelisted-warning" onclick="if(event.target === this) closeModal('modal-all-whitelisted-warning')">
+        <div class="glass-panel modal-card" style="max-width: 480px; text-align: center;" onclick="event.stopPropagation()">
+            <div style="font-size: 3.2rem; margin-bottom: 8px;">🛡️</div>
+            <h2 class="section-title" style="justify-content: center; font-size: 1.5rem; color: var(--gold); margin-bottom: 10px;">All Words Whitelisted!</h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; margin-bottom: 22px;">
+                You have currently checked and whitelisted all <strong>74 words</strong> as known. There are no remaining words left to test in the interactive quiz.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn" onclick="closeModal('modal-all-whitelisted-warning'); openWhitelistModal();">
+                    🛡️ Open Whitelist Manager
+                </button>
+                <button class="btn btn-secondary" onclick="clearAllWhitelistedWordsAndStartQuiz()">
+                    🔄 Reset Whitelist & Play Quiz
+                </button>
+                <button class="btn btn-outline" style="margin-top: 4px;" onclick="closeModal('modal-all-whitelisted-warning')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Full Database of 74 Words
         const wordsData = [
@@ -1231,18 +1828,20 @@
             { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun" }
         ];
 
-        // Optimized Arabic Keyboard Layout (Clean 4-row grid with 'ه' clearly visible)
+        // Optimized Mobile Arabic Keyboard Layout (Standard 5-row mobile phone layout)
         const kbLayout = [
-            ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'ج'],
-            ['ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط'],
-            ['د', 'ذ', 'ر', 'ز', 'ظ', 'ة', 'و', 'ى', 'ء', 'ئ', 'ؤ'],
-            ['أ', 'إ', 'آ', 'لا', 'Space', 'Backspace', 'Clear Text']
+            ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح'],
+            ['ج', 'ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م'],
+            ['ك', 'ط', 'د', 'ذ', 'ر', 'ز', 'ظ', 'ة', 'و', 'ى'],
+            ['أ', 'إ', 'آ', 'لا', 'ء', 'ئ', 'ؤ', '⌫'],
+            ['Clear', 'Space ␣']
         ];
 
         // State Variables & Default Settings
         let quizSettings = {
             orderMode: 'random', // 'random', 'sequential', 'custom'
             customOrderList: wordsData.map((_, i) => i), // Array of indices
+            whitelistedWords: [], // Array of word indices [0..73] excluded from test
             fields: {
                 meaning: true,
                 pos: true,
@@ -1253,6 +1852,7 @@
         };
 
         let currentTheme = 'indigo';
+        let currentMode = 'dark';
         let quizWords = [];
         let currentIndex = 0;
         let score = 0;
@@ -1339,17 +1939,120 @@
                        .replace(/ة/g, 'ه');
         }
 
-        // Theme Switcher
-        function setTheme(themeName) {
+        // Theme & Mode Switcher Engine
+        function triggerThemeAnimation(e) {
+            let x = window.innerWidth / 2;
+            let y = window.innerHeight / 2;
+            if (e && e.clientX !== undefined && e.clientY !== undefined && (e.clientX !== 0 || e.clientY !== 0)) {
+                x = e.clientX;
+                y = e.clientY;
+            } else if (e && e.target && typeof e.target.getBoundingClientRect === 'function') {
+                const rect = e.target.getBoundingClientRect();
+                x = rect.left + rect.width / 2;
+                y = rect.top + rect.height / 2;
+            }
+
+            const ripple = document.createElement('div');
+            ripple.className = 'theme-switch-ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            const computedStyles = getComputedStyle(document.documentElement);
+            const primaryColor = computedStyles.getPropertyValue('--primary').trim() || '#6366f1';
+            const secondaryColor = computedStyles.getPropertyValue('--secondary').trim() || '#ec4899';
+            const accentColor = computedStyles.getPropertyValue('--accent').trim() || '#38bdf8';
+
+            ripple.style.background = `radial-gradient(circle, ${primaryColor} 0%, ${secondaryColor} 45%, ${accentColor} 75%, rgba(0,0,0,0) 95%)`;
+
+            document.body.appendChild(ripple);
+
+            document.body.classList.add('theme-swapping');
+            setTimeout(() => {
+                document.body.classList.remove('theme-swapping');
+            }, 500);
+
+            setTimeout(() => {
+                if (ripple && ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
+            }, 600);
+        }
+
+        function setTheme(themeName, e) {
             currentTheme = themeName;
             document.documentElement.setAttribute('data-theme', themeName);
             playSound('click');
 
+            if (e) triggerThemeAnimation(e);
+
             document.querySelectorAll('.theme-pill').forEach(pill => {
                 pill.classList.remove('active');
-                if (pill.getAttribute('onclick').includes(`'${themeName}'`)) {
+                if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${themeName}'`)) {
                     pill.classList.add('active');
                 }
+            });
+
+            saveThemePreferences();
+        }
+
+        function toggleMode(e) {
+            currentMode = (currentMode === 'dark') ? 'light' : 'dark';
+            applyMode(currentMode, e);
+        }
+
+        function applyMode(mode, e) {
+            currentMode = mode;
+            document.documentElement.setAttribute('data-mode', currentMode);
+            playSound('click');
+
+            const iconEls = document.querySelectorAll('.mode-icon-spin');
+            iconEls.forEach(icon => {
+                icon.style.transform = 'rotate(360deg) scale(1.3)';
+                setTimeout(() => { icon.style.transform = 'rotate(0deg) scale(1)'; }, 600);
+            });
+
+            document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+                const icon = btn.querySelector('.mode-icon-spin');
+                const text = btn.querySelector('.mode-text');
+                if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+                if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
+            });
+
+            if (e) triggerThemeAnimation(e);
+
+            saveThemePreferences();
+        }
+
+        function saveThemePreferences() {
+            try {
+                localStorage.setItem('quran_app_theme', currentTheme);
+                localStorage.setItem('quran_app_mode', currentMode);
+            } catch (err) {}
+        }
+
+        function loadThemePreferences() {
+            try {
+                const savedTheme = localStorage.getItem('quran_app_theme');
+                const savedMode = localStorage.getItem('quran_app_mode');
+                if (savedTheme) currentTheme = savedTheme;
+                if (savedMode) currentMode = savedMode;
+            } catch (err) {}
+
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.documentElement.setAttribute('data-mode', currentMode);
+
+            document.querySelectorAll('.theme-pill').forEach(pill => {
+                pill.classList.remove('active');
+                if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${currentTheme}'`)) {
+                    pill.classList.add('active');
+                }
+            });
+
+            document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+                const icon = btn.querySelector('.mode-icon-spin');
+                const text = btn.querySelector('.mode-text');
+                if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+                if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
             });
         }
 
@@ -1443,6 +2146,27 @@
                 quizSettings.fields.meaning = true;
                 getEl('toggle-field-meaning').checked = true;
             }
+
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+
+            updateWhitelistBadges();
+        }
+
+        function loadSavedSettings() {
+            try {
+                const saved = localStorage.getItem('quran_quiz_settings');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    quizSettings = { ...quizSettings, ...parsed };
+                    if (!Array.isArray(quizSettings.whitelistedWords)) {
+                        quizSettings.whitelistedWords = [];
+                    }
+                }
+            } catch(e) {}
+            syncSettingsUI();
+            updateWhitelistBadges();
         }
 
         function syncSettingsUI() {
@@ -1471,6 +2195,128 @@
             getEl('toggle-field-pos').checked = quizSettings.fields.pos;
             getEl('toggle-field-occ').checked = quizSettings.fields.occ;
             getEl('toggle-field-arabic').checked = quizSettings.fields.arabic;
+            
+            updateWhitelistBadges();
+        }
+
+        // --- WHITELIST / KNOWN WORDS EXCLUDER MANAGER ---
+        function updateWhitelistBadges() {
+            if (!Array.isArray(quizSettings.whitelistedWords)) {
+                quizSettings.whitelistedWords = [];
+            }
+            const count = quizSettings.whitelistedWords.length;
+            const remaining = wordsData.length - count;
+            
+            const menuBadge = getEl('menu-whitelist-badge');
+            if (menuBadge) menuBadge.innerText = count;
+
+            const settingsBadge = getEl('settings-whitelist-badge');
+            if (settingsBadge) settingsBadge.innerText = count;
+
+            const summaryText = getEl('whitelist-summary-text');
+            if (summaryText) {
+                summaryText.innerText = `${count} / ${wordsData.length} words whitelisted (${remaining} remaining in test)`;
+            }
+        }
+
+        function openWhitelistModal() {
+            if (!Array.isArray(quizSettings.whitelistedWords)) {
+                quizSettings.whitelistedWords = [];
+            }
+            openModal('modal-whitelist-words');
+            renderWhitelistList();
+            updateWhitelistBadges();
+        }
+
+        function renderWhitelistList() {
+            const container = getEl('whitelist-container');
+            if (!container) return;
+            const searchVal = (getEl('whitelist-search')?.value || '').toLowerCase().trim();
+            container.innerHTML = '';
+
+            wordsData.forEach((word, index) => {
+                const isWhitelisted = quizSettings.whitelistedWords.includes(index);
+                
+                if (searchVal) {
+                    const matchArabic = word.a.includes(searchVal);
+                    const matchTranslit = word.t.toLowerCase().includes(searchVal);
+                    const matchMeaning = word.m.toLowerCase().includes(searchVal);
+                    const matchCategory = word.p.toLowerCase().includes(searchVal);
+                    if (!matchArabic && !matchTranslit && !matchMeaning && !matchCategory) return;
+                }
+
+                const item = document.createElement('div');
+                item.className = `whitelist-item ${isWhitelisted ? 'is-whitelisted' : ''}`;
+                item.onclick = () => {
+                    toggleWordWhitelist(index);
+                };
+
+                item.innerHTML = `
+                    <input type="checkbox" class="whitelist-checkbox" ${isWhitelisted ? 'checked' : ''} onclick="event.stopPropagation(); toggleWordWhitelist(${index});">
+                    <div style="font-family: 'Amiri', serif; font-size: 1.3rem; font-weight: 700; color: var(--gold); min-width: 65px;" dir="rtl">${word.a}</div>
+                    <div style="flex: 1; min-width: 120px;">
+                        <strong style="color: var(--text-main); font-size: 0.95rem;">${word.t}</strong>
+                        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 6px;">— ${word.m} (${word.p})</span>
+                    </div>
+                    ${isWhitelisted ? '<span class="whitelist-tag">✓ Known</span>' : ''}
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function toggleWordWhitelist(wordIndex) {
+            if (!Array.isArray(quizSettings.whitelistedWords)) {
+                quizSettings.whitelistedWords = [];
+            }
+            const pos = quizSettings.whitelistedWords.indexOf(wordIndex);
+            if (pos > -1) {
+                quizSettings.whitelistedWords.splice(pos, 1);
+            } else {
+                quizSettings.whitelistedWords.push(wordIndex);
+            }
+            saveSettings();
+            renderWhitelistList();
+            updateFlashcardButtonState(wordIndex);
+            playSound('click');
+        }
+
+        function toggleWordWhitelistFromCard(btnEl, wordIndex) {
+            toggleWordWhitelist(wordIndex);
+        }
+
+        function updateFlashcardButtonState(wordIndex) {
+            const btn = document.querySelector(`.flashcard-whitelist-btn[data-word-index="${wordIndex}"]`);
+            if (btn) {
+                const isWhitelisted = quizSettings.whitelistedWords.includes(wordIndex);
+                if (isWhitelisted) {
+                    btn.classList.add('is-known');
+                    btn.innerText = '✓ Known';
+                } else {
+                    btn.classList.remove('is-known');
+                    btn.innerText = '🛡️ Mark Known';
+                }
+            }
+        }
+
+        function toggleSelectAllWhitelist(shouldSelectAll) {
+            if (shouldSelectAll) {
+                quizSettings.whitelistedWords = wordsData.map((_, i) => i);
+            } else {
+                quizSettings.whitelistedWords = [];
+            }
+            saveSettings();
+            renderWhitelistList();
+            wordsData.forEach((_, i) => updateFlashcardButtonState(i));
+            playSound('click');
+        }
+
+        function clearAllWhitelistedWords() {
+            quizSettings.whitelistedWords = [];
+            saveSettings();
+            renderWhitelistList();
+            wordsData.forEach((_, i) => updateFlashcardButtonState(i));
+            playSound('click');
         }
 
         // Custom Order Manager
@@ -1536,13 +2382,16 @@
             grid.innerHTML = '';
             
             wordsData.forEach((word, index) => {
+                const isWhitelisted = Array.isArray(quizSettings.whitelistedWords) && quizSettings.whitelistedWords.includes(index);
                 const card = document.createElement('div');
                 card.className = 'flashcard';
-                setTimeout(() => { card.style.opacity = '1'; }, index * 25);
-                card.style.opacity = '0';
-                card.style.transition = 'opacity 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease';
                 
                 card.innerHTML = `
+                    <button class="flashcard-whitelist-btn ${isWhitelisted ? 'is-known' : ''}" data-word-index="${index}" onclick="event.stopPropagation(); toggleWordWhitelistFromCard(this, ${index});">
+                        ${isWhitelisted ? '✓ Known' : '🛡️ Mark Known'}
+                    </button>
                     <div class="flashcard-inner">
                         <div class="flashcard-front">
                             <div class="arabic">${word.a}</div>
@@ -1566,6 +2415,8 @@
             if (e.key === 'Escape') {
                 closeModal('modal-custom-order');
                 closeModal('modal-confirm-clear');
+                closeModal('modal-whitelist-words');
+                closeModal('modal-all-whitelisted-warning');
             }
         });
 
@@ -1577,17 +2428,25 @@
 
             kbLayout.forEach(row => {
                 const rowDiv = document.createElement('div');
-                rowDiv.className = 'keyboard-row';
+                let isCentered = row.length < 10 && row.length > 3;
+                rowDiv.className = 'keyboard-row' + (isCentered ? ' centered-row' : '');
+                
                 row.forEach(key => {
                     const btn = document.createElement('div');
-                    let isAction = key.length > 2;
-                    let isClear = key === 'Clear Text';
-                    
-                    btn.className = 'key' + (isAction ? ' action-key' : '') + (isClear ? ' clear-key' : '');
+                    let isSpace = key.includes('Space');
+                    let isClear = key.includes('Clear');
+                    let isBackspace = key.includes('⌫') || key.includes('Backspace');
+
+                    let classNames = 'key';
+                    if (isSpace) classNames += ' space-key';
+                    else if (isBackspace) classNames += ' backspace-key';
+                    else if (isClear) classNames += ' clear-key action-key';
+
+                    btn.className = classNames;
                     btn.textContent = key;
                     btn.onclick = () => handleKeyPress(key, btn);
-                    
-                    setTimeout(() => { btn.classList.add('show'); }, keyIndex * 12);
+
+                    setTimeout(() => { btn.classList.add('show'); }, keyIndex * 8);
                     keyIndex++;
 
                     rowDiv.appendChild(btn);
@@ -1601,30 +2460,51 @@
             playSound('click');
             const input = getEl('input-arabic');
             
-            if (key === 'Backspace') {
+            if (key === '⌫' || key === 'Backspace' || key.includes('⌫')) {
                 input.value = input.value.slice(0, -1);
-            } else if (key === 'Space') {
+            } else if (key === 'Space ␣' || key === 'Space' || key.includes('Space')) {
                 input.value += ' ';
-            } else if (key === 'Clear Text') {
+            } else if (key === 'Clear' || key === 'Clear Text' || key.includes('Clear')) {
                 clearArabicInput();
             } else {
                 input.value += key;
             }
         }
 
+        function clearAllWhitelistedWordsAndStartQuiz() {
+            quizSettings.whitelistedWords = [];
+            saveSettings();
+            closeModal('modal-all-whitelisted-warning');
+            startQuiz();
+        }
+
         // Setup Quiz
         function startQuiz() {
-            switchScreen('screen-quiz');
             saveSettings();
 
-            // Prepare Words Based on Settings Order
+            // Prepare Candidate Words Based on Settings Order
+            let candidateWords = [];
             if (quizSettings.orderMode === 'random') {
-                quizWords = shuffle([...wordsData]);
+                candidateWords = shuffle([...wordsData]);
             } else if (quizSettings.orderMode === 'sequential') {
-                quizWords = [...wordsData];
+                candidateWords = [...wordsData];
             } else if (quizSettings.orderMode === 'custom') {
-                quizWords = quizSettings.customOrderList.map(i => wordsData[i]);
+                candidateWords = quizSettings.customOrderList.map(i => wordsData[i]);
             }
+
+            // Exclude Whitelisted (Known) Words
+            const whitelistedSet = new Set(quizSettings.whitelistedWords || []);
+            quizWords = candidateWords.filter(w => {
+                const origIndex = wordsData.indexOf(w);
+                return !whitelistedSet.has(origIndex);
+            });
+
+            if (quizWords.length === 0) {
+                openModal('modal-all-whitelisted-warning');
+                return;
+            }
+
+            switchScreen('screen-quiz');
 
             // Adjust Visible Input Fields
             getEl('group-meaning').style.display = quizSettings.fields.meaning ? 'flex' : 'none';
@@ -1832,6 +2712,10 @@
                 setTimeout(fireConfetti, 1200);
             }
         }
+
+        // Initialize Theme Preferences and Settings
+        loadThemePreferences();
+        loadSavedSettings();
     </script>
 </body>
 </html>
