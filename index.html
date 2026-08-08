@@ -1,165 +1,2552 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="indigo" data-mode="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuranSPLNGB</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#047857">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Interactive Qur'anic vocabulary study guide, quiz & sight-spelling application.">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="QuranSPLNGB">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="./icon.svg">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js').catch(function(err) {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Theme Definitions */
         :root {
-            --bg-color: #ecfdf5;
-            --surface-color: #ffffff;
-            --text-color: #065f46;
-            --primary-color: #047857;
-            --primary-hover: #065f46;
-            --accent-color: #10b981;
-            --border-color: #a7f3d0;
+            --bg-color-1: #0f172a;
+            --bg-color-2: #1e1b4b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --primary-hover: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #38bdf8;
+            --gold: #fbbf24;
+            --orb-1: #6366f1;
+            --orb-2: #ec4899;
+            --orb-3: #38bdf8;
+            --card-bg: rgba(0, 0, 0, 0.35);
         }
 
-        body.theme-indigo {
-            --bg-color: #eef2ff;
-            --surface-color: #ffffff;
-            --text-color: #312e81;
-            --primary-color: #4f46e5;
+        html {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body, .glass-panel, .btn, .theme-pill, .modal-card, select, input, .keyboard, .key, .option-btn {
+            transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-mode="dark"][data-theme="indigo"],
+        :root:not([data-mode="light"])[data-theme="indigo"] {
+            --bg-color-1: #0c0821;
+            --bg-color-2: #1e174c;
+            --glass-bg: rgba(99, 102, 241, 0.08);
+            --glass-border: rgba(167, 139, 250, 0.28);
+            --primary: #818cf8;
+            --primary-glow: rgba(129, 140, 248, 0.5);
+            --primary-hover: #6366f1;
+            --secondary: #f472b6;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #c084fc;
+            --gold: #fbbf24;
+            --orb-1: #6366f1;
+            --orb-2: #ec4899;
+            --orb-3: #8b5cf6;
+            --card-bg: rgba(15, 12, 36, 0.45);
+        }
+
+        [data-mode="dark"][data-theme="emerald"],
+        :root:not([data-mode="light"])[data-theme="emerald"] {
+            --bg-color-1: #022c22;
+            --bg-color-2: #064e3b;
+            --glass-bg: rgba(16, 185, 129, 0.08);
+            --glass-border: rgba(52, 211, 153, 0.3);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.5);
+            --primary-hover: #059669;
+            --secondary: #f59e0b;
+            --text-main: #f0fdf4;
+            --text-muted: #a7f3d0;
+            --accent: #34d399;
+            --gold: #fbbf24;
+            --orb-1: #10b981;
+            --orb-2: #f59e0b;
+            --orb-3: #047857;
+            --card-bg: rgba(2, 44, 34, 0.45);
+        }
+
+        [data-mode="dark"][data-theme="obsidian"],
+        :root:not([data-mode="light"])[data-theme="obsidian"] {
+            --bg-color-1: #02040a;
+            --bg-color-2: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(148, 163, 184, 0.22);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.5);
+            --primary-hover: #0284c7;
+            --secondary: #64748b;
+            --text-main: #f9fafb;
+            --text-muted: #94a3b8;
+            --accent: #e2e8f0;
+            --gold: #fbbf24;
+            --orb-1: #0284c7;
+            --orb-2: #38bdf8;
+            --orb-3: #475569;
+            --card-bg: rgba(3, 7, 18, 0.6);
+        }
+
+        [data-mode="dark"][data-theme="sunset"],
+        :root:not([data-mode="light"])[data-theme="sunset"] {
+            --bg-color-1: #2a0818;
+            --bg-color-2: #451a03;
+            --glass-bg: rgba(249, 115, 22, 0.08);
+            --glass-border: rgba(251, 146, 60, 0.3);
+            --primary: #f97316;
+            --primary-glow: rgba(249, 115, 22, 0.5);
+            --primary-hover: #ea580c;
+            --secondary: #e11d48;
+            --text-main: #fff7ed;
+            --text-muted: #fed7aa;
+            --accent: #fbbf24;
+            --gold: #fde047;
+            --orb-1: #f97316;
+            --orb-2: #e11d48;
+            --orb-3: #f59e0b;
+            --card-bg: rgba(42, 8, 24, 0.45);
+        }
+
+        [data-mode="dark"][data-theme="cyber"],
+        :root:not([data-mode="light"])[data-theme="cyber"] {
+            --bg-color-1: #18042c;
+            --bg-color-2: #051329;
+            --glass-bg: rgba(34, 211, 238, 0.08);
+            --glass-border: rgba(217, 70, 239, 0.45);
+            --primary: #22d3ee;
+            --primary-glow: rgba(34, 211, 238, 0.65);
+            --primary-hover: #06b6d4;
+            --secondary: #f43f5e;
+            --text-main: #ecfeff;
+            --text-muted: #a5f3fc;
+            --accent: #d946ef;
+            --gold: #facc15;
+            --orb-1: #06b6d4;
+            --orb-2: #f43f5e;
+            --orb-3: #d946ef;
+            --card-bg: rgba(24, 4, 44, 0.55);
+        }
+
+        [data-mode="light"] {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.12);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-bg: rgba(255, 255, 255, 0.94);
+        }
+
+        [data-mode="light"][data-theme="indigo"] {
+            --bg-color-1: #eef2ff;
+            --bg-color-2: #e0e7ff;
+            --primary: #4f46e5;
+            --primary-glow: rgba(79, 70, 229, 0.3);
             --primary-hover: #4338ca;
-            --accent-color: #6366f1;
-            --border-color: #c7d2fe;
+            --secondary: #db2777;
+            --accent: #7c3aed;
+            --gold: #d97706;
+            --orb-1: #c7d2fe;
+            --orb-2: #fbcfe8;
+            --orb-3: #ddd6fe;
+            --glass-border: rgba(79, 70, 229, 0.25);
         }
 
-        body.theme-emerald {
-            --bg-color: #ecfdf5;
-            --surface-color: #ffffff;
-            --text-color: #065f46;
-            --primary-color: #047857;
-            --primary-hover: #065f46;
-            --accent-color: #10b981;
-            --border-color: #a7f3d0;
+        [data-mode="light"][data-theme="emerald"] {
+            --bg-color-1: #ecfdf5;
+            --bg-color-2: #d1fae5;
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.3);
+            --primary-hover: #047857;
+            --secondary: #d97706;
+            --accent: #0d9488;
+            --gold: #d97706;
+            --orb-1: #a7f3d0;
+            --orb-2: #fef08a;
+            --orb-3: #6ee7b7;
+            --glass-border: rgba(5, 150, 105, 0.25);
         }
 
-        body.theme-sunset {
-            --bg-color: #fff1f2;
-            --surface-color: #ffffff;
-            --text-color: #881337;
-            --primary-color: #e11d48;
-            --primary-hover: #be123c;
-            --accent-color: #fb7185;
-            --border-color: #fecdd3;
+        [data-mode="light"][data-theme="obsidian"] {
+            --bg-color-1: #f8fafc;
+            --bg-color-2: #cbd5e1;
+            --primary: #0f172a;
+            --primary-glow: rgba(15, 23, 42, 0.25);
+            --primary-hover: #1e293b;
+            --secondary: #2563eb;
+            --accent: #475569;
+            --text-main: #0f172a;
+            --text-muted: #334155;
+            --gold: #d97706;
+            --orb-1: #cbd5e1;
+            --orb-2: #93c5fd;
+            --orb-3: #94a3b8;
+            --glass-border: rgba(15, 23, 42, 0.2);
+        }
+
+        [data-mode="light"][data-theme="sunset"] {
+            --bg-color-1: #fff7ed;
+            --bg-color-2: #ffedd5;
+            --primary: #ea580c;
+            --primary-glow: rgba(234, 88, 12, 0.3);
+            --primary-hover: #c2410c;
+            --secondary: #e11d48;
+            --accent: #d97706;
+            --gold: #b45309;
+            --orb-1: #ffedd5;
+            --orb-2: #fecdd3;
+            --orb-3: #fef08a;
+            --glass-border: rgba(234, 88, 12, 0.25);
+        }
+
+        [data-mode="light"][data-theme="cyber"] {
+            --bg-color-1: #ecfeff;
+            --bg-color-2: #fdf4ff;
+            --primary: #0891b2;
+            --primary-glow: rgba(8, 145, 178, 0.35);
+            --primary-hover: #0e7490;
+            --secondary: #c026d3;
+            --accent: #e11d48;
+            --gold: #d97706;
+            --orb-1: #a5f3fc;
+            --orb-2: #f5d0fe;
+            --orb-3: #67e8f9;
+            --glass-border: rgba(8, 145, 178, 0.25);
+        }
+
+        [data-mode="light"] .glass-panel {
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        [data-mode="light"] select option {
+            background: #ffffff;
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .flashcard {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .flashcard-front {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .flashcard-front .arabic {
+            color: var(--primary);
+        }
+
+        [data-mode="light"] .word-prompt {
+            color: var(--primary);
+            text-shadow: 0 2px 10px var(--primary-glow);
+        }
+
+        [data-mode="light"] .keyboard {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-mode="light"] .key {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-mode="light"] .theme-pill {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #475569;
+        }
+
+        [data-mode="light"] .theme-pill:hover,
+        [data-mode="light"] .theme-pill.active {
+            background: #ffffff;
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        [data-mode="light"] .option-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #475569;
+        }
+
+        [data-mode="light"] .option-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        [data-mode="light"] .progress-container {
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        [data-mode="light"] .progress-badge,
+        [data-mode="light"] .score-badge {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .btn-secondary {
+            background: #ffffff;
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #0f172a;
+        }
+
+        [data-mode="light"] .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+        }
+
+        [data-mode="light"] .bg-orb {
+            opacity: 0.75;
+        }
+
+        .mode-toggle-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 22px;
+            margin-bottom: 10px;
+        }
+
+        .mode-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            background: var(--card-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .mode-toggle-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            border-color: var(--primary);
+            box-shadow: 0 10px 22px var(--primary-glow);
+        }
+
+        .mode-icon-spin {
+            font-size: 1.25rem;
+            display: inline-block;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mode-toggle-btn:hover .mode-icon-spin {
+            transform: rotate(25deg) scale(1.2);
+        }
+
+        .theme-switch-ripple {
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            will-change: transform, opacity;
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleExpand 0.55s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes rippleExpand {
+            0% {
+                opacity: 0.95;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 0.65;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(40);
+            }
+        }
+
+        body.theme-swapping .glass-panel {
+            animation: themeSwapPulse 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes themeSwapPulse {
+            0% { transform: scale(1); }
+            35% { transform: scale(0.975); }
+            100% { transform: scale(1); }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg-color-1);
+            color: var(--text-main);
             min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        .container {
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(65px);
+            z-index: -1;
+            opacity: 0.55;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            animation: floatOrb 22s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.8s ease;
+        }
+        .orb-1 { width: 450px; height: 450px; background: var(--orb-1); top: -10%; left: -10%; }
+        .orb-2 { width: 500px; height: 500px; background: var(--orb-2); bottom: -20%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 350px; height: 350px; background: var(--orb-3); top: 30%; left: 60%; animation-delay: -10s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(50px, 80px, 0) scale(1.15); }
+            100% { transform: translate3d(-50px, 40px, 0) scale(0.92); }
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 35px 40px;
+            width: 95%;
+            max-width: 780px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            position: absolute;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(30px) scale(0.95);
+            z-index: 10;
+        }
+
+        .glass-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            position: relative;
+        }
+
+        .glass-panel.wide { max-width: 1080px; }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--primary), var(--secondary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 5s linear infinite;
+        }
+
+        h2.section-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @keyframes gradientText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .word-prompt {
+            font-family: 'Amiri', serif;
+            text-align: center;
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            padding: 16px 20px;
+            color: var(--gold);
+            text-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+            animation: floatText 3.5s ease-in-out infinite;
+            line-height: 1.45;
+            min-height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+            direction: rtl;
+        }
+
+        .word-prompt.aralish-mode {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 1px;
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .progress-container {
             width: 100%;
-            max-width: 600px;
-            background-color: var(--surface-color);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            box-sizing: border-box;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        header {
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .theme-selector {
+        .header-actions {
             display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .progress-badge, .score-badge {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .score-badge {
+            color: var(--gold);
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
 
-        .theme-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
+        .input-group.full-width { grid-column: 1 / -1; }
+
+        label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        select, input[type="text"] {
+            background: var(--card-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            appearance: none;
+            cursor: pointer;
+        }
+        
+        select option { background: var(--bg-color-1); color: #ffffff; }
+
+        select:hover, input[type="text"]:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .arabic-input {
+            font-family: 'Amiri', serif;
+            font-size: 2.4rem !important;
+            text-align: center;
+            letter-spacing: 2px;
+            cursor: default !important;
+        }
+
+        select.correct, input.correct {
+            border-color: var(--success) !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        select.wrong, input.wrong {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4) !important;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.28);
+            padding: 8px 5px;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            direction: ltr !important;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: nowrap;
+            width: 100%;
+            max-width: 100%;
+            direction: ltr !important;
+            box-sizing: border-box;
+        }
+
+        .key {
+            flex: 1 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            max-width: 100%;
+            background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: var(--text-main);
+            font-family: 'Amiri', serif;
+            font-size: clamp(0.72rem, 3.2vw, 1.35rem);
+            padding: 0 !important;
+            height: 40px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            color: var(--text-color);
-            transition: all 0.2s;
-        }
-
-        .theme-btn.active, .theme-btn:hover {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            border-color: var(--primary-color);
-        }
-
-        .content {
+            transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
             text-align: center;
-            padding: 40px 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateY(8px);
+            user-select: none;
+            -webkit-user-select: none;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            letter-spacing: normal !important;
         }
 
-        p {
+        .key.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .key:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+            border-color: rgba(255,255,255,0.45);
+        }
+
+        .key:active {
+            transform: translateY(1px) scale(0.96);
+            background: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+            border-color: var(--primary);
+        }
+
+        .key.space-key {
+            flex: 4 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.65rem, 2.3vw, 0.8rem);
+            font-weight: 600;
+            letter-spacing: 0.3px !important;
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
+        }
+
+        .key.backspace-key {
+            flex: 1.25 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            font-weight: 700;
+        }
+
+        .key.action-key {
+            flex: 1.2 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.6rem, 2.1vw, 0.75rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2px !important;
+            padding: 0 !important;
+            height: 40px;
+            white-space: nowrap;
+        }
+
+        .key.clear-key {
+            flex: 1.8 1 0px !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            background: linear-gradient(145deg, rgba(239, 68, 68, 0.35), rgba(185, 28, 28, 0.22));
+            border-color: rgba(239, 68, 68, 0.45);
+            color: #fca5a5;
+        }
+        .key.clear-key:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: #ffffff;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            padding: 15px 22px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 22px var(--primary-glow);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            line-height: 1.35;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px var(--primary-glow);
+            filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            box-shadow: none;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            border-radius: 12px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-outline-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+        .btn-outline-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: white;
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .theme-selector-bar {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .theme-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .theme-pill:hover, .theme-pill.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .theme-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .quiz-controls-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-submit { flex: 1; }
+
+        .result-msg {
+            text-align: center;
             font-size: 1.1rem;
-            line-height: 1.6;
+            font-weight: 600;
+            margin: 15px 0;
+            min-height: 28px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .result-msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 22px;
+            margin-top: 25px;
+            max-height: 62vh;
+            overflow-y: auto;
+            padding: 10px 8px;
+        }
+
+        .flashcard {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            height: 195px;
+            perspective: 1000px;
+            cursor: pointer;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .flashcard:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 25px var(--primary-glow);
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            border-radius: 24px;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 24px;
+            box-sizing: border-box;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
+        }
+
+        .flashcard-front .arabic {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin-bottom: 6px;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.45);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.82), rgba(236, 72, 153, 0.75));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #ffffff;
+            transform: rotateY(180deg);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.45), 0 12px 30px var(--primary-glow);
+        }
+
+        .settings-section {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .setting-row:last-child { border-bottom: none; }
+
+        .setting-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .setting-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.35;
+        }
+        .setting-sublabel {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+            line-height: 1.35;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: .3s;
+            border-radius: 34px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .options-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.92);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-card {
+            opacity: 1 !important;
+            visibility: visible !important;
+            position: relative !important;
+            transform: scale(1) !important;
+            z-index: 101;
+        }
+
+        .custom-order-list {
+            max-height: 350px;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding-right: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+        }
+        .order-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .order-item-num {
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 32px;
+            font-size: 0.85rem;
+        }
+
+        .order-item-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            min-width: 80px;
+        }
+
+        .order-item-text {
+            flex: 1;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding: 0 10px;
+        }
+
+        .order-item-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-mini {
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            cursor: pointer;
+        }
+        .btn-mini:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .whitelist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            gap: 10px;
+        }
+        .whitelist-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+        .whitelist-item.is-whitelisted {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+        .whitelist-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .whitelist-tag {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .flashcard-whitelist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted);
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .flashcard-whitelist-btn:hover {
+            transform: scale(1.08);
+            background: var(--primary);
+            color: white;
+        }
+        .flashcard-whitelist-btn.is-known {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .shake { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        @media (max-width: 900px) {
+            .glass-panel { width: 95%; max-width: 100%; padding: 26px 20px; box-sizing: border-box; }
+            .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        }
+
+        @media (max-width: 680px) {
+            html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+            body { padding: 6px 4px; align-items: flex-start; }
+            .glass-panel { padding: 18px 10px; border-radius: 20px; width: 100%; max-width: 100%; box-sizing: border-box; max-height: 94vh; overflow-y: auto; overflow-x: hidden; }
+            h1 { font-size: 1.65rem; letter-spacing: -0.5px; }
+            p.subtitle { font-size: 0.88rem; margin-bottom: 16px; }
+            .word-prompt { font-size: 2.4rem; min-height: 65px; margin-top: 8px; margin-bottom: 14px; padding: 6px; }
+            .word-prompt.aralish-mode { font-size: 1.9rem; }
+            .form-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+            .quiz-header { flex-direction: column; align-items: stretch; gap: 8px; }
+            .header-actions { justify-content: space-between; width: 100%; flex-wrap: wrap; }
+            .progress-badge, .score-badge { padding: 5px 10px; font-size: 0.78rem; }
+            .btn { padding: 12px 12px; font-size: 0.86rem; letter-spacing: 0.2px; border-radius: 14px; }
+            .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; max-height: 58vh; }
+            .flashcard { height: 180px; border-radius: 18px; }
+            .flashcard-front .arabic { font-size: 1.8rem; }
+            .keyboard { padding: 5px 2px; gap: 2px; }
+            .key { height: 40px; padding: 0 !important; font-size: clamp(0.7rem, 3.2vw, 1.25rem) !important; flex: 1 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.space-key { height: 40px; font-size: clamp(0.6rem, 2.2vw, 0.75rem) !important; flex: 4 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.backspace-key { height: 40px; font-size: clamp(0.75rem, 2.8vw, 1rem) !important; flex: 1.25 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.action-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; padding: 0 !important; flex: 1.2 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .key.clear-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; flex: 1.8 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .modal-card { width: 95%; max-height: 88vh; padding: 16px; overflow-y: auto; overflow-x: hidden; }
+            .order-item-num { min-width: 24px; font-size: 0.8rem; }
+            .order-item-arabic { font-size: 1.2rem; min-width: 60px; }
+        }
+
+        @media (max-width: 420px) {
+            h1 { font-size: 1.4rem; }
+            .glass-panel { padding: 12px 6px; }
+            .word-prompt { font-size: 1.9rem; min-height: 50px; }
+            .keyboard { padding: 4px 2px; gap: 2px; }
+            .key { height: 38px; font-size: clamp(0.65rem, 3vw, 1.15rem) !important; }
+            .key.space-key { height: 38px; font-size: clamp(0.55rem, 2vw, 0.72rem) !important; }
+            .key.backspace-key { height: 38px; font-size: clamp(0.7rem, 2.5vw, 0.95rem) !important; }
+            .key.action-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .key.clear-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .mode-toggle-btn { padding: 7px 12px; font-size: 0.76rem; }
+            .theme-pill { padding: 5px 8px; font-size: 0.72rem; }
+            .flashcard-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (orientation: landscape) and (max-height: 580px) {
+            body { padding: 6px 10px; align-items: flex-start; overflow-y: auto; }
+            .glass-panel { max-height: none; padding: 16px 20px; margin: 10px auto; }
+            .word-prompt { font-size: 2.2rem; min-height: 48px; margin-bottom: 10px; }
+            .bg-orb { opacity: 0.25; }
+            .flashcard-grid { max-height: 52vh; }
+            .modal-card { max-height: 92vh; overflow-y: auto; }
+            .keyboard { padding: 6px; gap: 4px; }
+            .key { padding: 4px 6px; font-size: 1.1rem; }
         }
     </style>
 </head>
-<body class="theme-emerald">
-    <div class="container">
-        <header>
-            <h1>QuranSPLNGB</h1>
-            <div class="theme-selector">
-                <button class="theme-btn active" onclick="setTheme('emerald', this)">Emerald</button>
-                <button class="theme-btn" onclick="setTheme('indigo', this)">Indigo</button>
-                <button class="theme-btn" onclick="setTheme('sunset', this)">Sunset</button>
+<body>
+
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <div class="glass-panel active" id="screen-menu">
+        <h1>QuranSPLNGB</h1>
+        <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+            <button class="btn" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
+            <button class="btn btn-secondary" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
+            <button class="btn btn-secondary" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
+                <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; text-align: left;">🛡️ Whitelist Known Words</span>
+                <span style="background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; color: var(--text-main);">
+                    <span id="menu-whitelist-badge">0</span> Excluded
+                </span>
+            </button>
+            <button class="btn btn-secondary" onclick="openSettings()">⚙️ Quiz & Test Settings</button>
+        </div>
+
+        <div class="mode-toggle-wrapper">
+            <button class="mode-toggle-btn" onclick="toggleMode(event)">
+                <span class="mode-icon-spin">🌙</span>
+                <span class="mode-text">Dark Mode</span>
+            </button>
+        </div>
+
+        <div class="theme-selector-bar">
+            <div class="theme-pill active" onclick="setTheme('indigo', event)">
+                <span class="theme-dot" style="background:#6366f1;"></span> Indigo
             </div>
-        </header>
-        <div class="content">
-            <p>Welcome to your Qur'anic vocabulary study guide, quiz &amp; sight-spelling application.</p>
-            <p><strong>Current Theme: Emerald (Default)</strong></p>
+            <div class="theme-pill" onclick="setTheme('emerald', event)">
+                <span class="theme-dot" style="background:#10b981;"></span> Emerald
+            </div>
+            <div class="theme-pill" onclick="setTheme('obsidian', event)">
+                <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
+            </div>
+            <div class="theme-pill" onclick="setTheme('sunset', event)">
+                <span class="theme-dot" style="background:#f97316;"></span> Sunset
+            </div>
+            <div class="theme-pill" onclick="setTheme('cyber', event)">
+                <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-panel" id="screen-settings">
+        <h1>Test & Quiz Settings</h1>
+        <p class="subtitle">Customize quiz order, tested fields, and prompt display.</p>
+
+        <div class="settings-section">
+            <h2 class="section-title">🎲 Word Order Mode</h2>
+            <div class="options-group" style="margin-top: 10px;">
+                <div class="option-btn active" id="order-opt-random" onclick="setOrderMode('random')">
+                    🎲 Randomized (Default)
+                </div>
+                <div class="option-btn" id="order-opt-sequential" onclick="setOrderMode('sequential')">
+                    🔢 Normal Order (1–74)
+                </div>
+                <div class="option-btn" id="order-opt-custom" onclick="setOrderMode('custom')">
+                    ✏️ Custom Order
+                </div>
+            </div>
+            <div id="custom-order-btn-row" style="margin-top: 12px; display: none;">
+                <button class="btn btn-outline" onclick="openCustomOrderModal()" style="width: auto;">
+                    ✏️ Manage & Re-order Words List (74 Words)
+                </button>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">🛡️ Whitelisted Known Words Excluder</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; margin-bottom: 12px;">
+                Check the words you already know to exclude them from quizzes and practice remaining words.
+            </p>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="openWhitelistModal()" style="width: auto;">
+                    🛡️ Manage Whitelisted Words (<span id="settings-whitelist-badge">0</span> Excluded)
+                </button>
+                <button class="btn btn-outline-danger" onclick="clearAllWhitelistedWords()" style="width: auto; padding: 10px 14px;" id="btn-reset-whitelist">
+                    🔄 Reset Whitelist
+                </button>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">📝 Tested Fields Per Word</h2>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Ask for Meaning</div>
+                    <div class="setting-sublabel">Select correct English translation dropdown</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-field-meaning" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Ask for Word Category</div>
+                    <div class="setting-sublabel">Categorize as Noun, Verb, or Particle</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-field-pos" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Ask for Occurrences</div>
+                    <div class="setting-sublabel">Identify occurrence frequency count in Qur'an</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-field-occ" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Ask for Arabic Sight-Spelling</div>
+                    <div class="setting-sublabel">Type Arabic spelling using interactive keyboard</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-field-arabic" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">🔤 Word Prompt Display Format</h2>
+            <div class="options-group" style="margin-top: 10px;">
+                <div class="option-btn active" id="display-opt-arabic" onclick="setWordDisplay('arabic')">
+                    Arabic Script (e.g. شَيْطَان)
+                </div>
+                <div class="option-btn" id="display-opt-aralish" onclick="setWordDisplay('aralish')">
+                    Aralish Transliteration (e.g. Shayṭān)
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h2 class="section-title">🎨 Appearance & Color Theme</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px; align-items: center;">
+                <button class="mode-toggle-btn" onclick="toggleMode(event)">
+                    <span class="mode-icon-spin">🌙</span>
+                    <span class="mode-text">Dark Mode</span>
+                </button>
+                <div class="theme-selector-bar" style="margin-top: 5px;">
+                    <div class="theme-pill active" onclick="setTheme('indigo', event)">
+                        <span class="theme-dot" style="background:#6366f1;"></span> Indigo
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('emerald', event)">
+                        <span class="theme-dot" style="background:#10b981;"></span> Emerald
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('obsidian', event)">
+                        <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('sunset', event)">
+                        <span class="theme-dot" style="background:#f97316;"></span> Sunset
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('cyber', event)">
+                        <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="showMenu()" style="margin-top: 10px;">Save & Return to Menu</button>
+    </div>
+
+    <div class="glass-panel wide" id="screen-study">
+        <h1>Study Guide</h1>
+        <p class="subtitle">Tap any card to reveal its translation and details.</p>
+        <button class="btn btn-outline" style="width: auto; padding: 10px 22px;" onclick="showMenu()">← Back to Menu</button>
+        
+        <div class="flashcard-grid" id="study-grid"></div>
+    </div>
+
+    <div class="glass-panel" id="screen-quiz">
+        <div class="quiz-header">
+            <div class="header-actions">
+                <button class="btn btn-outline" style="width: auto; padding: 8px 14px; margin:0;" onclick="showMenu()">Quit</button>
+                <button id="sound-toggle-btn" class="btn btn-outline" style="width: auto; padding: 8px 14px; margin:0;" onclick="toggleSound()">🔊 Sound</button>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-outline-danger" style="width: auto; padding: 8px 14px; margin:0; font-size: 0.8rem;" onclick="promptClearQuizInputs()">
+                    🗑️ Clear All
+                </button>
+                <div class="progress-badge" id="progress-text">Word 1 / 74</div>
+                <div class="score-badge" id="score-text">Score: 0</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-fill" id="progress-bar"></div>
+        </div>
+
+        <div class="word-prompt" id="word-prompt-display" dir="rtl"></div>
+
+        <div class="form-grid">
+            <div class="input-group" id="group-meaning">
+                <label>Meaning</label>
+                <select id="input-meaning">
+                    <option value="" disabled selected>Select meaning...</option>
+                </select>
+            </div>
+            
+            <div class="input-group" id="group-pos">
+                <label>Word Category</label>
+                <select id="input-pos">
+                    <option value="" disabled selected>Select category...</option>
+                    <option value="Noun">Noun</option>
+                    <option value="Verb">Verb</option>
+                    <option value="Particle">Particle</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="group-occ">
+                <label>Occurrences in Qur'an</label>
+                <select id="input-occ">
+                    <option value="" disabled selected>Select count...</option>
+                </select>
+            </div>
+
+            <div class="input-group full-width" id="group-arabic">
+                <label>Type the Arabic Word</label>
+                <input type="text" id="input-arabic" class="arabic-input" dir="rtl" placeholder="Type here..." readonly>
+                
+                <div class="keyboard" id="arabic-keyboard"></div>
+            </div>
+        </div>
+
+        <div class="result-msg" id="result-msg"></div>
+        <div class="quiz-controls-row">
+            <button class="btn btn-submit" id="btn-action" onclick="checkAnswer()">Check Answer</button>
+        </div>
+    </div>
+
+    <div class="glass-panel" id="screen-end">
+        <h1>Quiz Complete!</h1>
+        <p class="subtitle" id="final-score-text" style="font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-bottom: 30px;"></p>
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <button class="btn" onclick="startQuiz()">Play Again</button>
+            <button class="btn btn-secondary" onclick="showMenu()">Back to Main Menu</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-confirm-clear" onclick="if(event.target === this) closeModal('modal-confirm-clear')">
+        <div class="glass-panel modal-card" onclick="event.stopPropagation()">
+            <h2 class="section-title" style="color: #fca5a5;">⚠️ Clear All Inputs?</h2>
+            <p style="margin: 15px 0 25px 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">
+                Are you sure you want to clear all entered dropdown selections and typed Arabic text for this current question?
+            </p>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('modal-confirm-clear')">Cancel</button>
+                <button class="btn btn-danger" style="flex: 1;" onclick="confirmClearQuizInputs()">Yes, Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-custom-order" onclick="if(event.target === this) closeModal('modal-custom-order')">
+        <div class="glass-panel modal-card wide" style="max-width: 700px;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section-title" style="margin-bottom: 0;">✏️ Custom Word Order Manager</h2>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-custom-order')">✕</button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+                Re-order words using the Up/Down buttons to customize your quiz sequence.
+            </p>
+
+            <div style="margin-top: 15px;">
+                <input type="text" id="custom-order-search" placeholder="Search word or meaning..." oninput="renderCustomOrderList()" style="width: 100%; padding: 10px 15px; font-size: 0.9rem;">
+            </div>
+
+            <div class="custom-order-list" id="custom-order-container"></div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn btn-secondary" style="flex: 1; padding: 12px;" onclick="resetCustomOrderToDefault()">Reset Order</button>
+                <button class="btn" style="flex: 1; padding: 12px;" onclick="closeModal('modal-custom-order')">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-whitelist-words" onclick="if(event.target === this) closeModal('modal-whitelist-words')">
+        <div class="glass-panel modal-card wide" style="max-width: 720px;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 class="section-title" style="margin-bottom: 0;">🛡️ Whitelisted Known Words</h2>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-whitelist-words')">✕</button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+                Check the words you already know well. Whitelisted words will be automatically excluded from all quizzes and tests.
+            </p>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; align-items: center;">
+                <input type="text" id="whitelist-search" placeholder="Search Arabic, Aralish, or English meaning..." oninput="renderWhitelistList()" style="flex: 1; min-width: 180px; padding: 10px 15px; font-size: 0.9rem;">
+                <button class="btn-mini" onclick="toggleSelectAllWhitelist(true)" style="padding: 10px 14px; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.4);">Check All</button>
+                <button class="btn-mini" onclick="toggleSelectAllWhitelist(false)" style="padding: 10px 14px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);">Uncheck All</button>
+            </div>
+
+            <div class="custom-order-list" id="whitelist-container" style="max-height: 380px;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px;">
+                <span id="whitelist-summary-text" style="font-size: 0.88rem; font-weight: 700; color: var(--accent);">
+                    0 / 74 words whitelisted (74 remaining in test)
+                </span>
+                <button class="btn" style="width: auto; padding: 10px 24px;" onclick="closeModal('modal-whitelist-words')">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-all-whitelisted-warning" onclick="if(event.target === this) closeModal('modal-all-whitelisted-warning')">
+        <div class="glass-panel modal-card" style="max-width: 480px; text-align: center;" onclick="event.stopPropagation()">
+            <div style="font-size: 3.2rem; margin-bottom: 8px;">🛡️</div>
+            <h2 class="section-title" style="justify-content: center; font-size: 1.5rem; color: var(--gold); margin-bottom: 10px;">All Words Whitelisted!</h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; margin-bottom: 22px;">
+                You have currently checked and whitelisted all <strong>74 words</strong> as known. There are no remaining words left to test in the interactive quiz.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn" onclick="closeModal('modal-all-whitelisted-warning'); openWhitelistModal();">
+                    🛡️ Open Whitelist Manager
+                </button>
+                <button class="btn btn-secondary" onclick="clearAllWhitelistedWordsAndStartQuiz()">
+                    🔄 Reset Whitelist & Play Quiz
+                </button>
+                <button class="btn btn-outline" style="margin-top: 4px;" onclick="closeModal('modal-all-whitelisted-warning')">
+                    Cancel
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        function setTheme(themeName, element) {
-            // Remove all theme classes from body
-            document.body.className = '';
-            // Add the selected theme class
-            document.body.classList.add('theme-' + themeName);
-            
-            // Update active button state
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            element.classList.add('active');
-            
-            // Save preference locally if desired
-            localStorage.setItem('selected_theme', themeName);
+        const wordsData = [
+            { a: "الله", t: "'Al-lah", m: "Allah", o: 2550, p: "Noun" },
+            { a: "شيطن", t: "Ash-shaytaan", m: "Satan", o: 88, p: "Noun" },
+            { a: "هو", t: "huwa", m: "he", o: 481, p: "Noun" },
+            { a: "هم", t: "hum", m: "they", o: 444, p: "Noun" },
+            { a: "انت", t: "'anta", m: "you", o: 81, p: "Noun" },
+            { a: "انا", t: "'anaa", m: "I", o: 68, p: "Noun" },
+            { a: "انتم", t: "'antum", m: "you all", o: 135, p: "Noun" },
+            { a: "نحن", t: "nahnu", m: "we", o: 86, p: "Noun" },
+            { a: "من", t: "man", m: "who", o: 831, p: "Noun" },
+            { a: "هل", t: "hal", m: "Is, Do, Are...?", o: 93, p: "Particle" },
+            { a: "خير", t: "khayr", m: "best", o: 176, p: "Noun" },
+            { a: "اسم", t: "'ism", m: "Name", o: 39, p: "Noun" },
+            { a: "رحمن", t: "'Ar-rahmaan", m: "the Most Gracious", o: 57, p: "Noun" },
+            { a: "رحيم", t: "Ar-raheem", m: "the Most Merciful", o: 116, p: "Noun" },
+            { a: "كريم", t: "Al-Kareem", m: "Generous", o: 27, p: "Noun" },
+            { a: "حمد", t: "Al-hamd", m: "All praises and thanks", o: 149, p: "Noun" },
+            { a: "لله", t: "lil-laahi", m: "for Allah / to Allah", o: 149, p: "Noun" },
+            { a: "عالمين", t: "Al-aalameena", m: "the worlds", o: 73, p: "Noun" },
+            { a: "مسلم", t: "Muslim", m: "Muslim", o: 42, p: "Noun" },
+            { a: "مؤمن", t: "mu'min", m: "believer", o: 230, p: "Noun" },
+            { a: "مشرك", t: "mushrik", m: "polytheist", o: 49, p: "Noun" },
+            { a: "كافر", t: "kaafir", m: "disbeliever", o: 134, p: "Noun" },
+            { a: "صالح", t: "şaalih", m: "a righteous person", o: 136, p: "Noun" },
+            { a: "يوم", t: "yawm", m: "day", o: 405, p: "Noun" },
+            { a: "دين", t: "'Ad-deen", m: "the Judgment.", o: 92, p: "Noun" },
+            { a: "اياك", t: "'iyyaaka", m: "You Alone", o: 24, p: "Noun" },
+            { a: "رب", t: "Rabb", m: "Lord", o: 971, p: "Noun" },
+            { a: "ما", t: "maa", m: "that which", o: 2154, p: "Particle" },
+            { a: "صراط", t: "'Aş-şiraat", m: "the path", o: 45, p: "Noun" },
+            { a: "مستقيم", t: "'Al-mustaqeem", m: "the straight", o: 37, p: "Noun" },
+            { a: "الذين", t: "'Al-lazeena", m: "(of) those", o: 1080, p: "Noun" },
+            { a: "غير", t: "ghayr", m: "not (of)", o: 147, p: "Noun" },
+            { a: "لا", t: "laa", m: "not", o: 1687, p: "Particle" },
+            { a: "ضالين", t: "Ad-daalleena", m: "those who go astray", o: 14, p: "Noun" },
+            { a: "هي", t: "hiya", m: "It; she", o: 64, p: "Noun" },
+            { a: "كتاب", t: "kitaab", m: "a book", o: 261, p: "Noun" },
+            { a: "انزلنا", t: "anzalna", m: "We revealed", o: 55, p: "Verb" },
+            { a: "اية", t: "aayat", m: "sign/verse", o: 382, p: "Noun" },
+            { a: "ارض", t: "'Al-'ard", m: "the earth", o: 461, p: "Noun" },
+            { a: "سماء", t: "As-samaa'", m: "the heaven", o: 310, p: "Noun" },
+            { a: "اولوا", t: "'uloo", m: "those of...", o: 43, p: "Noun" },
+            { a: "لو", t: "Law", m: "if", o: 201, p: "Particle" },
+            { a: "ل", t: "li", m: "for", o: 1361, p: "Particle" },
+            { a: "من", t: "min", m: "from", o: 3215, p: "Particle" },
+            { a: "عن", t: "'an", m: "with", o: 416, p: "Particle" },
+            { a: "لقد", t: "laqad", m: "certainly", o: 406, p: "Particle" },
+            { a: "قران", t: "Al-Qur'aan", m: "the Qur'an", o: 70, p: "Noun" },
+            { a: "ان", t: "'in", m: "if", o: 691, p: "Particle" },
+            { a: "شاء", t: "shaa'a", m: "wills", o: 56, p: "Verb" },
+            { a: "ان", t: "'inna", m: "indeed", o: 1534, p: "Particle" },
+            { a: "انما", t: "'innamaa", m: "only", o: 145, p: "Particle" },
+            { a: "عمل", t: "'amal", m: "deed", o: 41, p: "Noun" },
+            { a: "ب", t: "bi", m: "in", o: 510, p: "Particle" },
+            { a: "في", t: "fee", m: "in/into", o: 1684, p: "Particle" },
+            { a: "سبيل", t: "As-sabeel", m: "the way", o: 176, p: "Noun" },
+            { a: "على", t: "'alaa", m: "on; upon", o: 1423, p: "Particle" },
+            { a: "الذي", t: "'allazee", m: "(the one) who", o: 304, p: "Noun" },
+            { a: "اي", t: "'ayyun", m: "which", o: 59, p: "Noun" },
+            { a: "احسن", t: "'ahsan", m: "best", o: 36, p: "Noun" },
+            { a: "إلى", t: "'ilaa", m: "to", o: 736, p: "Particle" },
+            { a: "مع", t: "ma'a", m: "with", o: 163, p: "Noun" },
+            { a: "عند", t: "'inda", m: "with", o: 197, p: "Noun" },
+            { a: "الانسان", t: "'Al-'insaan", m: "the mankind", o: 65, p: "Noun" },
+            { a: "إلا", t: "'illaa", m: "except", o: 664, p: "Particle" },
+            { a: "امنوا", t: "'aamanoo", m: "they believed", o: 258, p: "Verb" },
+            { a: "الحق", t: "'Al-haqq", m: "the truth", o: 247, p: "Noun" },
+            { a: "او", t: "aw", m: "or", o: 280, p: "Particle" },
+            { a: "هذا", t: "haazaa", m: "this", o: 225, p: "Noun" },
+            { a: "هذه", t: "haazihee", m: "this", o: 47, p: "Noun" },
+            { a: "ذلك", t: "zaalika", m: "that", o: 478, p: "Noun" },
+            { a: "تلك", t: "tilka", m: "that/these", o: 43, p: "Noun" },
+            { a: "هؤلاء", t: "haa'ulaa'i", m: "these", o: 46, p: "Noun" },
+            { a: "اولئك", t: "'ulaa'ika", m: "those", o: 204, p: "Noun" },
+            { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun" }
+        ];
+
+        const kbLayout = [
+            ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح'],
+            ['ج', 'ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'm'],
+            ['ك', 'ط', 'د', 'ذ', 'ر', 'ز', 'ظ', 'ة', 'و', 'ى'],
+            ['أ', 'إ', 'آ', 'لا', 'ء', 'ئ', 'ؤ', '⌫'],
+            ['Clear', 'Space ␣']
+        ];
+
+        let quizSettings = {
+            orderMode: 'random',
+            customOrderList: wordsData.map((_, i) => i),
+            whitelistedWords: [],
+            fields: { meaning: true, pos: true, occ: true, arabic: true },
+            wordDisplay: 'arabic'
+        };
+
+        let currentTheme = 'indigo';
+        let currentMode = 'dark';
+        let quizWords = [];
+        let currentIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        let audioCtx = null;
+        let soundMuted = false;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
         }
 
-        // Load saved theme on start if exists, otherwise defaults to emerald via body class
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('selected_theme');
-            if (savedTheme) {
-                const btn = Array.from(document.querySelectorAll('.theme-btn')).find(b => b.textContent.toLowerCase() === savedTheme);
+        function toggleSound() {
+            soundMuted = !soundMuted;
+            const btn = getEl('sound-toggle-btn');
+            if (btn) btn.innerText = soundMuted ? '🔇 Muted' : '🔊 Sound';
+            if (!soundMuted) playSound('click');
+        }
+
+        function playSound(type) {
+            if (soundMuted) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+
+                if (type === 'correct') {
+                    const freqs = [523.25, 659.25, 783.99, 1046.50];
+                    freqs.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                        gain.gain.setValueAtTime(0, now + i * 0.08);
+                        gain.gain.linearRampToValueAtTime(0.12, now + i * 0.08 + 0.02);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.35);
+                    });
+                } else if (type === 'incorrect') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(164.81, now);
+                    osc.frequency.exponentialRampToValueAtTime(130.81, now + 0.22);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'click') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                }
+            } catch (e) {}
+        }
+        
+        const shuffle = (array) => [...array].sort(() => Math.random() - 0.5);
+        const getEl = (id) => document.getElementById(id);
+        
+        function normalizeArabic(text) {
+            return text.replace(/[\u064B-\u065F]/g, '')
+                       .replace(/[أإآ]/g, 'ا')
+                       .replace(/ة/g, 'ه');
+        }
+
+        function triggerThemeAnimation(e) {
+            let x = window.innerWidth / 2;
+            let y = window.innerHeight / 2;
+            if (e && e.clientX !== undefined && e.clientY !== undefined && (e.clientX !== 0 || e.clientY !== 0)) {
+                x = e.clientX;
+                y = e.clientY;
+            } else if (e && e.target && typeof e.target.getBoundingClientRect === 'function') {
+                const rect = e.target.getBoundingClientRect();
+                x = rect.left + rect.width / 2;
+                y = rect.top + rect.height / 2;
+            }
+
+            const ripple = document.createElement('div');
+            ripple.className = 'theme-switch-ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            const computedStyles = getComputedStyle(document.documentElement);
+            const primaryColor = computedStyles.getPropertyValue('--primary').trim() || '#6366f1';
+            const secondaryColor = computedStyles.getPropertyValue('--secondary').trim() || '#ec4899';
+            const accentColor = computedStyles.getPropertyValue('--accent').trim() || '#38bdf8';
+
+            ripple.style.background = `radial-gradient(circle, ${primaryColor} 0%, ${secondaryColor} 45%, ${accentColor} 75%, rgba(0,0,0,0) 95%)`;
+
+            document.body.appendChild(ripple);
+            document.body.classList.add('theme-swapping');
+            setTimeout(() => { document.body.classList.remove('theme-swapping'); }, 500);
+            setTimeout(() => { if (ripple && ripple.parentNode) ripple.parentNode.removeChild(ripple); }, 600);
+        }
+
+        function setTheme(themeName, e) {
+            currentTheme = themeName;
+            document.documentElement.setAttribute('data-theme', themeName);
+            playSound('click');
+            if (e) triggerThemeAnimation(e);
+
+            document.querySelectorAll('.theme-pill').forEach(pill => {
+                pill.classList.remove('active');
+                if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${themeName}'`)) {
+                    pill.classList.add('active');
+                }
+            });
+            saveThemePreferences();
+        }
+
+        function toggleMode(e) {
+            currentMode = (currentMode === 'dark') ? 'light' : 'dark';
+            applyMode(currentMode, e);
+        }
+
+        function applyMode(mode, e) {
+            currentMode = mode;
+            document.documentElement.setAttribute('data-mode', currentMode);
+            playSound('click');
+
+            document.querySelectorAll('.mode-icon-spin').forEach(icon => {
+                icon.style.transform = 'rotate(360deg) scale(1.3)';
+                setTimeout(() => { icon.style.transform = 'rotate(0deg) scale(1)'; }, 600);
+            });
+
+            document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+                const icon = btn.querySelector('.mode-icon-spin');
+                const text = btn.querySelector('.mode-text');
+                if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+                if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
+            });
+
+            if (e) triggerThemeAnimation(e);
+            saveThemePreferences();
+        }
+
+        function saveThemePreferences() {
+            try {
+                localStorage.setItem('quran_app_theme', currentTheme);
+                localStorage.setItem('quran_app_mode', currentMode);
+            } catch (err) {}
+        }
+
+        function loadThemePreferences() {
+            try {
+                const savedTheme = localStorage.getItem('quran_app_theme');
+                const savedMode = localStorage.getItem('quran_app_mode');
+                if (savedTheme) currentTheme = savedTheme;
+                if (savedMode) currentMode = savedMode;
+            } catch (err) {}
+
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.documentElement.setAttribute('data-mode', currentMode);
+
+            document.querySelectorAll('.theme-pill').forEach(pill => {
+                pill.classList.remove('active');
+                if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${currentTheme}'`)) {
+                    pill.classList.add('active');
+                }
+            });
+
+            document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+                const icon = btn.querySelector('.mode-icon-spin');
+                const text = btn.querySelector('.mode-text');
+                if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+                if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
+            });
+        }
+
+        function openModal(id) { getEl(id).classList.add('active'); playSound('click'); }
+        function closeModal(id) { getEl(id).classList.remove('active'); playSound('click'); }
+
+        function promptClearQuizInputs() {
+            if (isAnswered) return;
+            openModal('modal-confirm-clear');
+        }
+
+        function confirmClearQuizInputs() {
+            closeModal('modal-confirm-clear');
+            clearQuizInputs();
+            playSound('click');
+        }
+
+        function clearArabicInput() {
+            if (isAnswered) return;
+            const input = getEl('input-arabic');
+            input.value = '';
+            input.classList.remove('correct', 'wrong');
+        }
+
+        function clearQuizInputs() {
+            if (isAnswered) return;
+            getEl('input-meaning').selectedIndex = 0;
+            getEl('input-pos').selectedIndex = 0;
+            getEl('input-occ').selectedIndex = 0;
+            getEl('input-arabic').value = '';
+            
+            ['input-meaning', 'input-pos', 'input-occ', 'input-arabic'].forEach(id => {
+                getEl(id).classList.remove('correct', 'wrong');
+            });
+            
+            const msgEl = getEl('result-msg');
+            msgEl.classList.remove('show');
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.glass-panel').forEach(panel => panel.classList.remove('active'));
+            setTimeout(() => { getEl(screenId).classList.add('active'); }, 100); 
+        }
+
+        function showMenu() { switchScreen('screen-menu'); updateWhitelistBadges(); }
+
+        function openSettings() {
+            switchScreen('screen-settings');
+            syncSettingsUI();
+        }
+
+        function openStudyMode() {
+            switchScreen('screen-study');
+            renderFlashcards();
+        }
+
+        function setOrderMode(mode) {
+            quizSettings.orderMode = mode;
+            playSound('click');
+            syncSettingsUI();
+        }
+
+        function setWordDisplay(format) {
+            quizSettings.wordDisplay = format;
+            playSound('click');
+            syncSettingsUI();
+        }
+
+        function saveSettings() {
+            quizSettings.fields.meaning = getEl('toggle-field-meaning').checked;
+            quizSettings.fields.pos = getEl('toggle-field-pos').checked;
+            quizSettings.fields.occ = getEl('toggle-field-occ').checked;
+            quizSettings.fields.arabic = getEl('toggle-field-arabic').checked;
+
+            if (!quizSettings.fields.meaning && !quizSettings.fields.pos && !quizSettings.fields.occ && !quizSettings.fields.arabic) {
+                quizSettings.fields.meaning = true;
+                getEl('toggle-field-meaning').checked = true;
+            }
+
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            updateWhitelistBadges();
+        }
+
+        function loadSavedSettings() {
+            try {
+                const saved = localStorage.getItem('quran_quiz_settings');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    quizSettings = { ...quizSettings, ...parsed };
+                    if (!Array.isArray(quizSettings.whitelistedWords)) quizSettings.whitelistedWords = [];
+                    if (!Array.isArray(quizSettings.customOrderList)) quizSettings.customOrderList = wordsData.map((_, i) => i);
+                }
+            } catch(e) {}
+            syncSettingsUI();
+            updateWhitelistBadges();
+        }
+
+        function syncSettingsUI() {
+            ['random', 'sequential', 'custom'].forEach(m => {
+                const btn = getEl(`order-opt-${m}`);
                 if (btn) {
-                    setTheme(savedTheme, btn);
+                    if (quizSettings.orderMode === m) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+
+            const customBtnRow = getEl('custom-order-btn-row');
+            if (customBtnRow) {
+                customBtnRow.style.display = (quizSettings.orderMode === 'custom') ? 'block' : 'none';
+            }
+
+            ['arabic', 'aralish'].forEach(f => {
+                const btn = getEl(`display-opt-${f}`);
+                if (btn) {
+                    if (quizSettings.wordDisplay === f) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                }
+            });
+
+            getEl('toggle-field-meaning').checked = quizSettings.fields.meaning;
+            getEl('toggle-field-pos').checked = quizSettings.fields.pos;
+            getEl('toggle-field-occ').checked = quizSettings.fields.occ;
+            getEl('toggle-field-arabic').checked = quizSettings.fields.arabic;
+
+            updateWhitelistBadges();
+        }
+
+        function updateWhitelistBadges() {
+            const count = quizSettings.whitelistedWords.length;
+            const b1 = getEl('menu-whitelist-badge');
+            const b2 = getEl('settings-whitelist-badge');
+            if (b1) b1.innerText = count;
+            if (b2) b2.innerText = count;
+        }
+
+        function openWhitelistModal() {
+            renderWhitelistList();
+            openModal('modal-whitelist-words');
+        }
+
+        function renderWhitelistList() {
+            const container = getEl('whitelist-container');
+            const search = (getEl('whitelist-search').value || '').toLowerCase();
+            container.innerHTML = '';
+
+            let html = '';
+            let whitelistedCount = 0;
+
+            wordsData.forEach((w, idx) => {
+                const isW = quizSettings.whitelistedWords.includes(idx);
+                if (isW) whitelistedCount++;
+
+                const matchStr = `${w.a} ${w.t} ${w.m} ${w.p}`.toLowerCase();
+                if (search && !matchStr.includes(search)) return;
+
+                html += `
+                    <div class="whitelist-item ${isW ? 'is-whitelisted' : ''}" onclick="toggleWordWhitelist(${idx})">
+                        <input type="checkbox" class="whitelist-checkbox" ${isW ? 'checked' : ''} onclick="event.stopPropagation(); toggleWordWhitelist(${idx});">
+                        <span class="order-item-num">#${idx + 1}</span>
+                        <span class="order-item-arabic">${w.a}</span>
+                        <span class="order-item-text"><strong>${w.m}</strong> (${w.t})</span>
+                        ${isW ? '<span class="whitelist-tag">🛡️ Excluded</span>' : ''}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html || '<p style="text-align:center; color: var(--text-muted); padding: 20px;">No matching words found.</p>';
+            
+            const remaining = wordsData.length - whitelistedCount;
+            const summary = getEl('whitelist-summary-text');
+            if (summary) {
+                summary.innerText = `${whitelistedCount} / ${wordsData.length} words whitelisted (${remaining} remaining in test)`;
+            }
+            updateWhitelistBadges();
+        }
+
+        function toggleWordWhitelist(idx) {
+            const pos = quizSettings.whitelistedWords.indexOf(idx);
+            if (pos > -1) {
+                quizSettings.whitelistedWords.splice(pos, 1);
+            } else {
+                quizSettings.whitelistedWords.push(idx);
+            }
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            renderWhitelistList();
+            playSound('click');
+        }
+
+        function toggleSelectAllWhitelist(checkAll) {
+            if (checkAll) {
+                quizSettings.whitelistedWords = wordsData.map((_, i) => i);
+            } else {
+                quizSettings.whitelistedWords = [];
+            }
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            renderWhitelistList();
+            playSound('click');
+        }
+
+        function clearAllWhitelistedWords() {
+            quizSettings.whitelistedWords = [];
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            updateWhitelistBadges();
+            syncSettingsUI();
+            playSound('click');
+        }
+
+        function clearAllWhitelistedWordsAndStartQuiz() {
+            closeModal('modal-all-whitelisted-warning');
+            clearAllWhitelistedWords();
+            startQuiz();
+        }
+
+        function openCustomOrderModal() {
+            renderCustomOrderList();
+            openModal('modal-custom-order');
+        }
+
+        function renderCustomOrderList() {
+            const container = getEl('custom-order-container');
+            const search = (getEl('custom-order-search').value || '').toLowerCase();
+            container.innerHTML = '';
+
+            let html = '';
+            quizSettings.customOrderList.forEach((origIdx, listPos) => {
+                const w = wordsData[origIdx];
+                const matchStr = `${w.a} ${w.t} ${w.m}`.toLowerCase();
+                if (search && !matchStr.includes(search)) return;
+
+                html += `
+                    <div class="order-item">
+                        <span class="order-item-num">#${listPos + 1}</span>
+                        <span class="order-item-arabic">${w.a}</span>
+                        <span class="order-item-text"><strong>${w.m}</strong> (${w.t})</span>
+                        <div class="order-item-actions">
+                            <button class="btn-mini" onclick="moveCustomOrder(${listPos}, -1)">▲</button>
+                            <button class="btn-mini" onclick="moveCustomOrder(${listPos}, 1)">▼</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function moveCustomOrder(listPos, direction) {
+            const newPos = listPos + direction;
+            if (newPos < 0 || newPos >= quizSettings.customOrderList.length) return;
+            const temp = quizSettings.customOrderList[listPos];
+            quizSettings.customOrderList[listPos] = quizSettings.customOrderList[newPos];
+            quizSettings.customOrderList[newPos] = temp;
+
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            renderCustomOrderList();
+            playSound('click');
+        }
+
+        function resetCustomOrderToDefault() {
+            quizSettings.customOrderList = wordsData.map((_, i) => i);
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            renderCustomOrderList();
+            playSound('click');
+        }
+
+        function renderFlashcards() {
+            const grid = getEl('study-grid');
+            grid.innerHTML = '';
+
+            wordsData.forEach((w, idx) => {
+                const isKnown = quizSettings.whitelistedWords.includes(idx);
+                const card = document.createElement('div');
+                card.className = 'flashcard';
+                card.innerHTML = `
+                    <button class="flashcard-whitelist-btn ${isKnown ? 'is-known' : ''}" onclick="event.stopPropagation(); toggleFlashcardWhitelist(${idx}, this)">
+                        ${isKnown ? '🛡️ Known' : '🛡️ Whitelist'}
+                    </button>
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="arabic">${w.a}</div>
+                            <div style="font-size: 0.9rem; color: var(--text-muted);">${w.t}</div>
+                            <div style="font-size: 0.75rem; color: var(--accent); margin-top: 4px;">Word #${idx + 1}</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div style="font-size: 1.15rem; font-weight: 700; margin-bottom: 6px;">${w.m}</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9;">Category: ${w.p}</div>
+                            <div style="font-size: 0.8rem; opacity: 0.85; margin-top: 4px;">Occurrences: ${w.o}</div>
+                        </div>
+                    </div>
+                `;
+                card.onclick = () => card.classList.toggle('flipped');
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleFlashcardWhitelist(idx, btnEl) {
+            const pos = quizSettings.whitelistedWords.indexOf(idx);
+            if (pos > -1) {
+                quizSettings.whitelistedWords.splice(pos, 1);
+                btnEl.classList.remove('is-known');
+                btnEl.innerText = '🛡️ Whitelist';
+            } else {
+                quizSettings.whitelistedWords.push(idx);
+                btnEl.classList.add('is-known');
+                btnEl.innerText = '🛡️ Known';
+            }
+            try {
+                localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+            } catch(e) {}
+            updateWhitelistBadges();
+            playSound('click');
+        }
+
+        function buildKeyboard() {
+            const kbContainer = getEl('arabic-keyboard');
+            kbContainer.innerHTML = '';
+
+            kbLayout.forEach((row, rowIndex) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+                if (rowIndex === 3) rowDiv.classList.add('centered-row');
+
+                row.forEach(char => {
+                    const keyBtn = document.createElement('button');
+                    keyBtn.type = 'button';
+                    keyBtn.className = 'key';
+
+                    if (char === '⌫') {
+                        keyBtn.className += ' backspace-key';
+                        keyBtn.innerHTML = '⌫';
+                        keyBtn.onclick = (e) => { e.preventDefault(); handleKeyboardInput('BACKSPACE'); };
+                    } else if (char === 'Clear') {
+                        keyBtn.className += ' clear-key action-key';
+                        keyBtn.innerHTML = 'Clear';
+                        keyBtn.onclick = (e) => { e.preventDefault(); clearArabicInput(); };
+                    } else if (char === 'Space ␣') {
+                        keyBtn.className += ' space-key';
+                        keyBtn.innerHTML = 'Space ␣';
+                        keyBtn.onclick = (e) => { e.preventDefault(); handleKeyboardInput(' '); };
+                    } else {
+                        keyBtn.innerText = char;
+                        keyBtn.onclick = (e) => { e.preventDefault(); handleKeyboardInput(char); };
+                    }
+
+                    rowDiv.appendChild(keyBtn);
+                });
+
+                kbContainer.appendChild(rowDiv);
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.key').forEach((k, idx) => {
+                    setTimeout(() => k.classList.add('show'), idx * 8);
+                });
+            }, 50);
+        }
+
+        function handleKeyboardInput(char) {
+            if (isAnswered) return;
+            const input = getEl('input-arabic');
+            if (char === 'BACKSPACE') {
+                input.value = input.value.slice(0, -1);
+            } else {
+                input.value += char;
+            }
+            input.classList.remove('correct', 'wrong');
+            playSound('click');
+        }
+
+        function startQuiz() {
+            let availableIndices = wordsData.map((_, i) => i).filter(i => !quizSettings.whitelistedWords.includes(i));
+
+            if (availableIndices.length === 0) {
+                openModal('modal-all-whitelisted-warning');
+                return;
+            }
+
+            if (quizSettings.orderMode === 'random') {
+                quizWords = shuffle(availableIndices);
+            } else if (quizSettings.orderMode === 'sequential') {
+                quizWords = availableIndices.sort((a, b) => a - b);
+            } else if (quizSettings.orderMode === 'custom') {
+                quizWords = quizSettings.customOrderList.filter(i => !quizSettings.whitelistedWords.includes(i));
+                if (quizWords.length === 0) quizWords = shuffle(availableIndices);
+            }
+
+            currentIndex = 0;
+            score = 0;
+            switchScreen('screen-quiz');
+            buildKeyboard();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            isAnswered = false;
+            const msgEl = getEl('result-msg');
+            msgEl.classList.remove('show');
+            msgEl.innerText = '';
+
+            const btnAction = getEl('btn-action');
+            btnAction.innerText = 'Check Answer';
+            btnAction.onclick = checkAnswer;
+            btnAction.className = 'btn btn-submit';
+
+            if (currentIndex >= quizWords.length) {
+                endQuiz();
+                return;
+            }
+
+            const wordIndex = quizWords[currentIndex];
+            const currentWord = wordsData[wordIndex];
+
+            getEl('progress-text').innerText = `Word ${currentIndex + 1} / ${quizWords.length}`;
+            getEl('score-text').innerText = `Score: ${score}`;
+            getEl('progress-bar').style.width = `${((currentIndex) / quizWords.length) * 100}%`;
+
+            const promptEl = getEl('word-prompt-display');
+            if (quizSettings.wordDisplay === 'aralish') {
+                promptEl.innerText = currentWord.t;
+                promptEl.classList.add('aralish-mode');
+                promptEl.removeAttribute('dir');
+            } else {
+                promptEl.innerText = currentWord.a;
+                promptEl.classList.remove('aralish-mode');
+                promptEl.setAttribute('dir', 'rtl');
+            }
+
+            const f = quizSettings.fields;
+            getEl('group-meaning').style.display = f.meaning ? 'flex' : 'none';
+            getEl('group-pos').style.display = f.pos ? 'flex' : 'none';
+            getEl('group-occ').style.display = f.occ ? 'flex' : 'none';
+            getEl('group-arabic').style.display = f.arabic ? 'flex' : 'none';
+
+            if (f.meaning) {
+                const meaningSelect = getEl('input-meaning');
+                meaningSelect.innerHTML = '<option value="" disabled selected>Select meaning...</option>';
+                const wrongMeanings = shuffle(wordsData.filter(w => w.m !== currentWord.m)).slice(0, 4).map(w => w.m);
+                const options = shuffle([...wrongMeanings, currentWord.m]);
+                options.forEach(opt => {
+                    const optEl = document.createElement('option');
+                    optEl.value = opt;
+                    optEl.innerText = opt;
+                    meaningSelect.appendChild(optEl);
+                });
+                meaningSelect.selectedIndex = 0;
+                meaningSelect.classList.remove('correct', 'wrong');
+            }
+
+            if (f.pos) {
+                const posSelect = getEl('input-pos');
+                posSelect.selectedIndex = 0;
+                posSelect.classList.remove('correct', 'wrong');
+            }
+
+            if (f.occ) {
+                const occSelect = getEl('input-occ');
+                occSelect.innerHTML = '<option value="" disabled selected>Select count...</option>';
+                const wrongOccs = shuffle(wordsData.filter(w => w.o !== currentWord.o)).slice(0, 4).map(w => w.o);
+                const options = shuffle([...wrongOccs, currentWord.o]);
+                options.forEach(opt => {
+                    const optEl = document.createElement('option');
+                    optEl.value = opt;
+                    optEl.innerText = opt;
+                    occSelect.appendChild(optEl);
+                });
+                occSelect.selectedIndex = 0;
+                occSelect.classList.remove('correct', 'wrong');
+            }
+
+            if (f.arabic) {
+                const arabicInput = getEl('input-arabic');
+                arabicInput.value = '';
+                arabicInput.classList.remove('correct', 'wrong');
+            }
+        }
+
+        function checkAnswer() {
+            if (isAnswered) return;
+            const wordIndex = quizWords[currentIndex];
+            const currentWord = wordsData[wordIndex];
+            const f = quizSettings.fields;
+
+            let allCorrect = true;
+
+            if (f.meaning) {
+                const val = getEl('input-meaning').value;
+                const el = getEl('input-meaning');
+                if (val === currentWord.m) {
+                    el.classList.add('correct');
+                } else {
+                    el.classList.add('wrong');
+                    allCorrect = false;
                 }
             }
+
+            if (f.pos) {
+                const val = getEl('input-pos').value;
+                const el = getEl('input-pos');
+                if (val === currentWord.p) {
+                    el.classList.add('correct');
+                } else {
+                    el.classList.add('wrong');
+                    allCorrect = false;
+                }
+            }
+
+            if (f.occ) {
+                const val = parseInt(getEl('input-occ').value, 10);
+                const el = getEl('input-occ');
+                if (val === currentWord.o) {
+                    el.classList.add('correct');
+                } else {
+                    el.classList.add('wrong');
+                    allCorrect = false;
+                }
+            }
+
+            if (f.arabic) {
+                const val = normalizeArabic(getEl('input-arabic').value.trim());
+                const expected = normalizeArabic(currentWord.a);
+                const el = getEl('input-arabic');
+                if (val === expected) {
+                    el.classList.add('correct');
+                } else {
+                    el.classList.add('wrong');
+                    allCorrect = false;
+                }
+            }
+
+            isAnswered = true;
+            const msgEl = getEl('result-msg');
+            msgEl.classList.add('show');
+
+            if (allCorrect) {
+                score++;
+                playSound('correct');
+                msgEl.style.color = 'var(--success)';
+                msgEl.innerText = '✨ Correct! Excellent job!';
+            } else {
+                playSound('incorrect');
+                msgEl.style.color = 'var(--danger)';
+                msgEl.innerText = `❌ Incorrect. Correct Word: ${currentWord.a} (${currentWord.m})`;
+            }
+
+            getEl('score-text').innerText = `Score: ${score}`;
+            const btnAction = getEl('btn-action');
+            btnAction.innerText = 'Next Question →';
+            btnAction.onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex >= quizWords.length) {
+                endQuiz();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function endQuiz() {
+            switchScreen('screen-end');
+            getEl('final-score-text').innerText = `You scored ${score} out of ${quizWords.length}!`;
+            getEl('progress-bar').style.width = '100%';
+            playSound('correct');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadThemePreferences();
+            loadSavedSettings();
         });
     </script>
 </body>
