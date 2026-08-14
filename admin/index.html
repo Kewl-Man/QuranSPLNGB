@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuranSPLNGB - Admin Access</title>
+    <script>
+        try {
+            sessionStorage.setItem('quran_admin_bypass', 'true');
+        } catch (e) {}
+        window.location.replace('../?admin=true');
+    </script>
+</head>
+<body style="background-color: #0c0821; color: #f8fafc; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <p>Entering Admin Mode...</p>
+</body>
+</html>

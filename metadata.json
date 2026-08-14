@@ -1,0 +1,8 @@
+{
+  "name": "QuranSPLNGB",
+  "description": "Interactive Qur'anic words study guide, sight-spelling and quiz application",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
