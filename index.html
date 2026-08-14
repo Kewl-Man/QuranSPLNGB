@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Interactive Qur'anic vocabulary study guide, quiz & sight-spelling application.">
     <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
+    <script>
+        // Clean up any legacy Service Workers from previous versions
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (var registration of registrations) {
+                    registration.unregister();
+                }
+            }).catch(function() {});
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
