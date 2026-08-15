@@ -2021,7 +2021,7 @@
         // Set to true while fixing bugs.
         // When true:
         // - Visiting base URL (e.g. kewl-man.github.io/QuranSPLNGB) shows the Under Construction screen.
-        // - Changing link to /admin (or kewl-man.github.io/QuranSPLNGB/admin or ?admin) goes straight to the normal website!
+        // - Visiting with /admin or ?admin (e.g. kewl-man.github.io/QuranSPLNGB/admin or kewl-man.github.io/QuranSPLNGB/?admin) shows the site!
         const MAINTENANCE_MODE = true;
 
         function checkAdminAccess() {
@@ -2036,14 +2036,7 @@
                                    search.includes('admin') || 
                                    hash.includes('admin');
 
-                const hasSession = sessionStorage.getItem('quran_admin_bypass') === 'true';
-
-                if (isAdminUrl) {
-                    sessionStorage.setItem('quran_admin_bypass', 'true');
-                    return true;
-                }
-
-                return hasSession;
+                return isAdminUrl;
             } catch (err) {
                 return false;
             }
