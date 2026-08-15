@@ -2020,8 +2020,8 @@
         // --- UNDER CONSTRUCTION / MAINTENANCE CONFIGURATION ---
         // Set to true while fixing bugs.
         // When true:
-        // - Visiting base URL (e.g. kewl-man.github.io/QuranSPLNGB) shows the Under Construction screen.
-        // - Visiting with /admin or ?admin (e.g. kewl-man.github.io/QuranSPLNGB/admin or kewl-man.github.io/QuranSPLNGB/?admin) shows the site!
+        // - Visiting base URL (https://quransplngb.linkpc.net/) shows the Under Construction screen.
+        // - Visiting with safe parameters (e.g. ?preview=true or #preview or ?access=1) opens the full app!
         const MAINTENANCE_MODE = true;
 
         function checkAdminAccess() {
@@ -2030,13 +2030,17 @@
                 const search = (window.location.search || '').toLowerCase();
                 const hash = (window.location.hash || '').toLowerCase();
 
-                const isAdminUrl = path.includes('/admin') || 
-                                   path.endsWith('/admin') || 
-                                   path.endsWith('/admin.html') ||
-                                   search.includes('admin') || 
-                                   hash.includes('admin');
+                const isPreviewUrl = search.includes('preview') || 
+                                     search.includes('access') ||
+                                     search.includes('dev') ||
+                                     search.includes('admin') ||
+                                     hash.includes('preview') ||
+                                     hash.includes('access') ||
+                                     hash.includes('admin') ||
+                                     path.includes('/preview') ||
+                                     path.includes('/admin');
 
-                return isAdminUrl;
+                return isPreviewUrl;
             } catch (err) {
                 return false;
             }
