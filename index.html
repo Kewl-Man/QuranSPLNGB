@@ -1628,7 +1628,7 @@
                     🎲 Randomized (Default)
                 </div>
                 <div class="option-btn" id="order-opt-sequential" onclick="setOrderMode('sequential')">
-                    🔢 Normal Order (1–74)
+                    🔢 Normal Order
                 </div>
                 <div class="option-btn" id="order-opt-custom" onclick="setOrderMode('custom')">
                     ✏️ Custom Order
@@ -1636,7 +1636,7 @@
             </div>
             <div id="custom-order-btn-row" style="margin-top: 12px; display: none;">
                 <button class="btn btn-outline" onclick="openCustomOrderModal()" style="width: auto;">
-                    ✏️ Manage & Re-order Words List (74 Words)
+                    ✏️ Manage & Re-order Words List (<span class="total-words-count-label">114</span> Words)
                 </button>
             </div>
         </div>
@@ -1912,7 +1912,7 @@
             <div style="font-size: 3.2rem; margin-bottom: 8px;">🛡️</div>
             <h2 class="section-title" style="justify-content: center; font-size: 1.5rem; color: var(--gold); margin-bottom: 10px;">All Words Whitelisted!</h2>
             <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; margin-bottom: 22px;">
-                You have currently checked and whitelisted all <strong>74 words</strong> as known. There are no remaining words left to test in the interactive quiz.
+                You have currently checked and whitelisted all words as known. There are no remaining words left to test in the interactive quiz.
             </p>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button class="btn" onclick="closeModal('modal-all-whitelisted-warning'); openWhitelistModal();">
@@ -2004,7 +2004,47 @@
             { a: "تلك", t: "tilka", m: "that/these", o: 43, p: "Noun" },
             { a: "هؤلاء", t: "haa'ulaa'i", m: "these", o: 46, p: "Noun" },
             { a: "اولئك", t: "'ulaa'ika", m: "those", o: 204, p: "Noun" },
-            { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun" }
+            { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun" },
+            { a: "اذا", t: "izaa", m: "when", o: 423, p: "Noun" },
+            { a: "جاء", t: "jaa'a", m: "he came", o: 171, p: "Verb" },
+            { a: "الناس", t: "'annaas", m: "the people", o: 241, p: "Noun" },
+            { a: "فعل", t: "fa'ala", m: "he did", o: 100, p: "Verb" },
+            { a: "جعل", t: "ja'ala", m: "he made/he set", o: 344, p: "Verb" },
+            { a: "فتح", t: "fataha", m: "he opened/he revealed", o: 25, p: "Verb" },
+            { a: "قل", t: "qul", m: "say", o: 332, p: "Verb" },
+            { a: "احد", t: "'ahad", m: "the One", o: 74, p: "Noun" },
+            { a: "لم", t: "lam", m: "not", o: 384, p: "Particle" },
+            { a: "لن", t: "lan", m: "never", o: 106, p: "Particle" },
+            { a: "نصر", t: "nasr", m: "help", o: 80, p: "Noun" },
+            { a: "خلق", t: "khalaqa", m: "He created", o: 237, p: "Verb" },
+            { a: "ذكر", t: "zakara", m: "he remembered", o: 151, p: "Verb" },
+            { a: "عبد", t: "'abada", m: "he worshipped", o: 142, p: "Verb" },
+            { a: "شىء", t: "shay'", m: "thing", o: 283, p: "Noun" },
+            { a: "ضرب", t: "daraba", m: "he hit/he stroke", o: 50, p: "Verb" },
+            { a: "سمع", t: "sami'a", m: "he listened", o: 98, p: "Verb" },
+            { a: "علم", t: "'alima", m: "he knew", o: 562, p: "Verb" },
+            { a: "عمل", t: "'amila", m: "he did", o: 318, p: "Verb" },
+            { a: "حديث", t: "hadees", m: "statement; story", o: 23, p: "Noun" },
+            { a: "اله", t: "'ilaah", m: "the God", o: 145, p: "Noun" },
+            { a: "صدر", t: "sadr", m: "chest", o: 44, p: "Noun" },
+            { a: "ملك", t: "malak", m: "angel", o: 88, p: "Noun" },
+            { a: "جنة", t: "jinnah", m: "Jinn", o: 32, p: "Noun" },
+            { a: "يا", t: "yaa", m: "O; oh", o: 361, p: "Particle" },
+            { a: "قوم", t: "qawm", m: "people", o: 383, p: "Noun" },
+            { a: "ايها", t: "'ayyuhaa", m: "O; oh", o: 153, p: "Particle" },
+            { a: "ان", t: "'an", m: "that", o: 571, p: "Particle" },
+            { a: "ان", t: "'anna", m: "that", o: 359, p: "Particle" },
+            { a: "محمد", t: "Muhammad", m: "Muhammad", o: 4, p: "Noun" },
+            { a: "رسول", t: "Rasool", m: "Messenger", o: 332, p: "Noun" },
+            { a: "الصلوة", t: "'As-salat", m: "the prayer", o: 83, p: "Noun" },
+            { a: "شريك", t: "shareek", m: "partner", o: 40, p: "Noun" },
+            { a: "ماذا", t: "maazaa", m: "what", o: 27, p: "Noun" },
+            { a: "سبحن", t: "subhaana", m: "Glory", o: 41, p: "Noun" },
+            { a: "العظيم", t: "Al-'azeem", m: "The Great", o: 107, p: "Noun" },
+            { a: "طيبات", t: "tayyibaat", m: "good things", o: 46, p: "Noun" },
+            { a: "سلم", t: "salaam", m: "Peace", o: 42, p: "Noun" },
+            { a: "النبى", t: "'an-nabi", m: "The Prophet", o: 75, p: "Noun" },
+            { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun" }
         ];
 
         // Optimized Mobile Arabic Keyboard Layout (Standard 5-row mobile phone layout)
@@ -2379,6 +2419,9 @@
                     quizSettings = { ...quizSettings, ...parsed };
                     if (!Array.isArray(quizSettings.whitelistedWords)) {
                         quizSettings.whitelistedWords = [];
+                    }
+                    if (!Array.isArray(quizSettings.customOrderList) || quizSettings.customOrderList.length !== wordsData.length) {
+                        quizSettings.customOrderList = wordsData.map((_, i) => i);
                     }
                 }
             } catch(e) {}
