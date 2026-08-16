@@ -1788,16 +1788,26 @@
         <h1>QuranSPLNGB</h1>
         <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
         
+        <!-- Guest Free Sign In Notice (Shown only when not logged in) -->
+        <div id="guest-free-notice" style="margin-top: 18px; padding: 12px 16px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 14px; text-align: center;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 3px;">
+                ✨ Sign in today to continue using! (It's FREE!)
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+                Sign in or register for free to unlock interactive quizzes, flashcards, word tracking, and customized settings.
+            </div>
+        </div>
+
         <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
-            <button class="btn" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
-            <button class="btn btn-secondary" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
-            <button class="btn btn-secondary" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
+            <button class="btn" id="btn-play-quiz" onclick="handlePlayQuizClick()">🎮 Play Interactive Quiz</button>
+            <button class="btn btn-secondary auth-required-feature" id="btn-menu-study" onclick="openStudyMode()" style="display: none;">📖 Study Mode (Flashcards)</button>
+            <button class="btn btn-secondary auth-required-feature" id="btn-menu-whitelist" onclick="openWhitelistModal()" style="display: none; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
                 <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; text-align: left;">🛡️ Whitelist Known Words</span>
                 <span style="background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; color: var(--text-main);">
                     <span id="menu-whitelist-badge">0</span> Excluded
                 </span>
             </button>
-            <button class="btn btn-secondary" onclick="openSettings()">⚙️ Quiz & Test Settings</button>
+            <button class="btn btn-secondary auth-required-feature" id="btn-menu-settings" onclick="openSettings()" style="display: none;">⚙️ Quiz & Test Settings</button>
         </div>
 
         <!-- Dark / Light Mode Toggle Button -->
@@ -2155,6 +2165,15 @@
             </div>
 
             <!-- Error / Success Banners -->
+            <div class="auth-prompt-callout" id="auth-prompt-callout" style="display: none; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; text-align: center;">
+                <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 3px;" id="auth-prompt-callout-title">
+                    ✨ Sign in today to continue using! (It's FREE!)
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;" id="auth-prompt-callout-sub">
+                    Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.
+                </div>
+            </div>
+
             <div class="auth-error-banner" id="auth-error-box"></div>
             <div class="auth-success-banner" id="auth-success-box"></div>
 
@@ -2635,9 +2654,20 @@
                 if (topBar) topBar.style.display = 'flex';
             }
 
+            const authFeatures = document.querySelectorAll('.auth-required-feature');
+            const guestNotice = getEl('guest-free-notice');
+
             if (user && profile) {
                 if (guestBtn) guestBtn.style.display = 'none';
                 if (widget) widget.style.display = 'flex';
+                if (guestNotice) guestNotice.style.display = 'none';
+                authFeatures.forEach(el => {
+                    if (el.id === 'btn-menu-whitelist') {
+                        el.style.display = 'flex';
+                    } else {
+                        el.style.display = 'block';
+                    }
+                });
 
                 const dispName = profile.displayName || profile.firstName || (user.email ? user.email.split('@')[0] : 'User');
                 if (nameEl) nameEl.innerText = dispName;
@@ -2658,6 +2688,10 @@
                 if (guestBtn) guestBtn.style.display = 'inline-flex';
                 if (widget) widget.style.display = 'none';
                 if (adminBtn) adminBtn.style.display = 'none';
+                if (guestNotice) guestNotice.style.display = 'block';
+                authFeatures.forEach(el => {
+                    el.style.display = 'none';
+                });
             }
         }
 
@@ -2674,11 +2708,33 @@
         }
 
         // Auth Modal Controls
-        function openAuthModal(mode) {
+        function openAuthModal(mode, promptTitle, promptSub) {
             authMode = mode || 'login';
             updateAuthModalState();
             hideAuthMessages();
+
+            const callout = getEl('auth-prompt-callout');
+            const calloutTitle = getEl('auth-prompt-callout-title');
+            const calloutSub = getEl('auth-prompt-callout-sub');
+
+            if (promptTitle && callout) {
+                callout.style.display = 'block';
+                if (calloutTitle) calloutTitle.innerText = promptTitle;
+                if (calloutSub && promptSub) calloutSub.innerText = promptSub;
+            } else if (callout) {
+                callout.style.display = 'none';
+            }
+
             openModal('modal-auth');
+        }
+
+        function handlePlayQuizClick() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.");
+                playSound('click');
+                return;
+            }
+            startQuiz();
         }
 
         function toggleAuthMode() {
@@ -3309,13 +3365,16 @@
                 const hash = (window.location.hash || '').toLowerCase();
 
                 const isPreviewUrl = search.includes('preview') || 
+                                     search.includes('prebiew') ||
                                      search.includes('access') ||
                                      search.includes('dev') ||
                                      search.includes('admin') ||
                                      hash.includes('preview') ||
+                                     hash.includes('prebiew') ||
                                      hash.includes('access') ||
                                      hash.includes('admin') ||
                                      path.includes('/preview') ||
+                                     path.includes('/prebiew') ||
                                      path.includes('/admin');
 
                 return isPreviewUrl;
@@ -3330,7 +3389,12 @@
             } else {
                 switchScreen('screen-menu');
             }
+            updateUserHeaderUI(currentUser, currentUserProfile);
         }
+
+        // Listen for immediate hash or popstate navigation changes (e.g. typing /#preview and hitting Enter)
+        window.addEventListener('hashchange', initAppRouting);
+        window.addEventListener('popstate', initAppRouting);
 
         let quizSettings = {
             orderMode: 'random', // 'random', 'sequential', 'custom'
@@ -3618,11 +3682,19 @@
         function showMenu() { switchScreen('screen-menu'); }
 
         function openSettings() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock customized test order, field selections, and prompt display.");
+                return;
+            }
             switchScreen('screen-settings');
             syncSettingsUI();
         }
 
         function openStudyMode() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive flashcard study mode.");
+                return;
+            }
             switchScreen('screen-study');
             renderFlashcards();
         }
@@ -3728,6 +3800,10 @@
         }
 
         function openWhitelistModal() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to exclude known words from your quizzes.");
+                return;
+            }
             if (!Array.isArray(quizSettings.whitelistedWords)) {
                 quizSettings.whitelistedWords = [];
             }
@@ -3988,6 +4064,11 @@
 
         // Setup Quiz
         function startQuiz() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.");
+                return;
+            }
+
             saveSettings();
 
             // Prepare Candidate Words Based on Settings Order
