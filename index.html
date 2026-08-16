@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="indigo" data-mode="dark">
+<html lang="en" data-theme="emerald" data-mode="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,24 +18,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color-1: #0f172a;
-            --bg-color-2: #1e1b4b;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.5);
-            --primary-hover: #4f46e5;
-            --secondary: #ec4899;
+            --bg-color-1: #022c22;
+            --bg-color-2: #064e3b;
+            --glass-bg: rgba(16, 185, 129, 0.08);
+            --glass-border: rgba(52, 211, 153, 0.3);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.5);
+            --primary-hover: #059669;
+            --secondary: #f59e0b;
             --success: #10b981;
             --danger: #ef4444;
-            --text-main: #f8fafc;
-            --text-muted: #cbd5e1;
-            --accent: #38bdf8;
+            --text-main: #f0fdf4;
+            --text-muted: #a7f3d0;
+            --accent: #34d399;
             --gold: #fbbf24;
-            --orb-1: #6366f1;
-            --orb-2: #ec4899;
-            --orb-3: #38bdf8;
-            --card-bg: rgba(0, 0, 0, 0.35);
+            --orb-1: #10b981;
+            --orb-2: #f59e0b;
+            --orb-3: #047857;
+            --card-bg: rgba(2, 44, 34, 0.45);
         }
 
         /* --- THEMES ENGINE (DARK & LIGHT MODES) --- */
@@ -1343,20 +1343,20 @@
             width: 80px;
             height: 80px;
             margin: 0 auto 18px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(236, 72, 153, 0.2));
+            background: linear-gradient(135deg, var(--primary-glow), rgba(245, 158, 11, 0.2));
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.4rem;
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 0 25px var(--primary-glow);
             animation: pulseGlow 3s ease-in-out infinite;
         }
 
         @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-            50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(99, 102, 241, 0.6); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px var(--primary-glow); }
+            50% { transform: scale(1.06); box-shadow: 0 0 35px var(--primary-glow); }
         }
 
         .status-pill {
@@ -1440,7 +1440,7 @@
 
         .inshallah-badge {
             font-weight: 600;
-            color: #38bdf8;
+            color: var(--accent);
         }
 
         .maintenance-progress-bar-container {
@@ -1459,7 +1459,7 @@
             left: 0;
             height: 100%;
             width: 45%;
-            background: linear-gradient(90deg, #6366f1, #ec4899, #38bdf8);
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             border-radius: 4px;
             animation: maintenanceProgressSlide 2.5s ease-in-out infinite alternate;
         }
@@ -1597,11 +1597,11 @@
 
         <!-- Theme Selector Pills -->
         <div class="theme-selector-bar">
-            <div class="theme-pill active" onclick="setTheme('indigo', event)">
-                <span class="theme-dot" style="background:#6366f1;"></span> Indigo
-            </div>
-            <div class="theme-pill" onclick="setTheme('emerald', event)">
+            <div class="theme-pill active" onclick="setTheme('emerald', event)">
                 <span class="theme-dot" style="background:#10b981;"></span> Emerald
+            </div>
+            <div class="theme-pill" onclick="setTheme('indigo', event)">
+                <span class="theme-dot" style="background:#6366f1;"></span> Indigo
             </div>
             <div class="theme-pill" onclick="setTheme('obsidian', event)">
                 <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
@@ -2107,7 +2107,7 @@
             wordDisplay: 'arabic' // 'arabic' or 'aralish'
         };
 
-        let currentTheme = 'indigo';
+        let currentTheme = 'emerald';
         let currentMode = 'dark';
         let quizWords = [];
         let currentIndex = 0;
