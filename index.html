@@ -1157,35 +1157,43 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
         .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
         }
 
+        .modal-overlay .modal-card,
         .modal-card {
+            display: block !important;
             max-width: 550px;
             width: 90%;
             position: relative;
             transform: scale(0.92);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+            box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal-overlay.active .modal-card {
+            display: block !important;
             opacity: 1 !important;
             visibility: visible !important;
             position: relative !important;
             transform: scale(1) !important;
-            z-index: 101;
+            z-index: 10001 !important;
         }
 
         /* --- Custom Order List Manager --- */
