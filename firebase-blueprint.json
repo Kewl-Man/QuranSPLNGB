@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with personal identity and avatar preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "avatarGradient": { "type": "string" },
+        "provider": { "type": "string" },
+        "status": { "type": "string" },
+        "banReason": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "lastLoginAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    },
+    "Appeal": {
+      "title": "Appeal",
+      "description": "Account appeal or support inquiry submitted by a member",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "contactInfo": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["userId", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Stores user account information, profile pictures, and membership roles"
+    },
+    "/appeals/{appealId}": {
+      "schema": "Appeal",
+      "description": "Stores account appeal requests for administrator review"
+    }
+  }
+}
