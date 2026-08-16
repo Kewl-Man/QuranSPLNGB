@@ -16,6 +16,10 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK (Compat v10 for browser-native SPA) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <style>
         :root {
             --bg-color-1: #022c22;
@@ -1529,6 +1533,195 @@
             .keyboard { padding: 6px; gap: 4px; }
             .key { padding: 4px 6px; font-size: 1.1rem; }
         }
+        /* User Account Header Bar & Badges */
+        .user-top-bar {
+            position: fixed;
+            top: 14px;
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 6px 14px;
+            border-radius: 999px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-profile-pill:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        .user-avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .user-avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .auth-card {
+            max-width: 460px;
+            text-align: left;
+        }
+
+        .auth-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .auth-form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.2px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.22);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        [data-mode="light"] .auth-input {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #0f172a;
+        }
+
+        .auth-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .auth-divider span {
+            padding: 0 12px;
+        }
+
+        .btn-google {
+            background: #ffffff;
+            color: #1f2937 !important;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: 600;
+        }
+
+        .btn-google:hover {
+            background: #f9fafb;
+            color: #111827 !important;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .auth-error-banner {
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            color: #fca5a5;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .auth-success-banner {
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .verification-code-input {
+            letter-spacing: 8px;
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .banned-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .banned-banner.active {
+            display: flex;
+        }
     </style>
 </head>
 <body>
@@ -1537,6 +1730,26 @@
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
     <div class="bg-orb orb-3"></div>
+
+    <!-- User Account Header Bar -->
+    <div class="user-top-bar" id="user-top-bar" style="display: none;">
+        <!-- Guest State (Not Logged In) -->
+        <button class="user-profile-pill" id="btn-open-login" onclick="openAuthModal('login')">
+            <span>👤</span>
+            <span>Sign In / Register</span>
+        </button>
+
+        <!-- Logged In User State -->
+        <div id="user-profile-widget" style="display: none; align-items: center; gap: 8px;">
+            <button class="user-profile-pill" id="user-profile-pill" onclick="openUserProfileModal()">
+                <div class="user-avatar-circle" id="user-avatar-display">U</div>
+                <span id="user-display-name">User</span>
+            </button>
+            <button class="btn-mini" id="admin-panel-btn" onclick="openAdminModal()" style="display: none; padding: 7px 12px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.45); color: #fca5a5;" title="Moderation Panel">
+                🛡️ Admin
+            </button>
+        </div>
+    </div>
 
     <!-- UNDER CONSTRUCTION / MAINTENANCE SCREEN -->
     <div class="glass-panel maintenance-panel active" id="screen-maintenance">
@@ -1728,11 +1941,11 @@
                     <span class="mode-text">Dark Mode</span>
                 </button>
                 <div class="theme-selector-bar" style="margin-top: 5px;">
-                    <div class="theme-pill active" onclick="setTheme('indigo', event)">
-                        <span class="theme-dot" style="background:#6366f1;"></span> Indigo
-                    </div>
-                    <div class="theme-pill" onclick="setTheme('emerald', event)">
+                    <div class="theme-pill active" onclick="setTheme('emerald', event)">
                         <span class="theme-dot" style="background:#10b981;"></span> Emerald
+                    </div>
+                    <div class="theme-pill" onclick="setTheme('indigo', event)">
+                        <span class="theme-dot" style="background:#6366f1;"></span> Indigo
                     </div>
                     <div class="theme-pill" onclick="setTheme('obsidian', event)">
                         <span class="theme-dot" style="background:#3b82f6;"></span> Obsidian
@@ -1928,6 +2141,262 @@
         </div>
     </div>
 
+    <!-- MODAL: AUTHENTICATION (LOGIN / SIGNUP) -->
+    <div class="modal-overlay" id="modal-auth" onclick="if(event.target === this) closeModal('modal-auth')">
+        <div class="glass-panel modal-card auth-card" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div>
+                    <h2 class="section-title" id="auth-modal-title" style="margin-bottom: 4px;">Sign In to QuranSPLNGB</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;" id="auth-modal-subtitle">
+                        Sign in to continue to QuranSPLNGB and save your progress.
+                    </p>
+                </div>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-auth')">✕</button>
+            </div>
+
+            <!-- Error / Success Banners -->
+            <div class="auth-error-banner" id="auth-error-box"></div>
+            <div class="auth-success-banner" id="auth-success-box"></div>
+
+            <!-- Google One-Click Sign In -->
+            <button class="btn btn-google" style="width: 100%; margin-top: 6px;" onclick="handleGoogleSignIn()">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continue with Google</span>
+            </button>
+
+            <div class="auth-divider">
+                <span>Or with Email</span>
+            </div>
+
+            <!-- Email & Password Form -->
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+                <!-- First Name & Last Name (Signup Only) -->
+                <div id="auth-name-fields" style="display: none;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="auth-form-group">
+                            <label for="auth-first-name">First Name *</label>
+                            <input type="text" id="auth-first-name" class="auth-input" placeholder="First Name" autocomplete="given-name">
+                        </div>
+                        <div class="auth-form-group">
+                            <label for="auth-last-name">Last Name *</label>
+                            <input type="text" id="auth-last-name" class="auth-input" placeholder="Last Name" autocomplete="family-name">
+                        </div>
+                    </div>
+                    <!-- Real Name Requirement Warning -->
+                    <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px; font-size: 0.82rem; line-height: 1.45; color: var(--gold);">
+                        ⚠️ <strong>Important:</strong> You must put in your real name! If you do not, we will check and will have to ban your account.
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="auth-email">Email Address</label>
+                    <input type="email" id="auth-email" class="auth-input" placeholder="name@example.com" required autocomplete="email">
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="auth-password">Password</label>
+                    <input type="password" id="auth-password" class="auth-input" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn" id="auth-submit-btn" style="margin-top: 6px;">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Mode Switcher -->
+            <div style="text-align: center; margin-top: 16px; font-size: 0.88rem; color: var(--text-muted);">
+                <span id="auth-switch-text">Don't have an account?</span>
+                <button type="button" id="auth-switch-btn" onclick="toggleAuthMode()" style="background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; margin-left: 6px; font-size: 0.88rem;">
+                    Create one!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EMAIL VERIFICATION CODE -->
+    <div class="modal-overlay" id="modal-verification" onclick="if(event.target === this) closeModal('modal-verification')">
+        <div class="glass-panel modal-card auth-card" style="text-align: center;" onclick="event.stopPropagation()">
+            <div style="font-size: 3rem; margin-bottom: 6px;">✉️</div>
+            <h2 class="section-title" style="justify-content: center; margin-bottom: 6px;">Verify Your Email</h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                We sent a 6-digit verification code to <br><strong id="verification-target-email" style="color: var(--text-main);"></strong>.
+                Please enter the code below to complete your registration and activate your account.
+            </p>
+
+            <div class="auth-error-banner" id="verify-error-box"></div>
+            <div class="auth-success-banner" id="verify-success-box"></div>
+
+            <form onsubmit="handleVerifySubmit(event)">
+                <div class="auth-form-group">
+                    <input type="text" id="verification-code-input" class="auth-input verification-code-input" maxlength="6" placeholder="123456" required autocomplete="one-time-code">
+                </div>
+                <button type="submit" class="btn" id="verify-submit-btn" style="margin-top: 8px;">
+                    Verify & Create Account
+                </button>
+            </form>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
+                <button type="button" class="btn-mini" onclick="resendVerificationCode()">
+                    🔄 Resend Code
+                </button>
+                <button type="button" class="btn-mini" onclick="closeModal('modal-verification'); openAuthModal('signup');">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: USER PROFILE & ACCOUNT SETTINGS -->
+    <div class="modal-overlay" id="modal-user-profile" onclick="if(event.target === this) closeModal('modal-user-profile')">
+        <div class="glass-panel modal-card auth-card" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 class="section-title" style="margin-bottom: 0;">👤 My Account</h2>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-user-profile')">✕</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 14px; padding: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 18px;">
+                <div class="user-avatar-circle" id="profile-modal-avatar" style="width: 48px; height: 48px; font-size: 1.3rem;">U</div>
+                <div style="flex: 1; min-width: 0;">
+                    <div id="profile-modal-name" style="font-weight: 700; font-size: 1.05rem; color: var(--text-main); word-break: break-word;">User Name</div>
+                    <div id="profile-modal-email" style="font-size: 0.82rem; color: var(--text-muted); word-break: break-all;">user@example.com</div>
+                    <div id="profile-modal-role" style="display: inline-block; font-size: 0.72rem; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.2); color: var(--accent); margin-top: 4px; font-weight: 700;">Member</div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-secondary" onclick="closeModal('modal-user-profile'); openWhitelistModal();" style="justify-content: flex-start;">
+                    🛡️ Manage Whitelisted Known Words
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('modal-user-profile'); openSettings();" style="justify-content: flex-start;">
+                    ⚙️ Quiz & Appearance Settings
+                </button>
+                <button class="btn btn-danger" onclick="handleSignOut()" style="margin-top: 10px;">
+                    🚪 Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN MODERATION PANEL -->
+    <div class="modal-overlay" id="modal-admin" onclick="if(event.target === this) closeModal('modal-admin')">
+        <div class="glass-panel modal-card wide" style="max-width: 780px;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <h2 class="section-title" style="margin-bottom: 2px; color: #fca5a5;">🛡️ Admin Moderation Panel</h2>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">
+                        Manage users, enforce real name policies, ban / lock accounts with custom reasons, and review appeals.
+                    </p>
+                </div>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-admin')">✕</button>
+            </div>
+
+            <!-- Tabs: Users & Appeals -->
+            <div style="display: flex; gap: 10px; margin: 14px 0;">
+                <button class="btn-mini" id="admin-tab-users-btn" onclick="switchAdminTab('users')" style="flex: 1; padding: 8px 14px; background: rgba(16, 185, 129, 0.25); border-color: var(--accent);">
+                    👥 Users List
+                </button>
+                <button class="btn-mini" id="admin-tab-appeals-btn" onclick="switchAdminTab('appeals')" style="flex: 1; padding: 8px 14px; background: rgba(255, 255, 255, 0.08);">
+                    📩 Appeals Queue (<span id="admin-appeals-count">0</span>)
+                </button>
+            </div>
+
+            <!-- Users Section -->
+            <div id="admin-section-users">
+                <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                    <input type="text" id="admin-search-users" placeholder="Search by name, email, or user ID..." oninput="renderAdminUsersList()" style="flex: 1; padding: 9px 14px; font-size: 0.88rem;">
+                    <button class="btn-mini" onclick="loadAdminData()" style="padding: 9px 14px;">🔄 Refresh</button>
+                </div>
+                <div class="custom-order-list" id="admin-users-container" style="max-height: 360px;">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+
+            <!-- Appeals Section -->
+            <div id="admin-section-appeals" style="display: none;">
+                <div class="custom-order-list" id="admin-appeals-container" style="max-height: 380px;">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: BAN / LOCK USER DIALOG (ADMIN) -->
+    <div class="modal-overlay" id="modal-admin-ban-dialog" onclick="if(event.target === this) closeModal('modal-admin-ban-dialog')">
+        <div class="glass-panel modal-card auth-card" onclick="event.stopPropagation()">
+            <h2 class="section-title" style="color: #fca5a5; margin-bottom: 6px;">🚫 Moderate User Account</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+                User: <strong id="admin-ban-target-name" style="color: var(--text-main);"></strong> (<span id="admin-ban-target-email"></span>)
+            </p>
+
+            <div class="auth-form-group">
+                <label>Ban / Lock Status</label>
+                <select id="admin-ban-status-select" class="auth-input">
+                    <option value="banned">🚫 Ban & Lock Account (Active)</option>
+                    <option value="active">✅ Unban / Unlock (Restore Access)</option>
+                </select>
+            </div>
+
+            <div class="auth-form-group">
+                <label>Reason for Action</label>
+                <textarea id="admin-ban-reason-input" class="auth-input" rows="3" placeholder="e.g. Fake name provided (Violated real name requirement)"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button class="btn btn-outline" style="flex: 1;" onclick="closeModal('modal-admin-ban-dialog')">Cancel</button>
+                <button class="btn btn-danger" style="flex: 1;" id="admin-ban-confirm-btn" onclick="confirmAdminBanAction()">Save Action</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULL SCREEN BANNED / LOCKED ACCOUNT OVERLAY & APPEAL FORM -->
+    <div class="banned-banner" id="screen-banned">
+        <div class="glass-panel modal-card" style="max-width: 520px; text-align: center; border-color: rgba(239, 68, 68, 0.45);">
+            <div style="font-size: 3.5rem; margin-bottom: 6px;">🚫</div>
+            <h2 class="section-title" style="justify-content: center; font-size: 1.6rem; color: #fca5a5; margin-bottom: 8px;">Account Locked / Banned</h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; margin-bottom: 14px;">
+                Your QuranSPLNGB account has been locked or suspended by the administrators.
+            </p>
+
+            <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; text-align: left;">
+                <div style="font-size: 0.8rem; font-weight: 700; color: #fca5a5; text-transform: uppercase; margin-bottom: 4px;">Reason:</div>
+                <div id="banned-reason-display" style="font-size: 0.92rem; color: var(--text-main); line-height: 1.4;">
+                    Violation of Terms (Real Name Policy)
+                </div>
+            </div>
+
+            <!-- Appeal Submission Form -->
+            <div id="appeal-form-container" style="text-align: left; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                <h3 style="font-size: 0.95rem; margin: 0 0 10px 0; color: var(--accent); font-weight: 700;">📩 Submit an Appeal Request</h3>
+                
+                <div class="auth-error-banner" id="appeal-error-box"></div>
+                <div class="auth-success-banner" id="appeal-success-box"></div>
+
+                <form id="appeal-form" onsubmit="handleAppealSubmit(event)">
+                    <div class="auth-form-group">
+                        <label>Your Contact Information *</label>
+                        <input type="text" id="appeal-contact" class="auth-input" placeholder="Email or Phone Number" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Explanation & Verification Details *</label>
+                        <textarea id="appeal-message" class="auth-input" rows="3" placeholder="Explain your identity or why this ban was an error..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" id="appeal-submit-btn" style="padding: 10px 16px; font-size: 0.9rem;">
+                        Submit Appeal Request
+                    </button>
+                </form>
+            </div>
+
+            <button class="btn btn-secondary" onclick="handleSignOut()">
+                Sign Out / Switch Account
+            </button>
+        </div>
+    </div>
+
     <script>
         // Full Database of 74 Words
         const wordsData = [
@@ -2056,7 +2525,776 @@
             ['Clear', 'Space ␣']
         ];
 
-        // State Variables & Default Settings
+        // ==========================================
+        // FIREBASE AUTHENTICATION & FIRESTORE ENGINE
+        // ==========================================
+        let firebaseApp = null;
+        let firebaseAuth = null;
+        let firebaseDb = null;
+        let currentUser = null;
+        let currentUserProfile = null;
+        let pendingSignupData = null;
+        let authMode = 'login'; // 'login' or 'signup'
+        let currentAdminTab = 'users';
+        let adminBanTargetUser = null;
+
+        const ADMIN_EMAIL = 'koolm6948@gmail.com';
+
+        function initFirebase() {
+            try {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyA7wfUto5-5k_dMW-L8WOB4v6eMMbSpwrc",
+                    authDomain: "thermal-transit-s98sv.firebaseapp.com",
+                    projectId: "thermal-transit-s98sv",
+                    storageBucket: "thermal-transit-s98sv.firebasestorage.app",
+                    messagingSenderId: "679273157048",
+                    appId: "1:679273157048:web:fd5d663eded60cdd9f7f4d"
+                };
+
+                if (!firebase.apps.length) {
+                    firebaseApp = firebase.initializeApp(firebaseConfig);
+                } else {
+                    firebaseApp = firebase.app();
+                }
+
+                firebaseAuth = firebase.auth();
+                firebaseDb = firebase.firestore();
+
+                // Listen to Auth State Changes
+                firebaseAuth.onAuthStateChanged(handleAuthStateChanged);
+            } catch (err) {
+                console.error("Firebase init failed:", err);
+            }
+        }
+
+        async function handleAuthStateChanged(user) {
+            currentUser = user;
+            if (user) {
+                // Fetch user document from Firestore
+                try {
+                    const userDocRef = firebaseDb.collection('users').doc(user.uid);
+                    const docSnap = await userDocRef.get();
+
+                    if (docSnap.exists) {
+                        currentUserProfile = docSnap.data();
+                    } else {
+                        // Create initial profile if first time
+                        const names = (user.displayName || '').trim().split(' ');
+                        const firstName = names[0] || 'Member';
+                        const lastName = names.slice(1).join(' ') || '';
+                        
+                        currentUserProfile = {
+                            userId: user.uid,
+                            email: user.email || '',
+                            firstName: firstName,
+                            lastName: lastName,
+                            displayName: user.displayName || `${firstName} ${lastName}`.trim(),
+                            photoURL: user.photoURL || '',
+                            provider: (user.providerData && user.providerData[0]) ? user.providerData[0].providerId : 'password',
+                            status: 'active',
+                            banReason: '',
+                            isAdmin: (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+
+                        await userDocRef.set(currentUserProfile, { merge: true });
+                    }
+
+                    // Check if user is locked or banned
+                    if (currentUserProfile && currentUserProfile.status === 'banned') {
+                        showBannedScreen(currentUserProfile.banReason || 'Account suspended for policy violation.');
+                    } else {
+                        hideBannedScreen();
+                        updateUserHeaderUI(currentUser, currentUserProfile);
+                    }
+                } catch (err) {
+                    console.error("Error fetching user profile:", err);
+                    updateUserHeaderUI(user, { displayName: user.displayName || user.email || 'Member' });
+                }
+            } else {
+                currentUserProfile = null;
+                hideBannedScreen();
+                updateUserHeaderUI(null, null);
+            }
+        }
+
+        function updateUserHeaderUI(user, profile) {
+            const topBar = getEl('user-top-bar');
+            const guestBtn = getEl('btn-open-login');
+            const widget = getEl('user-profile-widget');
+            const nameEl = getEl('user-display-name');
+            const avatarEl = getEl('user-avatar-display');
+            const adminBtn = getEl('admin-panel-btn');
+
+            // Hide user bar completely if currently on the maintenance / under construction screen
+            const maintenancePanel = getEl('screen-maintenance');
+            if (maintenancePanel && maintenancePanel.classList.contains('active')) {
+                if (topBar) topBar.style.display = 'none';
+            } else {
+                if (topBar) topBar.style.display = 'flex';
+            }
+
+            if (user && profile) {
+                if (guestBtn) guestBtn.style.display = 'none';
+                if (widget) widget.style.display = 'flex';
+
+                const dispName = profile.displayName || profile.firstName || (user.email ? user.email.split('@')[0] : 'User');
+                if (nameEl) nameEl.innerText = dispName;
+
+                if (avatarEl) {
+                    if (profile.photoURL) {
+                        avatarEl.innerHTML = `<img src="${profile.photoURL}" alt="User Avatar" style="width:100%; height:100%; border-radius:50%;">`;
+                    } else {
+                        const initial = dispName.charAt(0).toUpperCase() || 'U';
+                        avatarEl.innerText = initial;
+                    }
+                }
+
+                // Check Admin
+                const isUserAdmin = (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (profile.isAdmin === true);
+                if (adminBtn) adminBtn.style.display = isUserAdmin ? 'inline-block' : 'none';
+            } else {
+                if (guestBtn) guestBtn.style.display = 'inline-flex';
+                if (widget) widget.style.display = 'none';
+                if (adminBtn) adminBtn.style.display = 'none';
+            }
+        }
+
+        function showBannedScreen(reason) {
+            const screen = getEl('screen-banned');
+            const reasonEl = getEl('banned-reason-display');
+            if (reasonEl) reasonEl.innerText = reason || 'Violation of Real Name Policy or Terms of Service.';
+            if (screen) screen.classList.add('active');
+        }
+
+        function hideBannedScreen() {
+            const screen = getEl('screen-banned');
+            if (screen) screen.classList.remove('active');
+        }
+
+        // Auth Modal Controls
+        function openAuthModal(mode) {
+            authMode = mode || 'login';
+            updateAuthModalState();
+            hideAuthMessages();
+            openModal('modal-auth');
+        }
+
+        function toggleAuthMode() {
+            authMode = (authMode === 'login') ? 'signup' : 'login';
+            updateAuthModalState();
+            hideAuthMessages();
+            playSound('click');
+        }
+
+        function updateAuthModalState() {
+            const titleEl = getEl('auth-modal-title');
+            const subtitleEl = getEl('auth-modal-subtitle');
+            const nameFields = getEl('auth-name-fields');
+            const submitBtn = getEl('auth-submit-btn');
+            const switchText = getEl('auth-switch-text');
+            const switchBtn = getEl('auth-switch-btn');
+            const firstNameInput = getEl('auth-first-name');
+            const lastNameInput = getEl('auth-last-name');
+
+            if (authMode === 'signup') {
+                if (titleEl) titleEl.innerText = 'Create your Account';
+                if (subtitleEl) subtitleEl.innerText = 'Sign up to continue to QuranSPLNGB and track your learning.';
+                if (nameFields) nameFields.style.display = 'block';
+                if (firstNameInput) firstNameInput.required = true;
+                if (lastNameInput) lastNameInput.required = true;
+                if (submitBtn) submitBtn.innerText = 'Send Verification Code & Sign Up';
+                if (switchText) switchText.innerText = 'Already have an account?';
+                if (switchBtn) switchBtn.innerText = 'Sign In!';
+            } else {
+                if (titleEl) titleEl.innerText = 'Sign In to QuranSPLNGB';
+                if (subtitleEl) subtitleEl.innerText = 'Sign in to continue to QuranSPLNGB and save your progress.';
+                if (nameFields) nameFields.style.display = 'none';
+                if (firstNameInput) firstNameInput.required = false;
+                if (lastNameInput) lastNameInput.required = false;
+                if (submitBtn) submitBtn.innerText = 'Sign In';
+                if (switchText) switchText.innerText = "Don't have an account?";
+                if (switchBtn) switchBtn.innerText = 'Create one!';
+            }
+        }
+
+        function showAuthError(msg) {
+            const box = getEl('auth-error-box');
+            if (box) {
+                box.innerText = msg;
+                box.style.display = 'block';
+            }
+            const sBox = getEl('auth-success-box');
+            if (sBox) sBox.style.display = 'none';
+        }
+
+        function showAuthSuccess(msg) {
+            const box = getEl('auth-success-box');
+            if (box) {
+                box.innerText = msg;
+                box.style.display = 'block';
+            }
+            const eBox = getEl('auth-error-box');
+            if (eBox) eBox.style.display = 'none';
+        }
+
+        function hideAuthMessages() {
+            const eBox = getEl('auth-error-box');
+            if (eBox) eBox.style.display = 'none';
+            const sBox = getEl('auth-success-box');
+            if (sBox) sBox.style.display = 'none';
+        }
+
+        // Google Sign In (Popup)
+        async function handleGoogleSignIn() {
+            hideAuthMessages();
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                const result = await firebaseAuth.signInWithPopup(provider);
+                const user = result.user;
+
+                // Sync profile in Firestore
+                const userDocRef = firebaseDb.collection('users').doc(user.uid);
+                const docSnap = await userDocRef.get();
+
+                if (!docSnap.exists) {
+                    const names = (user.displayName || '').trim().split(' ');
+                    const firstName = names[0] || 'User';
+                    const lastName = names.slice(1).join(' ') || '';
+
+                    await userDocRef.set({
+                        userId: user.uid,
+                        email: user.email || '',
+                        firstName: firstName,
+                        lastName: lastName,
+                        displayName: user.displayName || `${firstName} ${lastName}`.trim(),
+                        photoURL: user.photoURL || '',
+                        provider: 'google.com',
+                        status: 'active',
+                        banReason: '',
+                        isAdmin: (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await userDocRef.update({
+                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                closeModal('modal-auth');
+                playSound('correct');
+            } catch (err) {
+                console.error("Google sign in error:", err);
+                if (err.code !== 'auth/popup-closed-by-user') {
+                    showAuthError(err.message || 'Google sign in failed. Please try again.');
+                }
+            }
+        }
+
+        // Email & Password Auth Submit Handler
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            hideAuthMessages();
+
+            const email = (getEl('auth-email')?.value || '').trim();
+            const password = (getEl('auth-password')?.value || '');
+
+            if (authMode === 'login') {
+                // Standard login
+                try {
+                    const submitBtn = getEl('auth-submit-btn');
+                    if (submitBtn) { submitBtn.innerText = 'Signing In...'; submitBtn.disabled = true; }
+
+                    const userCred = await firebaseAuth.signInWithEmailAndPassword(email, password);
+                    
+                    // Update login timestamp
+                    if (userCred.user) {
+                        try {
+                            await firebaseDb.collection('users').doc(userCred.user.uid).update({
+                                lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        } catch(e){}
+                    }
+
+                    closeModal('modal-auth');
+                    playSound('correct');
+                } catch (err) {
+                    console.error("Login error:", err);
+                    let msg = 'Failed to sign in. Please verify your email and password.';
+                    if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                        msg = 'Incorrect email or password. Please check your credentials or create a new account.';
+                    } else if (err.code === 'auth/too-many-requests') {
+                        msg = 'Too many attempts. Please wait a moment and try again.';
+                    }
+                    showAuthError(msg);
+                } finally {
+                    const submitBtn = getEl('auth-submit-btn');
+                    if (submitBtn) { submitBtn.innerText = 'Sign In'; submitBtn.disabled = false; }
+                }
+            } else {
+                // Signup flow: validate names, generate verification code, and open verification modal
+                const firstName = (getEl('auth-first-name')?.value || '').trim();
+                const lastName = (getEl('auth-last-name')?.value || '').trim();
+
+                if (!firstName || !lastName) {
+                    showAuthError('Please enter your real first and last name. You must provide your real name.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showAuthError('Password must be at least 6 characters long.');
+                    return;
+                }
+
+                // Generate 6 digit code
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                const expiresAt = Date.now() + 15 * 60 * 1000; // 15 mins
+
+                pendingSignupData = {
+                    email: email,
+                    password: password,
+                    firstName: firstName,
+                    lastName: lastName,
+                    code: code,
+                    expiresAt: expiresAt
+                };
+
+                closeModal('modal-auth');
+                openVerificationModal(email, code);
+            }
+        }
+
+        // Verification Modal Logic
+        function openVerificationModal(email, code) {
+            const emailEl = getEl('verification-target-email');
+            if (emailEl) emailEl.innerText = email;
+            const input = getEl('verification-code-input');
+            if (input) input.value = '';
+            
+            const errBox = getEl('verify-error-box');
+            const succBox = getEl('verify-success-box');
+            if (errBox) errBox.style.display = 'none';
+            if (succBox) {
+                succBox.innerText = `[Verification Simulator]: Your activation code is ${code}. Please enter it below to confirm your account.`;
+                succBox.style.display = 'block';
+            }
+
+            openModal('modal-verification');
+        }
+
+        async function handleVerifySubmit(e) {
+            e.preventDefault();
+            const enteredCode = (getEl('verification-code-input')?.value || '').trim();
+            const errBox = getEl('verify-error-box');
+            const succBox = getEl('verify-success-box');
+
+            if (!pendingSignupData) {
+                if (errBox) { errBox.innerText = 'Session expired. Please try signing up again.'; errBox.style.display = 'block'; }
+                return;
+            }
+
+            if (Date.now() > pendingSignupData.expiresAt) {
+                if (errBox) { errBox.innerText = 'Verification code expired. Please request a new code.'; errBox.style.display = 'block'; }
+                return;
+            }
+
+            if (enteredCode !== pendingSignupData.code) {
+                if (errBox) { errBox.innerText = 'Incorrect verification code. Please check and try again.'; errBox.style.display = 'block'; }
+                return;
+            }
+
+            // Create Firebase Auth user
+            try {
+                const btn = getEl('verify-submit-btn');
+                if (btn) { btn.innerText = 'Creating Account...'; btn.disabled = true; }
+
+                const userCred = await firebaseAuth.createUserWithEmailAndPassword(
+                    pendingSignupData.email,
+                    pendingSignupData.password
+                );
+
+                const user = userCred.user;
+                const displayName = `${pendingSignupData.firstName} ${pendingSignupData.lastName}`.trim();
+
+                // Update auth profile display name
+                try {
+                    await user.updateProfile({ displayName: displayName });
+                } catch(e) {}
+
+                // Create user document in Firestore
+                const userDoc = {
+                    userId: user.uid,
+                    email: pendingSignupData.email,
+                    firstName: pendingSignupData.firstName,
+                    lastName: pendingSignupData.lastName,
+                    displayName: displayName,
+                    photoURL: '',
+                    provider: 'password',
+                    status: 'active',
+                    banReason: '',
+                    isAdmin: (pendingSignupData.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await firebaseDb.collection('users').doc(user.uid).set(userDoc);
+
+                closeModal('modal-verification');
+                pendingSignupData = null;
+                playSound('correct');
+                setTimeout(fireConfetti, 300);
+            } catch (err) {
+                console.error("Account creation failed:", err);
+                let msg = err.message || 'Failed to create account. Please try again.';
+                if (err.code === 'auth/email-already-in-use') {
+                    msg = 'An account with this email address already exists. Please sign in instead.';
+                }
+                if (errBox) { errBox.innerText = msg; errBox.style.display = 'block'; }
+            } finally {
+                const btn = getEl('verify-submit-btn');
+                if (btn) { btn.innerText = 'Verify & Create Account'; btn.disabled = false; }
+            }
+        }
+
+        function resendVerificationCode() {
+            if (!pendingSignupData) return;
+            const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+            pendingSignupData.code = newCode;
+            pendingSignupData.expiresAt = Date.now() + 15 * 60 * 1000;
+
+            const succBox = getEl('verify-success-box');
+            if (succBox) {
+                succBox.innerText = `A new verification code has been generated: ${newCode}`;
+                succBox.style.display = 'block';
+            }
+            const errBox = getEl('verify-error-box');
+            if (errBox) errBox.style.display = 'none';
+            playSound('click');
+        }
+
+        // Profile Modal
+        function openUserProfileModal() {
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+
+            const nameEl = getEl('profile-modal-name');
+            const emailEl = getEl('profile-modal-email');
+            const avatarEl = getEl('profile-modal-avatar');
+            const roleEl = getEl('profile-modal-role');
+
+            const dispName = (currentUserProfile && currentUserProfile.displayName) || currentUser.displayName || 'Member';
+            if (nameEl) nameEl.innerText = dispName;
+            if (emailEl) emailEl.innerText = currentUser.email || '';
+            
+            if (avatarEl) {
+                if (currentUserProfile && currentUserProfile.photoURL) {
+                    avatarEl.innerHTML = `<img src="${currentUserProfile.photoURL}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;">`;
+                } else {
+                    avatarEl.innerText = dispName.charAt(0).toUpperCase() || 'U';
+                }
+            }
+
+            const isUserAdmin = (currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
+            if (roleEl) {
+                roleEl.innerText = isUserAdmin ? '👑 Administrator' : 'Verified Member';
+                roleEl.style.background = isUserAdmin ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+                roleEl.style.color = isUserAdmin ? '#fca5a5' : 'var(--accent)';
+            }
+
+            openModal('modal-user-profile');
+        }
+
+        async function handleSignOut() {
+            try {
+                if (firebaseAuth) {
+                    await firebaseAuth.signOut();
+                }
+                closeModal('modal-user-profile');
+                closeModal('modal-admin');
+                hideBannedScreen();
+                playSound('click');
+            } catch (err) {
+                console.error("Sign out error:", err);
+            }
+        }
+
+        // Appeal Submission Logic
+        async function handleAppealSubmit(e) {
+            e.preventDefault();
+            const contact = (getEl('appeal-contact')?.value || '').trim();
+            const message = (getEl('appeal-message')?.value || '').trim();
+            const errBox = getEl('appeal-error-box');
+            const succBox = getEl('appeal-success-box');
+
+            if (!contact || !message) {
+                if (errBox) { errBox.innerText = 'Please provide contact information and an explanation.'; errBox.style.display = 'block'; }
+                return;
+            }
+
+            try {
+                const btn = getEl('appeal-submit-btn');
+                if (btn) { btn.innerText = 'Submitting Appeal...'; btn.disabled = true; }
+
+                const appealDoc = {
+                    userId: (currentUser ? currentUser.uid : 'guest-appeal'),
+                    userEmail: (currentUser ? currentUser.email : contact),
+                    contactInfo: contact,
+                    message: message,
+                    status: 'pending', // 'pending', 'approved', 'rejected'
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await firebaseDb.collection('appeals').add(appealDoc);
+
+                if (succBox) {
+                    succBox.innerText = 'Your appeal request has been submitted to the admin team. We will review your identity and update your account.';
+                    succBox.style.display = 'block';
+                }
+                if (errBox) errBox.style.display = 'none';
+
+                const form = getEl('appeal-form');
+                if (form) form.reset();
+                playSound('correct');
+            } catch (err) {
+                console.error("Failed to submit appeal:", err);
+                if (errBox) {
+                    errBox.innerText = 'Failed to submit appeal. Please try again.';
+                    errBox.style.display = 'block';
+                }
+            } finally {
+                const btn = getEl('appeal-submit-btn');
+                if (btn) { btn.innerText = 'Submit Appeal Request'; btn.disabled = false; }
+            }
+        }
+
+        // ==========================================
+        // ADMIN MODERATION PANEL LOGIC
+        // ==========================================
+        let adminUsersList = [];
+        let adminAppealsList = [];
+
+        function openAdminModal() {
+            if (!currentUser) return;
+            const isUserAdmin = (currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
+            if (!isUserAdmin) {
+                alert("Access restricted to administrators only.");
+                return;
+            }
+
+            openModal('modal-admin');
+            loadAdminData();
+        }
+
+        function switchAdminTab(tab) {
+            currentAdminTab = tab;
+            const usersBtn = getEl('admin-tab-users-btn');
+            const appealsBtn = getEl('admin-tab-appeals-btn');
+            const usersSec = getEl('admin-section-users');
+            const appealsSec = getEl('admin-section-appeals');
+
+            if (tab === 'users') {
+                if (usersBtn) { usersBtn.style.background = 'rgba(16, 185, 129, 0.25)'; usersBtn.style.borderColor = 'var(--accent)'; }
+                if (appealsBtn) { appealsBtn.style.background = 'rgba(255, 255, 255, 0.08)'; appealsBtn.style.borderColor = 'var(--glass-border)'; }
+                if (usersSec) usersSec.style.display = 'block';
+                if (appealsSec) appealsSec.style.display = 'none';
+            } else {
+                if (appealsBtn) { appealsBtn.style.background = 'rgba(16, 185, 129, 0.25)'; appealsBtn.style.borderColor = 'var(--accent)'; }
+                if (usersBtn) { usersBtn.style.background = 'rgba(255, 255, 255, 0.08)'; usersBtn.style.borderColor = 'var(--glass-border)'; }
+                if (appealsSec) appealsSec.style.display = 'block';
+                if (usersSec) usersSec.style.display = 'none';
+            }
+            playSound('click');
+        }
+
+        async function loadAdminData() {
+            try {
+                // Fetch Users
+                const usersSnap = await firebaseDb.collection('users').get();
+                adminUsersList = [];
+                usersSnap.forEach(doc => {
+                    adminUsersList.push({ id: doc.id, ...doc.data() });
+                });
+                renderAdminUsersList();
+
+                // Fetch Appeals
+                const appealsSnap = await firebaseDb.collection('appeals').orderBy('submittedAt', 'desc').get();
+                adminAppealsList = [];
+                appealsSnap.forEach(doc => {
+                    adminAppealsList.push({ id: doc.id, ...doc.data() });
+                });
+                renderAdminAppealsList();
+
+                const countEl = getEl('admin-appeals-count');
+                if (countEl) countEl.innerText = adminAppealsList.length;
+            } catch (err) {
+                console.error("Error loading admin data:", err);
+            }
+        }
+
+        function renderAdminUsersList() {
+            const container = getEl('admin-users-container');
+            if (!container) return;
+            const search = (getEl('admin-search-users')?.value || '').toLowerCase().trim();
+
+            container.innerHTML = '';
+
+            const filtered = adminUsersList.filter(u => {
+                if (!search) return true;
+                const name = (u.displayName || `${u.firstName || ''} ${u.lastName || ''}`).toLowerCase();
+                const email = (u.email || '').toLowerCase();
+                const id = (u.id || '').toLowerCase();
+                return name.includes(search) || email.includes(search) || id.includes(search);
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-muted);">No users found matching query.</div>`;
+                return;
+            }
+
+            filtered.forEach(u => {
+                const item = document.createElement('div');
+                item.className = 'custom-order-item';
+                item.style.padding = '10px 14px';
+
+                const isBanned = (u.status === 'banned');
+                const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (u.isAdmin === true);
+
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
+                        <div class="user-avatar-circle" style="width:34px; height:34px; font-size:0.9rem;">
+                            ${(u.displayName || u.firstName || 'U').charAt(0).toUpperCase()}
+                        </div>
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-weight:700; font-size:0.92rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                                <span>${u.displayName || `${u.firstName || ''} ${u.lastName || ''}`}</span>
+                                ${isUserAdmin ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 6px; border-radius:4px;">ADMIN</span>' : ''}
+                                ${isBanned ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.25); color:#f87171; padding:1px 6px; border-radius:4px;">🚫 BANNED</span>' : '<span style="font-size:0.7rem; background:rgba(16,185,129,0.2); color:var(--accent); padding:1px 6px; border-radius:4px;">ACTIVE</span>'}
+                            </div>
+                            <div style="font-size:0.8rem; color:var(--text-muted); word-break:break-all;">
+                                ${u.email || 'No email'} | UID: <span style="font-family:monospace; font-size:0.72rem;">${u.id.substring(0, 8)}...</span>
+                            </div>
+                            ${isBanned && u.banReason ? `<div style="font-size:0.75rem; color:#fca5a5; margin-top:2px;">Reason: ${u.banReason}</div>` : ''}
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-mini" onclick="openAdminBanDialog('${u.id}')" style="padding:6px 12px; background:${isBanned ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; border-color:${isBanned ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'};">
+                            ${isBanned ? '✅ Unban / Unlock' : '🚫 Ban User'}
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function renderAdminAppealsList() {
+            const container = getEl('admin-appeals-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (adminAppealsList.length === 0) {
+                container.innerHTML = `<div style="padding:30px; text-align:center; color:var(--text-muted);">No appeals submitted yet.</div>`;
+                return;
+            }
+
+            adminAppealsList.forEach(app => {
+                const item = document.createElement('div');
+                item.className = 'custom-order-item';
+                item.style.flexDirection = 'column';
+                item.style.alignItems = 'stretch';
+                item.style.padding = '14px';
+                item.style.marginBottom = '10px';
+
+                item.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                        <div>
+                            <strong style="color:var(--text-main); font-size:0.95rem;">${app.userEmail || 'User'}</strong>
+                            <div style="font-size:0.8rem; color:var(--accent);">Contact: ${app.contactInfo}</div>
+                        </div>
+                        <span style="font-size:0.75rem; padding:2px 8px; border-radius:6px; background:rgba(245,158,11,0.2); color:var(--gold);">
+                            ${app.status || 'Pending'}
+                        </span>
+                    </div>
+                    <div style="font-size:0.88rem; color:var(--text-main); line-height:1.45; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; margin-bottom:10px;">
+                        "${app.message}"
+                    </div>
+                    <div style="display:flex; gap:8px; justify-content:flex-end;">
+                        <button class="btn-mini" onclick="openAdminBanDialog('${app.userId}')" style="padding:6px 12px; background:rgba(16,185,129,0.2); border-color:var(--accent);">
+                            Manage Account Status
+                        </button>
+                        <button class="btn-mini" onclick="resolveAppeal('${app.id}')" style="padding:6px 12px; background:rgba(255,255,255,0.1);">
+                            ✓ Mark Resolved
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function openAdminBanDialog(userId) {
+            const user = adminUsersList.find(u => u.id === userId);
+            if (!user) return;
+            adminBanTargetUser = user;
+
+            const nameEl = getEl('admin-ban-target-name');
+            const emailEl = getEl('admin-ban-target-email');
+            const selectEl = getEl('admin-ban-status-select');
+            const reasonInput = getEl('admin-ban-reason-input');
+
+            if (nameEl) nameEl.innerText = user.displayName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+            if (emailEl) emailEl.innerText = user.email || user.id;
+            if (selectEl) selectEl.value = (user.status === 'banned') ? 'banned' : 'banned';
+            if (reasonInput) reasonInput.value = user.banReason || 'Fake name provided (Violation of Real Name Policy)';
+
+            openModal('modal-admin-ban-dialog');
+        }
+
+        async function confirmAdminBanAction() {
+            if (!adminBanTargetUser) return;
+            const newStatus = getEl('admin-ban-status-select')?.value || 'banned';
+            const reason = (getEl('admin-ban-reason-input')?.value || '').trim();
+
+            try {
+                const btn = getEl('admin-ban-confirm-btn');
+                if (btn) { btn.innerText = 'Saving...'; btn.disabled = true; }
+
+                await firebaseDb.collection('users').doc(adminBanTargetUser.id).update({
+                    status: newStatus,
+                    banReason: (newStatus === 'banned') ? reason : '',
+                    moderatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                closeModal('modal-admin-ban-dialog');
+                await loadAdminData();
+                playSound('correct');
+            } catch (err) {
+                console.error("Error applying moderation action:", err);
+                alert("Failed to update user status: " + err.message);
+            } finally {
+                const btn = getEl('admin-ban-confirm-btn');
+                if (btn) { btn.innerText = 'Save Action'; btn.disabled = false; }
+            }
+        }
+
+        async function resolveAppeal(appealId) {
+            try {
+                await firebaseDb.collection('appeals').doc(appealId).update({
+                    status: 'resolved',
+                    resolvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await loadAdminData();
+                playSound('correct');
+            } catch (err) {
+                console.error("Error resolving appeal:", err);
+            }
+        }
+
         // --- UNDER CONSTRUCTION / MAINTENANCE CONFIGURATION ---
         // Set to true while fixing bugs.
         // When true:
@@ -2364,6 +3602,16 @@
             const target = getEl(screenId);
             if (target) {
                 target.classList.add('active');
+            }
+
+            // Hide sign in / user bar on maintenance screen
+            const topBar = getEl('user-top-bar');
+            if (topBar) {
+                if (screenId === 'screen-maintenance') {
+                    topBar.style.display = 'none';
+                } else {
+                    topBar.style.display = 'flex';
+                }
             }
         }
 
@@ -2976,6 +4224,7 @@
         // Initialize Theme Preferences, Settings and Screen Routing
         loadThemePreferences();
         loadSavedSettings();
+        initFirebase();
         initAppRouting();
     </script>
 </body>
