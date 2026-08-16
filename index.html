@@ -2173,7 +2173,7 @@
             </div>
 
             <!-- Error / Success Banners -->
-            <div class="auth-prompt-callout" id="auth-prompt-callout" style="display: none; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; text-align: center;">
+            <div class="auth-prompt-callout" id="auth-prompt-callout" style="background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; text-align: center;">
                 <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 3px;" id="auth-prompt-callout-title">
                     ✨ Sign in today to continue using! (It's FREE!)
                 </div>
@@ -2226,7 +2226,10 @@
                 </div>
 
                 <div class="auth-form-group">
-                    <label for="auth-password">Password</label>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label for="auth-password">Password</label>
+                        <button type="button" onclick="handleForgotPassword()" id="auth-forgot-pwd-btn" style="background: none; border: none; font-size: 0.78rem; color: var(--accent); cursor: pointer; text-decoration: underline; padding: 0;">Forgot Password?</button>
+                    </div>
                     <input type="password" id="auth-password" class="auth-input" placeholder="••••••••" required autocomplete="current-password">
                 </div>
 
@@ -2240,39 +2243,6 @@
                 <span id="auth-switch-text">Don't have an account?</span>
                 <button type="button" id="auth-switch-btn" onclick="toggleAuthMode()" style="background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; margin-left: 6px; font-size: 0.88rem;">
                     Create one!
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: EMAIL VERIFICATION CODE -->
-    <div class="modal-overlay" id="modal-verification" onclick="if(event.target === this) closeModal('modal-verification')">
-        <div class="glass-panel modal-card auth-card" style="text-align: center;" onclick="event.stopPropagation()">
-            <div style="font-size: 3rem; margin-bottom: 6px;">✉️</div>
-            <h2 class="section-title" style="justify-content: center; margin-bottom: 6px;">Verify Your Email</h2>
-            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
-                We sent a 6-digit verification code to <br><strong id="verification-target-email" style="color: var(--text-main);"></strong>.
-                Please enter the code below to complete your registration and activate your account.
-            </p>
-
-            <div class="auth-error-banner" id="verify-error-box"></div>
-            <div class="auth-success-banner" id="verify-success-box"></div>
-
-            <form onsubmit="handleVerifySubmit(event)">
-                <div class="auth-form-group">
-                    <input type="text" id="verification-code-input" class="auth-input verification-code-input" maxlength="6" placeholder="123456" required autocomplete="one-time-code">
-                </div>
-                <button type="submit" class="btn" id="verify-submit-btn" style="margin-top: 8px;">
-                    Verify & Create Account
-                </button>
-            </form>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
-                <button type="button" class="btn-mini" onclick="resendVerificationCode()">
-                    🔄 Resend Code
-                </button>
-                <button type="button" class="btn-mini" onclick="closeModal('modal-verification'); openAuthModal('signup');">
-                    ← Back
                 </button>
             </div>
         </div>
@@ -2725,12 +2695,10 @@
             const calloutTitle = getEl('auth-prompt-callout-title');
             const calloutSub = getEl('auth-prompt-callout-sub');
 
-            if (promptTitle && callout) {
+            if (callout) {
                 callout.style.display = 'block';
-                if (calloutTitle) calloutTitle.innerText = promptTitle;
+                if (calloutTitle && promptTitle) calloutTitle.innerText = promptTitle;
                 if (calloutSub && promptSub) calloutSub.innerText = promptSub;
-            } else if (callout) {
-                callout.style.display = 'none';
             }
 
             openModal('modal-auth');
@@ -2761,6 +2729,7 @@
             const switchBtn = getEl('auth-switch-btn');
             const firstNameInput = getEl('auth-first-name');
             const lastNameInput = getEl('auth-last-name');
+            const forgotPwdBtn = getEl('auth-forgot-pwd-btn');
 
             if (authMode === 'signup') {
                 if (titleEl) titleEl.innerText = 'Create your Account';
@@ -2768,9 +2737,10 @@
                 if (nameFields) nameFields.style.display = 'block';
                 if (firstNameInput) firstNameInput.required = true;
                 if (lastNameInput) lastNameInput.required = true;
-                if (submitBtn) submitBtn.innerText = 'Send Verification Code & Sign Up';
+                if (submitBtn) submitBtn.innerText = 'Create Free Account';
                 if (switchText) switchText.innerText = 'Already have an account?';
                 if (switchBtn) switchBtn.innerText = 'Sign In!';
+                if (forgotPwdBtn) forgotPwdBtn.style.display = 'none';
             } else {
                 if (titleEl) titleEl.innerText = 'Sign In to QuranSPLNGB';
                 if (subtitleEl) subtitleEl.innerText = 'Sign in to continue to QuranSPLNGB and save your progress.';
@@ -2780,6 +2750,7 @@
                 if (submitBtn) submitBtn.innerText = 'Sign In';
                 if (switchText) switchText.innerText = "Don't have an account?";
                 if (switchBtn) switchBtn.innerText = 'Create one!';
+                if (forgotPwdBtn) forgotPwdBtn.style.display = 'inline';
             }
         }
 
@@ -2808,6 +2779,32 @@
             if (eBox) eBox.style.display = 'none';
             const sBox = getEl('auth-success-box');
             if (sBox) sBox.style.display = 'none';
+        }
+
+        // Forgot Password
+        async function handleForgotPassword() {
+            hideAuthMessages();
+            const email = (getEl('auth-email')?.value || '').trim();
+            if (!email) {
+                showAuthError('Please enter your email address above first to receive a password reset link.');
+                getEl('auth-email')?.focus();
+                return;
+            }
+
+            try {
+                await firebaseAuth.sendPasswordResetEmail(email);
+                showAuthSuccess(`A password reset link has been sent to ${email}. Please check your email inbox to reset your password.`);
+                playSound('correct');
+            } catch (err) {
+                console.error("Password reset error:", err);
+                if (err.code === 'auth/user-not-found') {
+                    showAuthError('No account found with this email address. Please click "Create one!" below to register.');
+                } else if (err.code === 'auth/invalid-email') {
+                    showAuthError('Please enter a valid email address.');
+                } else {
+                    showAuthError(err.message || 'Failed to send password reset email.');
+                }
+            }
         }
 
         // Google Sign In (Popup)
@@ -2852,8 +2849,10 @@
                 playSound('correct');
             } catch (err) {
                 console.error("Google sign in error:", err);
-                if (err.code !== 'auth/popup-closed-by-user') {
-                    showAuthError(err.message || 'Google sign in failed. Please try again.');
+                if (err.code === 'auth/unauthorized-domain') {
+                    showAuthError("Google Sign-In is unavailable on this preview URL because the domain is not in your Firebase Authorized Domains list. Please sign up or sign in below with your Email & Password (which works 100% without domain restrictions!).");
+                } else if (err.code !== 'auth/popup-closed-by-user') {
+                    showAuthError(err.message || 'Google sign in failed. Please try signing in with Email below.');
                 }
             }
         }
@@ -2899,7 +2898,7 @@
                     if (submitBtn) { submitBtn.innerText = 'Sign In'; submitBtn.disabled = false; }
                 }
             } else {
-                // Signup flow: validate names, generate verification code, and open verification modal
+                // Real Signup flow
                 const firstName = (getEl('auth-first-name')?.value || '').trim();
                 const lastName = (getEl('auth-last-name')?.value || '').trim();
 
@@ -2913,130 +2912,72 @@
                     return;
                 }
 
-                // Generate 6 digit code
-                const code = Math.floor(100000 + Math.random() * 900000).toString();
-                const expiresAt = Date.now() + 15 * 60 * 1000; // 15 mins
-
-                pendingSignupData = {
-                    email: email,
-                    password: password,
-                    firstName: firstName,
-                    lastName: lastName,
-                    code: code,
-                    expiresAt: expiresAt
-                };
-
-                closeModal('modal-auth');
-                openVerificationModal(email, code);
-            }
-        }
-
-        // Verification Modal Logic
-        function openVerificationModal(email, code) {
-            const emailEl = getEl('verification-target-email');
-            if (emailEl) emailEl.innerText = email;
-            const input = getEl('verification-code-input');
-            if (input) input.value = '';
-            
-            const errBox = getEl('verify-error-box');
-            const succBox = getEl('verify-success-box');
-            if (errBox) errBox.style.display = 'none';
-            if (succBox) {
-                succBox.innerText = `[Verification Simulator]: Your activation code is ${code}. Please enter it below to confirm your account.`;
-                succBox.style.display = 'block';
-            }
-
-            openModal('modal-verification');
-        }
-
-        async function handleVerifySubmit(e) {
-            e.preventDefault();
-            const enteredCode = (getEl('verification-code-input')?.value || '').trim();
-            const errBox = getEl('verify-error-box');
-            const succBox = getEl('verify-success-box');
-
-            if (!pendingSignupData) {
-                if (errBox) { errBox.innerText = 'Session expired. Please try signing up again.'; errBox.style.display = 'block'; }
-                return;
-            }
-
-            if (Date.now() > pendingSignupData.expiresAt) {
-                if (errBox) { errBox.innerText = 'Verification code expired. Please request a new code.'; errBox.style.display = 'block'; }
-                return;
-            }
-
-            if (enteredCode !== pendingSignupData.code) {
-                if (errBox) { errBox.innerText = 'Incorrect verification code. Please check and try again.'; errBox.style.display = 'block'; }
-                return;
-            }
-
-            // Create Firebase Auth user
-            try {
-                const btn = getEl('verify-submit-btn');
-                if (btn) { btn.innerText = 'Creating Account...'; btn.disabled = true; }
-
-                const userCred = await firebaseAuth.createUserWithEmailAndPassword(
-                    pendingSignupData.email,
-                    pendingSignupData.password
-                );
-
-                const user = userCred.user;
-                const displayName = `${pendingSignupData.firstName} ${pendingSignupData.lastName}`.trim();
-
-                // Update auth profile display name
                 try {
-                    await user.updateProfile({ displayName: displayName });
-                } catch(e) {}
+                    const submitBtn = getEl('auth-submit-btn');
+                    if (submitBtn) { submitBtn.innerText = 'Creating Account...'; submitBtn.disabled = true; }
 
-                // Create user document in Firestore
-                const userDoc = {
-                    userId: user.uid,
-                    email: pendingSignupData.email,
-                    firstName: pendingSignupData.firstName,
-                    lastName: pendingSignupData.lastName,
-                    displayName: displayName,
-                    photoURL: '',
-                    provider: 'password',
-                    status: 'active',
-                    banReason: '',
-                    isAdmin: (pendingSignupData.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
+                    // 1. Create real Firebase user
+                    const userCred = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+                    const user = userCred.user;
+                    const displayName = `${firstName} ${lastName}`.trim();
 
-                await firebaseDb.collection('users').doc(user.uid).set(userDoc);
+                    // 2. Set display name in Firebase Auth
+                    try {
+                        await user.updateProfile({ displayName: displayName });
+                    } catch(e) {}
 
-                closeModal('modal-verification');
-                pendingSignupData = null;
-                playSound('correct');
-                setTimeout(fireConfetti, 300);
-            } catch (err) {
-                console.error("Account creation failed:", err);
-                let msg = err.message || 'Failed to create account. Please try again.';
-                if (err.code === 'auth/email-already-in-use') {
-                    msg = 'An account with this email address already exists. Please sign in instead.';
+                    // 3. Send real Firebase verification email
+                    try {
+                        await user.sendEmailVerification();
+                    } catch(e) {
+                        console.warn("Real email verification send note:", e);
+                    }
+
+                    // 4. Create Firestore user document
+                    const userDoc = {
+                        userId: user.uid,
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        displayName: displayName,
+                        photoURL: '',
+                        provider: 'password',
+                        status: 'active',
+                        banReason: '',
+                        isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+
+                    await firebaseDb.collection('users').doc(user.uid).set(userDoc);
+
+                    closeModal('modal-auth');
+                    playSound('correct');
+                    setTimeout(fireConfetti, 300);
+                    showToast(`🎉 Welcome, ${firstName}! A real email verification link has been sent to ${email}. You are now signed in!`, 6000);
+                } catch (err) {
+                    console.error("Signup error:", err);
+                    if (err.code === 'auth/email-already-in-use') {
+                        showAuthError('An account with this email already exists. Please enter your password to sign in.');
+                        authMode = 'login';
+                        updateAuthModalState();
+                        const pwdInput = getEl('auth-password');
+                        if (pwdInput) { pwdInput.value = ''; pwdInput.focus(); }
+                    } else if (err.code === 'auth/invalid-email') {
+                        showAuthError('Please enter a valid email address.');
+                    } else if (err.code === 'auth/weak-password') {
+                        showAuthError('Password must be at least 6 characters long.');
+                    } else {
+                        showAuthError(err.message || 'Failed to create account. Please try again.');
+                    }
+                } finally {
+                    const submitBtn = getEl('auth-submit-btn');
+                    if (submitBtn) {
+                        submitBtn.innerText = (authMode === 'signup') ? 'Create Free Account' : 'Sign In';
+                        submitBtn.disabled = false;
+                    }
                 }
-                if (errBox) { errBox.innerText = msg; errBox.style.display = 'block'; }
-            } finally {
-                const btn = getEl('verify-submit-btn');
-                if (btn) { btn.innerText = 'Verify & Create Account'; btn.disabled = false; }
             }
-        }
-
-        function resendVerificationCode() {
-            if (!pendingSignupData) return;
-            const newCode = Math.floor(100000 + Math.random() * 900000).toString();
-            pendingSignupData.code = newCode;
-            pendingSignupData.expiresAt = Date.now() + 15 * 60 * 1000;
-
-            const succBox = getEl('verify-success-box');
-            if (succBox) {
-                succBox.innerText = `A new verification code has been generated: ${newCode}`;
-                succBox.style.display = 'block';
-            }
-            const errBox = getEl('verify-error-box');
-            if (errBox) errBox.style.display = 'none';
-            playSound('click');
         }
 
         // Profile Modal
