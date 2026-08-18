@@ -1911,6 +1911,177 @@
         .banned-banner.active {
             display: flex;
         }
+
+        /* Floating Corner Download Button */
+        .corner-download-bar {
+            position: fixed;
+            top: 14px;
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 540px) {
+            .corner-download-bar {
+                top: 10px;
+                right: 10px;
+            }
+            .corner-download-pill {
+                padding: 6px 12px !important;
+                font-size: 0.78rem !important;
+            }
+        }
+
+        @keyframes download-pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.55);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 8px rgba(61, 220, 132, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(61, 220, 132, 0);
+            }
+        }
+
+        .corner-download-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(61, 220, 132, 0.5);
+            padding: 7px 16px;
+            border-radius: 999px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #34d399;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .corner-download-pill:hover {
+            animation: download-pulse 1.2s infinite ease-in-out;
+            background: rgba(16, 185, 129, 0.32);
+            border-color: #3ddc84;
+            color: #ffffff;
+        }
+
+        .menu-download-banner-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(61, 220, 132, 0.35);
+            color: #34d399;
+            padding: 11px 18px;
+            border-radius: 14px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .menu-download-banner-btn:hover {
+            background: rgba(16, 185, 129, 0.22);
+            border-color: #3ddc84;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Download App Platform Cards */
+        .download-platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .download-platform-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+        }
+
+        .download-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.25s ease;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .download-card.android-card {
+            border-color: rgba(61, 220, 132, 0.35);
+            background: linear-gradient(180deg, rgba(61, 220, 132, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+        }
+
+        .download-card.android-card:hover {
+            border-color: #3ddc84;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(61, 220, 132, 0.25);
+        }
+
+        .download-card.ios-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .download-icon-circle {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .download-icon-circle.android {
+            background: rgba(61, 220, 132, 0.15);
+            border: 1px solid rgba(61, 220, 132, 0.4);
+            color: #3ddc84;
+        }
+
+        .download-icon-circle.apple {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--text-main);
+        }
+
+        .download-step-tip {
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-top: 14px;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -1919,6 +2090,14 @@
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
     <div class="bg-orb orb-3"></div>
+
+    <!-- Floating Corner Download Pill -->
+    <div class="corner-download-bar" id="corner-download-bar">
+        <button class="corner-download-pill" onclick="openDownloadModal()">
+            <span>📲</span>
+            <span>Download App (Free)</span>
+        </button>
+    </div>
 
     <!-- User Account Header Bar (Hidden in standard guest mode) -->
     <div class="user-top-bar" id="user-top-bar" style="display: none !important;">
@@ -2235,6 +2414,105 @@
         <div style="display: flex; flex-direction: column; gap: 15px;">
             <button class="btn" onclick="startQuiz()">Play Again</button>
             <button class="btn btn-secondary" onclick="showMenu()">Back to Main Menu</button>
+        </div>
+    </div>
+
+    <!-- MODAL: INITIAL WELCOME DOWNLOAD POPUP (APPEARS ON OPEN) -->
+    <div class="modal-overlay" id="modal-download-welcome" onclick="if(event.target === this) closeWelcomeDownloadModal()">
+        <div class="glass-panel modal-card" style="max-width: 480px; text-align: center; border-color: rgba(61, 220, 132, 0.45); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);" onclick="event.stopPropagation()">
+            <div style="font-size: 3.2rem; margin-bottom: 6px; line-height: 1;">📲</div>
+            <h2 class="section-title" style="color: #34d399; font-size: 1.4rem; margin-bottom: 8px;">
+                Download the Mobile App for Free Today!
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; margin-bottom: 22px;">
+                Install QuranSPLNGB on your phone for offline study, instant sight-spelling quizzes, and zero lag.
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn" onclick="closeWelcomeDownloadModal(); openDownloadModal();" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); font-weight: 700; font-size: 0.98rem; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <span>⬇️</span>
+                    <span>Download Mobile App (Free)</span>
+                </button>
+                <button class="btn btn-outline" onclick="closeWelcomeDownloadModal()" style="font-size: 0.88rem; padding: 10px;">
+                    Continue to Web App
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DOWNLOAD MOBILE APP (ANDROID APK & APPLE IOS) -->
+    <div class="modal-overlay" id="modal-download-app" onclick="if(event.target === this) closeModal('modal-download-app')">
+        <div class="glass-panel modal-card wide" style="max-width: 680px;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 1.5rem;">📲</div>
+                    <div>
+                        <h2 class="section-title" style="margin-bottom: 0;">Download QuranSPLNGB App</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 2px 0 0 0;">
+                            Get the mobile app for fast offline practice, sight-spelling & vocabulary testing!
+                        </p>
+                    </div>
+                </div>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeModal('modal-download-app')">✕</button>
+            </div>
+
+            <!-- Platform Options Grid -->
+            <div class="download-platform-grid">
+                <!-- Android Platform Option -->
+                <div class="download-card android-card">
+                    <div class="download-icon-circle android">
+                        <!-- Android Logo SVG -->
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="#3ddc84">
+                            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8566 8.121 12 8.121c-1.857 0-3.5907.29-5.1368.8287L4.8409 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+                        </svg>
+                    </div>
+                    <div style="font-weight: 700; font-size: 1.15rem; color: var(--text-main); margin-bottom: 4px;">
+                        Android APK
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+                        Direct APK download for Android phones & tablets (Android 7.0+).
+                    </div>
+                    <a href="https://drive.google.com/file/d/1XM5YmlAScCdKSWf0Ymov6i7Do6Bp6N2C/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn" style="text-decoration: none; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #059669 0%, #10b981 100%); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>⬇️</span>
+                        <span>Download APK File</span>
+                    </a>
+                    <div class="download-step-tip">
+                        <div style="font-weight: 700; color: #34d399; margin-bottom: 4px;">⚡ How to Download & Install:</div>
+                        1. Tap the green <b>Download APK File</b> button above.<br>
+                        2. When the Google Drive page opens, click the <b>"Download"</b> button (or top-right download icon ⤓) to save the APK.<br>
+                        3. Open the downloaded <b>QuranSPLNGB.apk</b> on your Android phone & tap <b>"Install"</b>!
+                    </div>
+                </div>
+
+                <!-- Apple iOS Option -->
+                <div class="download-card ios-card">
+                    <div class="download-icon-circle apple">
+                        <!-- Apple Logo SVG -->
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.15c.65-.79 1.1-1.9 1-3-.97.04-2.17.65-2.85 1.45-.6.69-1.12 1.8-1 2.87 1.09.08 2.2-.53 2.85-1.32z"/>
+                        </svg>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                        <span style="font-weight: 700; font-size: 1.15rem; color: var(--text-main);">Apple iOS</span>
+                        <span style="background: rgba(234, 179, 8, 0.18); border: 1px solid rgba(234, 179, 8, 0.4); color: #facc15; font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 8px;">Coming Soon</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+                        iOS App Store release is currently in preparation Insha'Allah.
+                    </div>
+                    <button class="btn btn-outline" disabled style="width: 100%; opacity: 0.6; cursor: not-allowed; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>⏳</span>
+                        <span>Coming Soon</span>
+                    </button>
+                    <div class="download-step-tip">
+                        <b>iPhone / iPad Instant App:</b><br>
+                        Open this website in <b>Safari</b>, tap the <b>Share</b> button (<span style="font-size:0.9rem;">⎋</span>), and select <b>"Add to Home Screen"</b> to use full-screen!
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                <button class="btn btn-outline" style="width: auto; padding: 10px 24px;" onclick="closeModal('modal-download-app')">Close</button>
+            </div>
         </div>
     </div>
 
@@ -4621,6 +4899,28 @@
             playSound('click');
         }
 
+        function openDownloadModal() {
+            openModal('modal-download-app');
+        }
+
+        function checkAndShowWelcomeDownloadPrompt() {
+            try {
+                const hasDismissed = sessionStorage.getItem('quran_app_welcome_download_dismissed');
+                if (!hasDismissed) {
+                    setTimeout(() => {
+                        openModal('modal-download-welcome');
+                    }, 500);
+                }
+            } catch (err) {}
+        }
+
+        function closeWelcomeDownloadModal() {
+            try {
+                sessionStorage.setItem('quran_app_welcome_download_dismissed', 'true');
+            } catch (err) {}
+            closeModal('modal-download-welcome');
+        }
+
         // Clear Inputs & Confirm Modal
         function promptClearQuizInputs() {
             if (isAnswered) return;
@@ -5288,6 +5588,7 @@
         initFirebase();
         initAppRouting();
         checkAuthActionFromUrl();
+        checkAndShowWelcomeDownloadPrompt();
     </script>
 </body>
 </html>
