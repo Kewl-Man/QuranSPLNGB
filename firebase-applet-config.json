@@ -1,12 +1,12 @@
 {
-  "projectId": "thermal-transit-s98sv",
-  "appId": "1:679273157048:web:fd5d663eded60cdd9f7f4d",
-  "apiKey": "AIzaSyA7wfUto5-5k_dMW-L8WOB4v6eMMbSpwrc",
-  "authDomain": "thermal-transit-s98sv.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-quransplngb-2e307283-a0a4-42ce-8de4-f60f07147b6c",
-  "storageBucket": "thermal-transit-s98sv.firebasestorage.app",
-  "messagingSenderId": "679273157048",
-  "measurementId": "",
-  "oAuthClientId": "679273157048-ao83d3j44tbon8mm6u1s3fnroo25q86b.apps.googleusercontent.com",
+  "projectId": "quransplngb",
+  "appId": "1:634633280419:web:44c2fcffe975cf29755816",
+  "apiKey": "AIzaSyDbatdKha55PmPvrNrZHws-IAn5eChYS-s",
+  "authDomain": "quransplngb.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "quransplngb.firebasestorage.app",
+  "messagingSenderId": "634633280419",
+  "measurementId": "G-VP6ZNP6SR2",
+  "oAuthClientId": "",
   "recaptchaSiteKey": ""
 }

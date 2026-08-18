@@ -1920,10 +1920,10 @@
     <div class="bg-orb orb-2"></div>
     <div class="bg-orb orb-3"></div>
 
-    <!-- User Account Header Bar -->
-    <div class="user-top-bar" id="user-top-bar" style="display: none;">
+    <!-- User Account Header Bar (Hidden in standard guest mode) -->
+    <div class="user-top-bar" id="user-top-bar" style="display: none !important;">
         <!-- Guest State (Not Logged In) -->
-        <button class="user-profile-pill" id="btn-open-login" onclick="openAuthModal('login')">
+        <button class="user-profile-pill" id="btn-open-login" style="display: none;" onclick="openAuthModal('login')">
             <span>👤</span>
             <span>Sign In / Register</span>
         </button>
@@ -1941,7 +1941,7 @@
     </div>
 
     <!-- UNDER CONSTRUCTION / MAINTENANCE SCREEN -->
-    <div class="glass-panel maintenance-panel active" id="screen-maintenance">
+    <div class="glass-panel maintenance-panel" id="screen-maintenance" style="display: none;">
         <div class="maintenance-icon-badge">
             <span>💫</span>
         </div>
@@ -1973,30 +1973,20 @@
     </div>
 
     <!-- MAIN MENU SCREEN -->
-    <div class="glass-panel" id="screen-menu">
+    <div class="glass-panel active" id="screen-menu">
         <h1>QuranSPLNGB</h1>
         <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
-        
-        <!-- Guest Free Sign In Notice (Shown only when not logged in) -->
-        <div id="guest-free-notice" style="margin-top: 18px; padding: 12px 16px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 14px; text-align: center;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 3px;">
-                ✨ Sign in today to continue using! (It's FREE!)
-            </div>
-            <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
-                Sign in or register for free to unlock interactive quizzes, flashcards, word tracking, and customized settings.
-            </div>
-        </div>
 
         <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
-            <button class="btn" id="btn-play-quiz" onclick="handlePlayQuizClick()">🎮 Play Interactive Quiz</button>
-            <button class="btn btn-secondary auth-required-feature" id="btn-menu-study" onclick="openStudyMode()" style="display: none;">📖 Study Mode (Flashcards)</button>
-            <button class="btn btn-secondary auth-required-feature" id="btn-menu-whitelist" onclick="openWhitelistModal()" style="display: none; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
+            <button class="btn" id="btn-play-quiz" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
+            <button class="btn btn-secondary" id="btn-menu-study" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
+            <button class="btn btn-secondary" id="btn-menu-whitelist" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
                 <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; text-align: left;">🛡️ Whitelist Known Words</span>
                 <span style="background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; flex-shrink: 0; color: var(--text-main);">
                     <span id="menu-whitelist-badge">0</span> Excluded
                 </span>
             </button>
-            <button class="btn btn-secondary auth-required-feature" id="btn-menu-settings" onclick="openSettings()" style="display: none;">⚙️ Quiz & Test Settings</button>
+            <button class="btn btn-secondary" id="btn-menu-settings" onclick="openSettings()">⚙️ Quiz & Test Settings</button>
         </div>
 
         <!-- Dark / Light Mode Toggle Button -->
@@ -2877,12 +2867,13 @@
         function initFirebase() {
             try {
                 const firebaseConfig = {
-                    apiKey: "AIzaSyA7wfUto5-5k_dMW-L8WOB4v6eMMbSpwrc",
-                    authDomain: "thermal-transit-s98sv.firebaseapp.com",
-                    projectId: "thermal-transit-s98sv",
-                    storageBucket: "thermal-transit-s98sv.firebasestorage.app",
-                    messagingSenderId: "679273157048",
-                    appId: "1:679273157048:web:fd5d663eded60cdd9f7f4d"
+                    apiKey: "AIzaSyDbatdKha55PmPvrNrZHws-IAn5eChYS-s",
+                    authDomain: "quransplngb.firebaseapp.com",
+                    projectId: "quransplngb",
+                    storageBucket: "quransplngb.firebasestorage.app",
+                    messagingSenderId: "634633280419",
+                    appId: "1:634633280419:web:44c2fcffe975cf29755816",
+                    measurementId: "G-VP6ZNP6SR2"
                 };
 
                 if (!firebase.apps.length) {
@@ -3051,55 +3042,15 @@
 
         function updateUserHeaderUI(user, profile) {
             const topBar = getEl('user-top-bar');
-            const guestBtn = getEl('btn-open-login');
-            const widget = getEl('user-profile-widget');
-            const nameEl = getEl('user-display-name');
-            const avatarEl = getEl('user-avatar-display');
-            const adminBtn = getEl('admin-panel-btn');
-            const authFeatures = document.querySelectorAll('.auth-required-feature');
-            const guestNotice = getEl('guest-free-notice');
+            if (topBar) topBar.style.display = 'none';
 
-            const maintenancePanel = getEl('screen-maintenance');
-            const isMaintenanceActive = maintenancePanel && maintenancePanel.classList.contains('active');
-
-            if (user) {
-                // When logged in, always show top bar and profile widget
-                if (topBar) topBar.style.display = 'flex';
-                if (guestBtn) guestBtn.style.display = 'none';
-                if (widget) widget.style.display = 'flex';
-                if (guestNotice) guestNotice.style.display = 'none';
-                authFeatures.forEach(el => {
-                    if (el.id === 'btn-menu-whitelist') {
-                        el.style.display = 'flex';
-                    } else {
-                        el.style.display = 'block';
-                    }
-                });
-
-                const dispName = (profile && profile.displayName) || user.displayName || (profile && profile.firstName) || (user.email ? user.email.split('@')[0] : 'User');
-                if (nameEl) nameEl.innerText = dispName;
-
-                if (avatarEl) {
-                    renderAvatarIntoElement(avatarEl, user, profile, 28, '0.8rem');
-                }
-
-                // Check Admin
-                const isUserAdmin = (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (profile && profile.isAdmin === true);
-                if (adminBtn) adminBtn.style.display = isUserAdmin ? 'inline-block' : 'none';
-            } else {
-                if (isMaintenanceActive) {
-                    if (topBar) topBar.style.display = 'none';
-                } else {
-                    if (topBar) topBar.style.display = 'flex';
-                }
-                if (guestBtn) guestBtn.style.display = 'inline-flex';
-                if (widget) widget.style.display = 'none';
-                if (adminBtn) adminBtn.style.display = 'none';
-                if (guestNotice) guestNotice.style.display = 'block';
-                authFeatures.forEach(el => {
-                    el.style.display = 'none';
-                });
-            }
+            const studyBtn = getEl('btn-menu-study');
+            const whitelistBtn = getEl('btn-menu-whitelist');
+            const settingsBtn = getEl('btn-menu-settings');
+            
+            if (studyBtn) studyBtn.style.display = 'block';
+            if (whitelistBtn) whitelistBtn.style.display = 'flex';
+            if (settingsBtn) settingsBtn.style.display = 'block';
         }
 
         function showBannedScreen(reason) {
@@ -3134,11 +3085,7 @@
         }
 
         function handlePlayQuizClick() {
-            if (!currentUser) {
-                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.");
-                playSound('click');
-                return;
-            }
+            playSound('click');
             startQuiz();
         }
 
@@ -4430,50 +4377,15 @@
             }
         }
 
-        // --- UNDER CONSTRUCTION / MAINTENANCE CONFIGURATION ---
-        // Set to true while fixing bugs.
-        // When true:
-        // - Visiting base URL (https://quransplngb.linkpc.net/) shows the Under Construction screen.
-        // - Visiting with safe parameters (e.g. ?preview=true or #preview or ?access=1) opens the full app!
-        const MAINTENANCE_MODE = true;
+        // Maintenance mode disabled - instant access for all users
+        const MAINTENANCE_MODE = false;
 
         function checkAdminAccess() {
-            try {
-                const path = (window.location.pathname || '').toLowerCase();
-                const search = (window.location.search || '').toLowerCase();
-                const hash = (window.location.hash || '').toLowerCase();
-
-                const isPreviewUrl = search.includes('preview') || 
-                                     search.includes('prebiew') ||
-                                     search.includes('access') ||
-                                     search.includes('dev') ||
-                                     search.includes('admin') ||
-                                     search.includes('mode=') ||
-                                     search.includes('oobcode') ||
-                                     search.includes('resetpassword') ||
-                                     hash.includes('preview') ||
-                                     hash.includes('prebiew') ||
-                                     hash.includes('access') ||
-                                     hash.includes('admin') ||
-                                     hash.includes('mode=') ||
-                                     hash.includes('oobcode') ||
-                                     hash.includes('resetpassword') ||
-                                     path.includes('/preview') ||
-                                     path.includes('/prebiew') ||
-                                     path.includes('/admin');
-
-                return isPreviewUrl;
-            } catch (err) {
-                return false;
-            }
+            return true;
         }
 
         function initAppRouting() {
-            if (MAINTENANCE_MODE && !checkAdminAccess() && !currentUser) {
-                switchScreen('screen-maintenance');
-            } else {
-                switchScreen('screen-menu');
-            }
+            switchScreen('screen-menu');
             updateUserHeaderUI(currentUser, currentUserProfile);
         }
 
@@ -4767,19 +4679,11 @@
         function showMenu() { switchScreen('screen-menu'); }
 
         function openSettings() {
-            if (!currentUser) {
-                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock customized test order, field selections, and prompt display.");
-                return;
-            }
             switchScreen('screen-settings');
             syncSettingsUI();
         }
 
         function openStudyMode() {
-            if (!currentUser) {
-                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive flashcard study mode.");
-                return;
-            }
             switchScreen('screen-study');
             renderFlashcards();
         }
@@ -4885,10 +4789,6 @@
         }
 
         function openWhitelistModal() {
-            if (!currentUser) {
-                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to exclude known words from your quizzes.");
-                return;
-            }
             if (!Array.isArray(quizSettings.whitelistedWords)) {
                 quizSettings.whitelistedWords = [];
             }
@@ -5149,11 +5049,6 @@
 
         // Setup Quiz
         function startQuiz() {
-            if (!currentUser) {
-                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", "Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.");
-                return;
-            }
-
             saveSettings();
 
             // Prepare Candidate Words Based on Settings Order
