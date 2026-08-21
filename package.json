@@ -1,12 +1,15 @@
 {
   "name": "quranic-words-app",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Quranic Vocabulary & Sight-Spelling",
+  "main": "server.js",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
-    "dev": "node server.js",
-    "build": "node -c server.js",
-    "lint": "node -c server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "echo 'No build step required for static SPA'",
+    "lint": "node -c server.js"
   },
   "dependencies": {
     "express": "^4.19.2"

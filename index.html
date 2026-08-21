@@ -2,9 +2,17 @@
 <html lang="en" data-theme="emerald" data-mode="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1100, initial-scale=0.55, maximum-scale=3.0, user-scalable=yes">
     <meta name="description" content="Interactive Qur'anic vocabulary study guide, quiz & sight-spelling application.">
     <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP6ZNP6SR2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VP6ZNP6SR2');
+    </script>
     <script>
         // Clean up any legacy Service Workers from previous versions
         if ('serviceWorker' in navigator) {
@@ -627,15 +635,27 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 25px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
         }
 
-        .input-group.full-width { grid-column: 1 / -1; }
+        .input-group.full-width {
+            grid-column: 1 / -1;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
 
         label {
             font-size: 0.8rem;
@@ -656,6 +676,10 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             appearance: none;
             cursor: pointer;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            min-width: 0 !important;
         }
         
         select option { background: var(--bg-color-1); color: #ffffff; }
@@ -696,63 +720,67 @@
         .keyboard {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             margin-top: 10px;
             background: rgba(0, 0, 0, 0.28);
-            padding: 8px 5px;
-            border-radius: 18px;
+            padding: 6px 4px;
+            border-radius: 14px;
             border: 1px solid var(--glass-border);
             direction: ltr !important;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            touch-action: manipulation;
         }
 
         .keyboard-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2px;
-            flex-wrap: nowrap;
-            width: 100%;
-            max-width: 100%;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 3px !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+            max-width: 100% !important;
             direction: ltr !important;
-            box-sizing: border-box;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
         }
 
         .keyboard-row.centered-row {
-            justify-content: center;
-            gap: 3px;
+            justify-content: center !important;
+            gap: 4px !important;
         }
 
         .key {
-            flex: 1 1 0px !important;
+            flex: 1 1 0% !important;
             width: 0 !important;
             min-width: 0 !important;
-            max-width: 100%;
+            max-width: 100% !important;
             background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
             border: 1px solid rgba(255, 255, 255, 0.18);
             color: var(--text-main);
             font-family: 'Amiri', serif;
-            font-size: clamp(0.72rem, 3.2vw, 1.35rem);
+            font-size: clamp(0.95rem, 3.8vw, 1.4rem) !important;
             padding: 0 !important;
-            height: 40px;
-            border-radius: 8px;
+            margin: 0 !important;
+            height: 42px;
+            border-radius: 6px;
             cursor: pointer;
             transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
             text-align: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25);
             opacity: 0;
-            transform: translateY(8px);
+            transform: translateY(6px);
             user-select: none;
             -webkit-user-select: none;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            box-sizing: border-box !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
             letter-spacing: normal !important;
+            touch-action: manipulation;
         }
 
         .key.show {
@@ -775,41 +803,41 @@
         }
 
         .key.space-key {
-            flex: 4 1 0px !important;
+            flex: 3.2 1 0% !important;
             width: 0 !important;
             min-width: 0 !important;
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(0.65rem, 2.3vw, 0.8rem);
+            font-family: system-ui, -apple-system, sans-serif !important;
+            font-size: clamp(0.75rem, 2.5vw, 0.9rem) !important;
             font-weight: 600;
             letter-spacing: 0.3px !important;
             background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
         }
 
         .key.backspace-key {
-            flex: 1.25 1 0px !important;
+            flex: 1.4 1 0% !important;
             width: 0 !important;
             min-width: 0 !important;
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            font-family: system-ui, -apple-system, sans-serif !important;
+            font-size: clamp(0.85rem, 3vw, 1.1rem) !important;
             font-weight: 700;
         }
 
         .key.action-key {
-            flex: 1.2 1 0px !important;
+            flex: 1.3 1 0% !important;
             width: 0 !important;
             min-width: 0 !important;
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(0.6rem, 2.1vw, 0.75rem);
+            font-family: system-ui, -apple-system, sans-serif !important;
+            font-size: clamp(0.7rem, 2.3vw, 0.85rem) !important;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.2px !important;
             padding: 0 !important;
-            height: 40px;
+            height: 42px;
             white-space: nowrap;
         }
 
         .key.clear-key {
-            flex: 1.8 1 0px !important;
+            flex: 1.4 1 0% !important;
             width: 0 !important;
             min-width: 0 !important;
             background: linear-gradient(145deg, rgba(239, 68, 68, 0.35), rgba(185, 28, 28, 0.22));
@@ -1489,44 +1517,138 @@
         }
 
         @media (max-width: 680px) {
-            html, body { overflow-x: hidden; width: 100%; max-width: 100vw; }
-            body { padding: 6px 4px; align-items: flex-start; }
-            .glass-panel { padding: 18px 10px; border-radius: 20px; width: 100%; max-width: 100%; box-sizing: border-box; max-height: 94vh; overflow-y: auto; overflow-x: hidden; }
-            h1 { font-size: 1.65rem; letter-spacing: -0.5px; }
-            p.subtitle { font-size: 0.88rem; margin-bottom: 16px; }
-            .word-prompt { font-size: 2.4rem; min-height: 65px; margin-top: 8px; margin-bottom: 14px; padding: 6px; }
-            .word-prompt.aralish-mode { font-size: 1.9rem; }
-            .form-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
-            .quiz-header { flex-direction: column; align-items: stretch; gap: 8px; }
-            .header-actions { justify-content: space-between; width: 100%; flex-wrap: wrap; }
-            .progress-badge, .score-badge { padding: 5px 10px; font-size: 0.78rem; }
-            .btn { padding: 12px 12px; font-size: 0.86rem; letter-spacing: 0.2px; border-radius: 14px; }
+            html, body {
+                overflow-x: hidden !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box !important;
+            }
+            body {
+                padding: 4px 0 !important;
+                align-items: center !important;
+            }
+            .glass-panel {
+                padding: 14px 10px !important;
+                border-radius: 16px !important;
+                width: calc(100% - 10px) !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                margin: 0 auto !important;
+                max-height: 94vh;
+                overflow-y: auto;
+                overflow-x: hidden !important;
+            }
+            h1 { font-size: 1.55rem; letter-spacing: -0.5px; }
+            p.subtitle { font-size: 0.85rem; margin-bottom: 14px; }
+            .word-prompt {
+                font-size: clamp(1.8rem, 7vw, 2.5rem) !important;
+                min-height: 55px !important;
+                margin-top: 4px !important;
+                margin-bottom: 10px !important;
+                padding: 4px 6px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .word-prompt.aralish-mode { font-size: clamp(1.5rem, 5.5vw, 2rem) !important; }
+            .form-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 8px !important;
+                margin-bottom: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .input-group {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                gap: 4px !important;
+            }
+            .input-group label {
+                font-size: 0.72rem !important;
+                letter-spacing: 1px !important;
+            }
+            select, input[type="text"] {
+                padding: 10px 12px !important;
+                font-size: 0.92rem !important;
+                border-radius: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .arabic-input {
+                font-size: clamp(1.5rem, 5.5vw, 2.1rem) !important;
+                padding: 6px 8px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .quiz-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .header-actions {
+                justify-content: space-between;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .progress-badge, .score-badge { padding: 4px 8px; font-size: 0.75rem; }
+            .btn { padding: 11px 12px; font-size: 0.85rem; letter-spacing: 0.2px; border-radius: 12px; width: 100%; box-sizing: border-box; }
+            .quiz-controls-row { width: 100% !important; box-sizing: border-box !important; margin-top: 10px !important; }
             .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; max-height: 58vh; }
             .flashcard { height: 180px; border-radius: 18px; }
             .flashcard-front .arabic { font-size: 1.8rem; }
-            .keyboard { padding: 5px 2px; gap: 2px; }
-            .key { height: 40px; padding: 0 !important; font-size: clamp(0.7rem, 3.2vw, 1.25rem) !important; flex: 1 1 0px !important; width: 0 !important; min-width: 0 !important; }
-            .key.space-key { height: 40px; font-size: clamp(0.6rem, 2.2vw, 0.75rem) !important; flex: 4 1 0px !important; width: 0 !important; min-width: 0 !important; }
-            .key.backspace-key { height: 40px; font-size: clamp(0.75rem, 2.8vw, 1rem) !important; flex: 1.25 1 0px !important; width: 0 !important; min-width: 0 !important; }
-            .key.action-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; padding: 0 !important; flex: 1.2 1 0px !important; width: 0 !important; min-width: 0 !important; }
-            .key.clear-key { height: 40px; font-size: clamp(0.55rem, 2vw, 0.7rem) !important; flex: 1.8 1 0px !important; width: 0 !important; min-width: 0 !important; }
+            .keyboard {
+                padding: 4px 2px !important;
+                gap: 2px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                margin-top: 6px !important;
+            }
+            .keyboard-row {
+                gap: 1.5px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .key {
+                height: 38px !important;
+                padding: 0 !important;
+                font-size: clamp(0.85rem, 3.8vw, 1.25rem) !important;
+                flex: 1 1 0% !important;
+                width: 0 !important;
+                min-width: 0 !important;
+                border-radius: 4px !important;
+            }
+            .key.space-key { height: 38px !important; font-size: clamp(0.65rem, 2.2vw, 0.75rem) !important; flex: 3.2 1 0% !important; width: 0 !important; min-width: 0 !important; }
+            .key.backspace-key { height: 38px !important; font-size: clamp(0.75rem, 2.8vw, 0.95rem) !important; flex: 1.4 1 0% !important; width: 0 !important; min-width: 0 !important; }
+            .key.action-key { height: 38px !important; font-size: clamp(0.6rem, 2vw, 0.75rem) !important; padding: 0 !important; flex: 1.3 1 0% !important; width: 0 !important; min-width: 0 !important; }
+            .key.clear-key { height: 38px !important; font-size: clamp(0.6rem, 2vw, 0.75rem) !important; flex: 1.4 1 0% !important; width: 0 !important; min-width: 0 !important; }
             .modal-card { width: 95%; max-height: 88vh; padding: 16px; overflow-y: auto; overflow-x: hidden; }
             .order-item-num { min-width: 24px; font-size: 0.8rem; }
             .order-item-arabic { font-size: 1.2rem; min-width: 60px; }
         }
 
         @media (max-width: 420px) {
-            h1 { font-size: 1.4rem; }
-            .glass-panel { padding: 12px 6px; }
-            .word-prompt { font-size: 1.9rem; min-height: 50px; }
-            .keyboard { padding: 4px 2px; gap: 2px; }
-            .key { height: 38px; font-size: clamp(0.65rem, 3vw, 1.15rem) !important; }
-            .key.space-key { height: 38px; font-size: clamp(0.55rem, 2vw, 0.72rem) !important; }
-            .key.backspace-key { height: 38px; font-size: clamp(0.7rem, 2.5vw, 0.95rem) !important; }
-            .key.action-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
-            .key.clear-key { height: 38px; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
-            .mode-toggle-btn { padding: 7px 12px; font-size: 0.76rem; }
-            .theme-pill { padding: 5px 8px; font-size: 0.72rem; }
+            h1 { font-size: 1.35rem; }
+            body { padding: 2px 0 !important; }
+            .glass-panel { padding: 10px 6px !important; width: calc(100% - 6px) !important; }
+            .word-prompt { font-size: clamp(1.6rem, 6.5vw, 2.1rem) !important; min-height: 46px !important; }
+            .keyboard { padding: 3px 1px !important; gap: 1.5px !important; }
+            .keyboard-row { gap: 1px !important; }
+            .key { height: 35px !important; font-size: clamp(0.8rem, 3.6vw, 1.15rem) !important; border-radius: 3px !important; }
+            .key.space-key { height: 35px !important; font-size: clamp(0.58rem, 2vw, 0.7rem) !important; }
+            .key.backspace-key { height: 35px !important; font-size: clamp(0.68rem, 2.4vw, 0.9rem) !important; }
+            .key.action-key { height: 35px !important; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .key.clear-key { height: 35px !important; font-size: clamp(0.52rem, 1.8vw, 0.65rem) !important; }
+            .mode-toggle-btn { padding: 6px 10px; font-size: 0.74rem; }
+            .theme-pill { padding: 4px 7px; font-size: 0.7rem; }
             .flashcard-grid { grid-template-columns: 1fr; }
         }
 
@@ -1975,6 +2097,27 @@
             color: #ffffff;
         }
 
+        .corner-download-close-btn {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+            margin: 0;
+        }
+        .corner-download-close-btn:hover {
+            background: rgba(239, 68, 68, 0.6);
+            border-color: #ef4444;
+        }
+
         .menu-download-banner-btn {
             display: inline-flex;
             align-items: center;
@@ -2097,6 +2240,7 @@
             <span>📲</span>
             <span>Download App (Free)</span>
         </button>
+        <button class="corner-download-close-btn" onclick="dismissDownloadPromptPermanently(event)" title="Already have app / dismiss">✕</button>
     </div>
 
     <!-- User Account Header Bar (Hidden in standard guest mode) -->
@@ -2433,8 +2577,8 @@
                     <span>⬇️</span>
                     <span>Download Mobile App (Free)</span>
                 </button>
-                <button class="btn btn-outline" onclick="closeWelcomeDownloadModal()" style="font-size: 0.88rem; padding: 10px;">
-                    Continue to Web App
+                <button class="btn btn-outline" onclick="dismissDownloadPromptPermanently(event)" style="font-size: 0.88rem; padding: 10px;">
+                    I Already Have The App / Don't Show Again
                 </button>
             </div>
         </div>
@@ -2472,7 +2616,7 @@
                     <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
                         Direct APK download for Android phones & tablets (Android 7.0+).
                     </div>
-                    <a href="https://drive.google.com/file/d/1XM5YmlAScCdKSWf0Ymov6i7Do6Bp6N2C/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn" style="text-decoration: none; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #059669 0%, #10b981 100%); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <a href="https://drive.google.com/file/d/1XM5YmlAScCdKSWf0Ymov6i7Do6Bp6N2C/view?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="handleApkDownloadClick()" class="btn" style="text-decoration: none; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #059669 0%, #10b981 100%); display: flex; align-items: center; justify-content: center; gap: 8px;">
                         <span>⬇️</span>
                         <span>Download APK File</span>
                     </a>
@@ -4903,15 +5047,85 @@
             openModal('modal-download-app');
         }
 
+        function isAppDownloadedOrInstalled() {
+            try {
+                const ua = (navigator.userAgent || '').toLowerCase();
+                
+                // 1. Explicit user dismiss / already downloaded flag in localStorage
+                if (localStorage.getItem('quran_app_is_downloaded') === 'true') return true;
+                
+                // 2. WebIntoApp & Android WebView indicators
+                if (ua.includes('webintoapp') || ua.includes('web2app') || ua.includes('wv') || ua.includes('quransplngb')) return true;
+                if (window.WebIntoApp || window.Android || window.JSInterface) return true;
+                if (ua.includes('android') && (ua.includes('version/4.0') || ua.includes('wv') || ua.includes('; wv;'))) return true;
+                
+                // 3. Standalone PWA / WebApp mode
+                if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+                if (window.navigator && window.navigator.standalone === true) return true;
+                
+                // 4. Referrer detection
+                if (document.referrer && (document.referrer.includes('android-app://') || document.referrer.includes('webintoapp'))) return true;
+                
+                // 5. URL Query Params
+                if (window.location && (
+                    window.location.search.includes('isApp=true') ||
+                    window.location.search.includes('app=true') ||
+                    window.location.search.includes('installed=true') ||
+                    window.location.search.includes('standalone=true') ||
+                    window.location.search.includes('webintoapp')
+                )) return true;
+            } catch (e) {}
+            return false;
+        }
+
+        function updateDownloadAppVisibility() {
+            const isDownloaded = isAppDownloadedOrInstalled();
+            const cornerBtn = getEl('corner-download-bar');
+            if (cornerBtn) {
+                if (isDownloaded) {
+                    cornerBtn.style.setProperty('display', 'none', 'important');
+                } else {
+                    cornerBtn.style.display = 'flex';
+                }
+            }
+        }
+
+        function dismissDownloadPromptPermanently(e) {
+            if (e) {
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
+            }
+            try {
+                localStorage.setItem('quran_app_is_downloaded', 'true');
+            } catch (err) {}
+            updateDownloadAppVisibility();
+            closeModal('modal-download-welcome');
+            closeModal('modal-download-app');
+        }
+
+        function handleApkDownloadClick() {
+            try {
+                localStorage.setItem('quran_app_is_downloaded', 'true');
+            } catch (e) {}
+            updateDownloadAppVisibility();
+        }
+
         function checkAndShowWelcomeDownloadPrompt() {
+            if (isAppDownloadedOrInstalled()) {
+                updateDownloadAppVisibility();
+                return; // NEVER show download popup if app is already downloaded / running inside the app!
+            }
             try {
                 const hasDismissed = sessionStorage.getItem('quran_app_welcome_download_dismissed');
                 if (!hasDismissed) {
                     setTimeout(() => {
-                        openModal('modal-download-welcome');
+                        if (!isAppDownloadedOrInstalled()) {
+                            openModal('modal-download-welcome');
+                        }
                     }, 500);
                 }
             } catch (err) {}
+            updateDownloadAppVisibility();
         }
 
         function closeWelcomeDownloadModal() {
@@ -5588,7 +5802,89 @@
         initFirebase();
         initAppRouting();
         checkAuthActionFromUrl();
+        updateDownloadAppVisibility();
         checkAndShowWelcomeDownloadPrompt();
+    </script>
+    <!-- Adsterra 728x90 Banner Ad Container -->
+    <div style="width: 100%; display: flex; justify-content: center; margin: 20px 0; overflow: hidden; padding: 0 10px; box-sizing: border-box;">
+        <script>
+          atOptions = {
+            'key' : '0de6ecc71f5ee9e157eaaffc443f87a9',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/0de6ecc71f5ee9e157eaaffc443f87a9/invoke.js"></script>
+    </div>
+
+    <!-- Ad Blocker Detection Modal -->
+    <div id="adblock-modal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px);">
+        <div style="background: var(--card-bg, #064e3b); border: 2px solid var(--primary, #10b981); border-radius: 20px; max-width: 440px; width: 100%; padding: 32px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+            <div style="font-size: 48px; margin-bottom: 16px;">🛡️</div>
+            <h2 style="color: var(--text-main, #fff); font-size: 22px; font-weight: 700; margin-bottom: 12px;">Ad Blocker Detected</h2>
+            <p style="color: var(--text-muted, #a7f3d0); font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+                We noticed you are using an ad blocker. To keep QuranSPLNGB free and running, please disable your ad blocker or whitelist our site, then click below to continue.
+            </p>
+            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: #000; font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                I've Disabled It — Refresh Page
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+
+    <script>
+        // Ad Blocker Detection Logic
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                let adBlocked = false;
+
+                // Test 1: Bait element check
+                const bait = document.createElement('div');
+                bait.className = 'adsbox pub_300x250 pub_300x250_m text-ad textAd text_ad ad-text adsbygoogle ad-banner advertisement';
+                bait.style.width = '1px';
+                bait.style.height = '1px';
+                bait.style.position = 'absolute';
+                bait.style.left = '-10000px';
+                bait.style.top = '-10000px';
+                document.body.appendChild(bait);
+
+                setTimeout(() => {
+                    if (
+                        bait.offsetHeight === 0 ||
+                        window.getComputedStyle(bait).display === 'none' ||
+                        window.getComputedStyle(bait).visibility === 'hidden'
+                    ) {
+                        adBlocked = true;
+                    }
+                    bait.remove();
+
+                    // Test 2: Check if Adsterra script failed to load or got blocked
+                    const adScriptTest = document.createElement('script');
+                    adScriptTest.src = 'https://www.highperformanceformat.com/0de6ecc71f5ee9e157eaaffc443f87a9/invoke.js';
+                    adScriptTest.onerror = () => { adBlocked = true; showAdBlockModal(); };
+                    document.body.appendChild(adScriptTest);
+
+                    if (adBlocked) {
+                        showAdBlockModal();
+                    }
+                }, 100);
+            }, 1000);
+        });
+
+        function showAdBlockModal() {
+            const modal = document.getElementById('adblock-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
     </script>
 </body>
 </html>
