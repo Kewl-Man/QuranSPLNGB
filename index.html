@@ -7,9 +7,30 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="QuranSPLNGB">
     <meta name="description" content="Interactive Qur'anic vocabulary study guide, quiz & sight-spelling application.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
     <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
-    <!-- Adsterra Popunder Script -->
-    <script src="https://bagelstoppage.com/8a/cb/57/8acb5754a57a8ecf1055246bf4283aa5.js"></script>
+    <script>
+        // Suppress unhandled third-party cross-origin script errors (e.g. ad networks/trackers)
+        window.addEventListener('error', function(e) {
+            try {
+                if (e) {
+                    if (typeof e.preventDefault === 'function') e.preventDefault();
+                    if (typeof e.stopPropagation === 'function') e.stopPropagation();
+                    if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+                }
+            } catch (_) {}
+            return true;
+        }, true);
+        window.onerror = function() {
+            return true;
+        };
+        window.onunhandledrejection = function(e) {
+            try {
+                if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            } catch (_) {}
+            return true;
+        };
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP6ZNP6SR2"></script>
     <script>
@@ -448,9 +469,9 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            padding: 20px 0;
+            padding: 24px 0 125px 0 !important;
             overflow-x: hidden;
             position: relative;
             box-sizing: border-box;
@@ -1193,10 +1214,12 @@
             background: rgba(0, 0, 0, 0.78);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            z-index: 9999;
+            z-index: 20000;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px 15px 120px 15px;
+            box-sizing: border-box;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
@@ -1217,7 +1240,7 @@
             transform: scale(0.92);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
             box-sizing: border-box;
-            max-height: 90vh;
+            max-height: calc(100vh - 150px);
             overflow-y: auto;
         }
         .modal-overlay.active .modal-card {
@@ -1226,7 +1249,7 @@
             visibility: visible !important;
             position: relative !important;
             transform: scale(1) !important;
-            z-index: 10001 !important;
+            z-index: 20001 !important;
         }
 
         /* --- Custom Order List Manager --- */
@@ -1529,7 +1552,7 @@
                 box-sizing: border-box !important;
             }
             body {
-                padding: 4px 0 !important;
+                padding: 6px 0 125px 0 !important;
                 align-items: center !important;
             }
             .glass-panel {
@@ -1538,8 +1561,8 @@
                 width: calc(100% - 10px) !important;
                 max-width: 100% !important;
                 box-sizing: border-box !important;
-                margin: 0 auto !important;
-                max-height: 94vh;
+                margin: 0 auto 20px auto !important;
+                max-height: calc(100vh - 130px);
                 overflow-y: auto;
                 overflow-x: hidden !important;
             }
@@ -1604,7 +1627,7 @@
             }
             .progress-badge, .score-badge { padding: 4px 8px; font-size: 0.75rem; }
             .btn { padding: 11px 12px; font-size: 0.85rem; letter-spacing: 0.2px; border-radius: 12px; width: 100%; box-sizing: border-box; }
-            .quiz-controls-row { width: 100% !important; box-sizing: border-box !important; margin-top: 10px !important; }
+            .quiz-controls-row { width: 100% !important; box-sizing: border-box !important; margin-top: 10px !important; margin-bottom: 8px !important; }
             .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; max-height: 58vh; }
             .flashcard { height: 180px; border-radius: 18px; }
             .flashcard-front .arabic { font-size: 1.8rem; }
@@ -1635,15 +1658,15 @@
             .key.backspace-key { height: 38px !important; font-size: clamp(0.75rem, 2.8vw, 0.95rem) !important; flex: 1.4 1 0% !important; width: 0 !important; min-width: 0 !important; }
             .key.action-key { height: 38px !important; font-size: clamp(0.6rem, 2vw, 0.75rem) !important; padding: 0 !important; flex: 1.3 1 0% !important; width: 0 !important; min-width: 0 !important; }
             .key.clear-key { height: 38px !important; font-size: clamp(0.6rem, 2vw, 0.75rem) !important; flex: 1.4 1 0% !important; width: 0 !important; min-width: 0 !important; }
-            .modal-card { width: 95%; max-height: 88vh; padding: 16px; overflow-y: auto; overflow-x: hidden; }
+            .modal-card { width: 95%; max-height: calc(100vh - 140px); padding: 16px; overflow-y: auto; overflow-x: hidden; }
             .order-item-num { min-width: 24px; font-size: 0.8rem; }
             .order-item-arabic { font-size: 1.2rem; min-width: 60px; }
         }
 
         @media (max-width: 420px) {
             h1 { font-size: 1.35rem; }
-            body { padding: 2px 0 !important; }
-            .glass-panel { padding: 10px 6px !important; width: calc(100% - 6px) !important; }
+            body { padding: 4px 0 125px 0 !important; }
+            .glass-panel { padding: 10px 6px !important; width: calc(100% - 6px) !important; max-height: calc(100vh - 125px); margin-bottom: 20px !important; }
             .word-prompt { font-size: clamp(1.6rem, 6.5vw, 2.1rem) !important; min-height: 46px !important; }
             .keyboard { padding: 3px 1px !important; gap: 1.5px !important; }
             .keyboard-row { gap: 1px !important; }
@@ -1659,12 +1682,12 @@
 
         /* Landscape Orientation Support for Phones & Tablets */
         @media (orientation: landscape) and (max-height: 580px) {
-            body { padding: 6px 10px; align-items: flex-start; overflow-y: auto; }
-            .glass-panel { max-height: none; padding: 16px 20px; margin: 10px auto; }
+            body { padding: 6px 10px 115px 10px !important; align-items: flex-start; overflow-y: auto; }
+            .glass-panel { max-height: none; padding: 16px 20px; margin: 10px auto 20px auto !important; }
             .word-prompt { font-size: 2.2rem; min-height: 48px; margin-bottom: 10px; }
             .bg-orb { opacity: 0.25; }
             .flashcard-grid { max-height: 52vh; }
-            .modal-card { max-height: 92vh; overflow-y: auto; }
+            .modal-card { max-height: calc(100vh - 120px); overflow-y: auto; }
             .keyboard { padding: 6px; gap: 4px; }
             .key { padding: 4px 6px; font-size: 1.1rem; }
         }
@@ -5811,7 +5834,96 @@
         checkAndShowWelcomeDownloadPrompt();
     </script>
 
-    <!-- Adsterra Social Bar Widget -->
-    <script src="https://bagelstoppage.com/a0/24/e1/a024e1df329bc827315543a4c6eb0c37.js"></script>
+    <!-- Ad Blocker Detection Modal -->
+    <div id="adblock-modal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px);">
+        <div style="background: var(--card-bg, #064e3b); border: 2px solid var(--primary, #10b981); border-radius: 20px; max-width: 440px; width: 100%; padding: 32px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+            <div style="font-size: 48px; margin-bottom: 16px;">🛡️</div>
+            <h2 style="color: var(--text-main, #fff); font-size: 22px; font-weight: 700; margin-bottom: 12px;">Ad Blocker Detected</h2>
+            <p style="color: var(--text-muted, #a7f3d0); font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+                We noticed you are using an ad blocker. To keep QuranSPLNGB free and running, please disable your ad blocker or whitelist our site, then click below to continue.
+            </p>
+            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: #000; font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                I've Disabled It — Refresh Page
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+
+    <script>
+        // Ad Blocker Detection Logic
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                let adBlocked = false;
+
+                // Test 1: Bait element check (triggers EasyList and common CSS ad block rules)
+                const bait = document.createElement('div');
+                bait.className = 'adsbox pub_300x250 pub_300x250_m text-ad textAd text_ad ad-text adsbygoogle ad-banner advertisement';
+                bait.style.width = '1px';
+                bait.style.height = '1px';
+                bait.style.position = 'absolute';
+                bait.style.left = '-10000px';
+                bait.style.top = '-10000px';
+                document.body.appendChild(bait);
+
+                setTimeout(() => {
+                    if (
+                        bait.offsetHeight === 0 ||
+                        window.getComputedStyle(bait).display === 'none' ||
+                        window.getComputedStyle(bait).visibility === 'hidden'
+                    ) {
+                        adBlocked = true;
+                    }
+                    bait.remove();
+
+                    // Test 2: Check if bottom ad banner container or ad scripts were suppressed
+                    const adContainer = document.getElementById('ad-banner-wrapper');
+                    if (adContainer && adContainer.children.length === 0) {
+                        adBlocked = true;
+                    }
+
+                    if (adBlocked) {
+                        showAdBlockModal();
+                    }
+                }, 200);
+            }, 1200);
+        });
+
+        function showAdBlockModal() {
+            const modal = document.getElementById('adblock-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+    </script>
+
+    <!-- Adsterra 728x90 Sticky Bottom Banner Ad Container -->
+    <div id="ad-banner-wrapper" style="position: fixed; bottom: 0; left: 0; right: 0; width: 100%; z-index: 8000; background: rgba(5, 20, 16, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.45); display: flex; justify-content: center; align-items: center; text-align: center; overflow: hidden; padding: 4px 0; min-height: 50px; pointer-events: auto;">
+        <script>
+            try {
+                window.atOptions = {
+                    'key' : '0de6ecc71f5ee9e157eaaffc443f87a9',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+                const adScript = document.createElement('script');
+                adScript.type = 'text/javascript';
+                adScript.src = 'https://www.highperformanceformat.com/0de6ecc71f5ee9e157eaaffc443f87a9/invoke.js';
+                adScript.async = true;
+                adScript.onerror = function() {};
+                const wrapper = document.getElementById('ad-banner-wrapper');
+                if (wrapper) {
+                    wrapper.appendChild(adScript);
+                }
+            } catch (e) {}
+        </script>
+    </div>
 </body>
 </html>
