@@ -2389,7 +2389,7 @@
             </div>
             <div id="custom-order-btn-row" style="margin-top: 12px; display: none;">
                 <button class="btn btn-outline" onclick="openCustomOrderModal()" style="width: auto;">
-                    ✏️ Manage & Re-order Words List (<span class="total-words-count-label">114</span> Words)
+                    ✏️ Manage & Re-order Words List (<span class="total-words-count-label">125</span> Words)
                 </button>
             </div>
         </div>
@@ -2526,7 +2526,7 @@
                 <button class="btn btn-outline-danger" style="width: auto; padding: 8px 14px; margin:0; font-size: 0.8rem;" onclick="promptClearQuizInputs()">
                     🗑️ Clear All
                 </button>
-                <div class="progress-badge" id="progress-text">Word 1 / 74</div>
+                <div class="progress-badge" id="progress-text">Word 1 / 125</div>
                 <div class="score-badge" id="score-text">Score: 0</div>
             </div>
         </div>
@@ -2751,7 +2751,7 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; flex-wrap: wrap; gap: 10px;">
                 <span id="whitelist-summary-text" style="font-size: 0.88rem; font-weight: 700; color: var(--accent);">
-                    0 / 74 words whitelisted (74 remaining in test)
+                    0 / 125 words whitelisted (125 remaining in test)
                 </span>
                 <button class="btn" style="width: auto; padding: 10px 24px;" onclick="closeModal('modal-whitelist-words')">Done</button>
             </div>
@@ -3172,7 +3172,7 @@
     </div>
 
     <script>
-        // Full Database of 74 Words
+        // Full Database of 125 Words of the Qur'an
         const wordsData = [
             { a: "الله", t: "Allah", m: "Allah", o: 2550, p: "Noun" },
             { a: "الشيطان", t: "Ash-Shaytaan", m: "Satan", o: 88, p: "Noun" },
@@ -3287,7 +3287,18 @@
             { a: "طيبات", t: "tayyibaat", m: "good things", o: 46, p: "Noun" },
             { a: "سلم", t: "salaam", m: "Peace", o: 42, p: "Noun" },
             { a: "النبى", t: "'an-nabi", m: "The Prophet", o: 75, p: "Noun" },
-            { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun" }
+            { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun" },
+            { a: "عباد", t: "'ibaad", m: "slaves, servants", o: 125, p: "Noun" },
+            { a: "سوف", t: "sawfa", m: "soon", o: 42, p: "Particle" },
+            { a: "ابراهيم", t: "'ibraaheem", m: "Ibrahim", o: 69, p: "Noun" },
+            { a: "نفس", t: "nafs", m: "soul", o: 293, p: "Noun" },
+            { a: "كثير", t: "kaseer", m: "much", o: 63, p: "Noun" },
+            { a: "الذنوب", t: "Az-zunoob", m: "the sins", o: 39, p: "Noun" },
+            { a: "غفور", t: "gafoor", m: "Oft-Forgiving", o: 91, p: "Noun" },
+            { a: "الدنيا", t: "'Ad-dunya", m: "the world", o: 115, p: "Noun" },
+            { a: "الآخرة", t: "'Al-'aakhirat", m: "the Hereafter", o: 115, p: "Noun" },
+            { a: "عذاب", t: "'azaab", m: "punishment", o: 322, p: "Noun" },
+            { a: "النار", t: "'An-naar", m: "the Fire", o: 145, p: "Noun" }
         ];
 
         // Optimized Mobile Arabic Keyboard Layout (Standard 5-row mobile phone layout)
