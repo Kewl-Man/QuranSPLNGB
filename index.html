@@ -591,9 +591,60 @@
         p.subtitle {
             text-align: center;
             color: var(--text-muted);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
             font-weight: 300;
+        }
+
+        .dedication-banner {
+            text-align: center;
+            margin: -6px auto 24px auto;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.08));
+            border: 1px solid rgba(16, 185, 129, 0.28);
+            color: var(--accent);
+            font-size: 0.92rem;
+            font-weight: 500;
+            line-height: 1.5;
+            max-width: 540px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dedication-banner:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.12));
+        }
+
+        .quotes-ticker-text {
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            opacity: 1;
+            display: inline-block;
+        }
+
+        .quotes-ticker-text.fade-out {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+
+        .ticker-hint {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        [data-mode="light"] .dedication-banner {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.15));
+            border-color: rgba(5, 150, 105, 0.35);
+            color: #065f46;
         }
 
         .word-prompt {
@@ -2350,8 +2401,12 @@
     <div class="glass-panel active" id="screen-menu">
         <h1>QuranSPLNGB</h1>
         <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
+        
+        <div class="dedication-banner" onclick="nextQuote()" title="Click to cycle quote">
+            <span class="quotes-ticker-text" id="quotes-ticker-text">✨ May this website be a source of great benefit in studying and mastering the vocabulary of the Qur'an.</span>
+        </div>
 
-        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
             <button class="btn" id="btn-play-quiz" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
             <button class="btn btn-secondary" id="btn-menu-study" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
             <button class="btn btn-secondary" id="btn-menu-whitelist" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
@@ -2605,7 +2660,10 @@
     <!-- END SCREEN -->
     <div class="glass-panel" id="screen-end">
         <h1>Quiz Complete!</h1>
-        <p class="subtitle" id="final-score-text" style="font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-bottom: 30px;"></p>
+        <p class="subtitle" id="final-score-text" style="font-size: 1.5rem; color: var(--gold); font-weight: 700; margin-bottom: 20px;"></p>
+        <div class="dedication-banner" onclick="nextQuote()" title="Click to cycle quote" style="margin-bottom: 24px;">
+            <span class="quotes-ticker-text" id="quotes-ticker-text-2">✨ May this website be a source of great benefit in studying and mastering the vocabulary of the Qur'an.</span>
+        </div>
         <div style="display: flex; flex-direction: column; gap: 15px;">
             <button class="btn" onclick="startQuiz()">Play Again</button>
             <button class="btn btn-secondary" onclick="showMenu()">Back to Main Menu</button>
@@ -5857,6 +5915,44 @@
                 setTimeout(fireConfetti, 1200);
             }
         }
+
+        const inspirationalQuotes = [
+            "✨ May this website be a source of great benefit in studying and mastering the vocabulary of the Qur'an.",
+            "📖 'And We have certainly made the Qur'an easy for remembrance, so is there any who will remember?' — Qur'an 54:17",
+            "💡 'The best of you are those who learn the Qur'an and teach it.' — Sahih Al-Bukhari",
+            "🌿 'Read! And your Lord is the Most Generous, who taught by the pen.' — Qur'an 96:3-4",
+            "✨ 'Whoever follows a path in pursuit of knowledge, Allah will make easy for him a path to Paradise.' — Sahih Muslim",
+            "🌙 'And say, \"My Lord, increase me in knowledge.\"' — Qur'an 20:114",
+            "🤍 'Indeed, in the remembrance of Allah do hearts find rest.' — Qur'an 13:28",
+            "🌟 'Verily, with hardship comes ease.' — Qur'an 94:6",
+            "🕊️ 'The most beloved deeds to Allah are those performed consistently, even if they are small.' — Sahih Al-Bukhari",
+            "💎 'When Allah wishes good for someone, He bestows upon them the deep understanding of religion.' — Sahih Al-Bukhari"
+        ];
+        let currentQuoteIndex = 0;
+
+        function nextQuote() {
+            const el1 = document.getElementById('quotes-ticker-text');
+            const el2 = document.getElementById('quotes-ticker-text-2');
+            
+            [el1, el2].forEach(el => {
+                if (el) el.classList.add('fade-out');
+            });
+
+            setTimeout(() => {
+                currentQuoteIndex = (currentQuoteIndex + 1) % inspirationalQuotes.length;
+                const nextText = inspirationalQuotes[currentQuoteIndex];
+                
+                [el1, el2].forEach(el => {
+                    if (el) {
+                        el.innerText = nextText;
+                        el.classList.remove('fade-out');
+                    }
+                });
+            }, 400);
+        }
+
+        // Auto-rotate every 11 seconds with smooth fade
+        setInterval(nextQuote, 11000);
 
         // Initialize Theme Preferences, Settings, Routing and Auth Actions
         loadThemePreferences();
