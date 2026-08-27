@@ -2527,6 +2527,17 @@
 
             <div class="setting-row">
                 <div class="setting-info">
+                    <div class="setting-label">Ask for Root Letters</div>
+                    <div class="setting-sublabel">Select correct root letters dropdown in quizzes</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-field-root" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
                     <div class="setting-label">Ask for Arabic Sight-Spelling</div>
                     <div class="setting-sublabel">Type Arabic spelling using interactive keyboard</div>
                 </div>
@@ -2638,6 +2649,13 @@
                 <label>Occurrences in Qur'an</label>
                 <select id="input-occ">
                     <option value="" disabled selected>Select count...</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="group-root">
+                <label>Root Letters (جذر)</label>
+                <select id="input-root" dir="rtl" style="font-family: 'Amiri', serif;">
+                    <option value="" disabled selected>Select root letters...</option>
                 </select>
             </div>
 
@@ -3255,131 +3273,131 @@
     <script>
         // Full Database of 125 Words of the Qur'an
         const wordsData = [
-            { a: "الله", t: "Allah", m: "Allah", o: 2550, p: "Noun" },
-            { a: "الشيطان", t: "Ash-Shaytaan", m: "Satan", o: 88, p: "Noun" },
-            { a: "هو", t: "huwa", m: "he", o: 481, p: "Noun" },
-            { a: "هم", t: "hum", m: "they", o: 444, p: "Noun" },
-            { a: "انت", t: "'anta", m: "you", o: 81, p: "Noun" },
-            { a: "انا", t: "'anaa", m: "I", o: 68, p: "Noun" },
-            { a: "انتم", t: "'antum", m: "you all", o: 135, p: "Noun" },
-            { a: "نحن", t: "nahnu", m: "we", o: 86, p: "Noun" },
-            { a: "من", t: "man", m: "who", o: 831, p: "Noun" },
-            { a: "هل", t: "hal", m: "Is, Do, Are...?", o: 93, p: "Particle" },
-            { a: "خير", t: "khayr", m: "best", o: 176, p: "Noun" },
-            { a: "اسم", t: "'ism", m: "Name", o: 39, p: "Noun" },
-            { a: "الرحمن", t: "Ar-Rahmaan", m: "the Most Gracious", o: 57, p: "Noun" },
-            { a: "الرحيم", t: "Ar-Raheem", m: "the Most Merciful", o: 116, p: "Noun" },
-            { a: "الكريم", t: "Al-Kareem", m: "Generous", o: 27, p: "Noun" },
-            { a: "الحمد", t: "Al-Hamd", m: "All praises and thanks", o: 149, p: "Noun" },
-            { a: "لله", t: "lil-laahi", m: "for Allah / to Allah", o: 149, p: "Noun" },
-            { a: "العالمين", t: "Al-'Aalameena", m: "the worlds", o: 73, p: "Noun" },
-            { a: "مسلم", t: "Muslim", m: "Muslim", o: 42, p: "Noun" },
-            { a: "مؤمن", t: "mu'min", m: "believer", o: 230, p: "Noun" },
-            { a: "مشرك", t: "mushrik", m: "polytheist", o: 49, p: "Noun" },
-            { a: "كافر", t: "kaafir", m: "disbeliever", o: 134, p: "Noun" },
-            { a: "صالح", t: "şaalih", m: "a righteous person", o: 136, p: "Noun" },
-            { a: "يوم", t: "yawm", m: "day", o: 405, p: "Noun" },
-            { a: "الدين", t: "Ad-Deen", m: "the Judgment.", o: 92, p: "Noun" },
-            { a: "اياك", t: "'iyyaaka", m: "You Alone", o: 24, p: "Noun" },
-            { a: "رب", t: "Rabb", m: "Lord", o: 971, p: "Noun" },
-            { a: "ما", t: "maa", m: "that which", o: 2154, p: "Particle" },
-            { a: "الصراط", t: "Aş-Şiraat", m: "the path", o: 45, p: "Noun" },
-            { a: "المستقيم", t: "Al-Mustaqeem", m: "the straight", o: 37, p: "Noun" },
-            { a: "الذين", t: "Al-lazeena", m: "(of) those", o: 1080, p: "Noun" },
-            { a: "غير", t: "ghayr", m: "not (of)", o: 147, p: "Noun" },
-            { a: "لا", t: "laa", m: "not", o: 1687, p: "Particle" },
-            { a: "الضالين", t: "Ad-Daalleena", m: "those who go astray", o: 14, p: "Noun" },
-            { a: "هي", t: "hiya", m: "It; she", o: 64, p: "Noun" },
-            { a: "كتاب", t: "kitaab", m: "a book", o: 261, p: "Noun" },
-            { a: "انزلنا", t: "anzalna", m: "We revealed", o: 55, p: "Verb" },
-            { a: "اية", t: "aayat", m: "sign/verse", o: 382, p: "Noun" },
-            { a: "الارض", t: "Al-'ard", m: "the earth", o: 461, p: "Noun" },
-            { a: "السماء", t: "As-Samaa'", m: "the heaven", o: 310, p: "Noun" },
-            { a: "اولوا", t: "'uloo", m: "those of...", o: 43, p: "Noun" },
-            { a: "لو", t: "Law", m: "if", o: 201, p: "Particle" },
-            { a: "ل", t: "li", m: "for", o: 1361, p: "Particle" },
-            { a: "من", t: "min", m: "from", o: 3215, p: "Particle" },
-            { a: "عن", t: "'an", m: "with", o: 416, p: "Particle" },
-            { a: "لقد", t: "laqad", m: "certainly", o: 406, p: "Particle" },
-            { a: "القرآن", t: "Al-Qur'aan", m: "the Qur'an", o: 70, p: "Noun" },
-            { a: "ان", t: "'in", m: "if", o: 691, p: "Particle" },
-            { a: "شاء", t: "shaa'a", m: "wills", o: 56, p: "Verb" },
-            { a: "ان", t: "'inna", m: "indeed", o: 1534, p: "Particle" },
-            { a: "انما", t: "'innamaa", m: "only", o: 145, p: "Particle" },
-            { a: "عمل", t: "'amal", m: "deed", o: 41, p: "Noun" },
-            { a: "ب", t: "bi", m: "in", o: 510, p: "Particle" },
-            { a: "في", t: "fee", m: "in/into", o: 1684, p: "Particle" },
-            { a: "السبيل", t: "As-Sabeel", m: "the way", o: 176, p: "Noun" },
-            { a: "على", t: "'alaa", m: "on; upon", o: 1423, p: "Particle" },
-            { a: "الذي", t: "'allazee", m: "(the one) who", o: 304, p: "Noun" },
-            { a: "اي", t: "'ayyun", m: "which", o: 59, p: "Noun" },
-            { a: "احسن", t: "'ahsan", m: "best", o: 36, p: "Noun" },
-            { a: "إلى", t: "'ilaa", m: "to", o: 736, p: "Particle" },
-            { a: "مع", t: "ma'a", m: "with", o: 163, p: "Noun" },
-            { a: "عند", t: "'inda", m: "with", o: 197, p: "Noun" },
-            { a: "الانسان", t: "Al-'insaan", m: "the mankind", o: 65, p: "Noun" },
-            { a: "إلا", t: "'illaa", m: "except", o: 664, p: "Particle" },
-            { a: "امنوا", t: "'aamanoo", m: "they believed", o: 258, p: "Verb" },
-            { a: "الحق", t: "Al-Haqq", m: "the truth", o: 247, p: "Noun" },
-            { a: "او", t: "aw", m: "or", o: 280, p: "Particle" },
-            { a: "هذا", t: "haazaa", m: "this", o: 225, p: "Noun" },
-            { a: "هذه", t: "haazihee", m: "this", o: 47, p: "Noun" },
-            { a: "ذلك", t: "zaalika", m: "that", o: 478, p: "Noun" },
-            { a: "تلك", t: "tilka", m: "that/these", o: 43, p: "Noun" },
-            { a: "هؤلاء", t: "haa'ulaa'i", m: "these", o: 46, p: "Noun" },
-            { a: "اولئك", t: "'ulaa'ika", m: "those", o: 204, p: "Noun" },
-            { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun" },
-            { a: "اذا", t: "izaa", m: "when", o: 423, p: "Noun" },
-            { a: "جاء", t: "jaa'a", m: "he came", o: 171, p: "Verb" },
-            { a: "الناس", t: "'annaas", m: "the people", o: 241, p: "Noun" },
-            { a: "فعل", t: "fa'ala", m: "he did", o: 100, p: "Verb" },
-            { a: "جعل", t: "ja'ala", m: "he made/he set", o: 344, p: "Verb" },
-            { a: "فتح", t: "fataha", m: "he opened/he revealed", o: 25, p: "Verb" },
-            { a: "قل", t: "qul", m: "say", o: 332, p: "Verb" },
-            { a: "احد", t: "'ahad", m: "the One", o: 74, p: "Noun" },
-            { a: "لم", t: "lam", m: "not", o: 384, p: "Particle" },
-            { a: "لن", t: "lan", m: "never", o: 106, p: "Particle" },
-            { a: "نصر", t: "nasr", m: "help", o: 80, p: "Noun" },
-            { a: "خلق", t: "khalaqa", m: "He created", o: 237, p: "Verb" },
-            { a: "ذكر", t: "zakara", m: "he remembered", o: 151, p: "Verb" },
-            { a: "عبد", t: "'abada", m: "he worshipped", o: 142, p: "Verb" },
-            { a: "شىء", t: "shay'", m: "thing", o: 283, p: "Noun" },
-            { a: "ضرب", t: "daraba", m: "he hit/he stroke", o: 50, p: "Verb" },
-            { a: "سمع", t: "sami'a", m: "he listened", o: 98, p: "Verb" },
-            { a: "علم", t: "'alima", m: "he knew", o: 562, p: "Verb" },
-            { a: "عمل", t: "'amila", m: "he did", o: 318, p: "Verb" },
-            { a: "حديث", t: "hadees", m: "statement; story", o: 23, p: "Noun" },
-            { a: "اله", t: "'ilaah", m: "the God", o: 145, p: "Noun" },
-            { a: "صدر", t: "sadr", m: "chest", o: 44, p: "Noun" },
-            { a: "ملك", t: "malak", m: "angel", o: 88, p: "Noun" },
-            { a: "جنة", t: "jinnah", m: "Jinn", o: 32, p: "Noun" },
-            { a: "يا", t: "yaa", m: "O; oh", o: 361, p: "Particle" },
-            { a: "قوم", t: "qawm", m: "people", o: 383, p: "Noun" },
-            { a: "ايها", t: "'ayyuhaa", m: "O; oh", o: 153, p: "Particle" },
-            { a: "ان", t: "'an", m: "that", o: 571, p: "Particle" },
-            { a: "ان", t: "'anna", m: "that", o: 359, p: "Particle" },
-            { a: "محمد", t: "Muhammad", m: "Muhammad", o: 4, p: "Noun" },
-            { a: "رسول", t: "Rasool", m: "Messenger", o: 332, p: "Noun" },
-            { a: "الصلوة", t: "'As-salat", m: "the prayer", o: 83, p: "Noun" },
-            { a: "شريك", t: "shareek", m: "partner", o: 40, p: "Noun" },
-            { a: "ماذا", t: "maazaa", m: "what", o: 27, p: "Noun" },
-            { a: "سبحن", t: "subhaana", m: "Glory", o: 41, p: "Noun" },
-            { a: "العظيم", t: "Al-'azeem", m: "The Great", o: 107, p: "Noun" },
-            { a: "طيبات", t: "tayyibaat", m: "good things", o: 46, p: "Noun" },
-            { a: "سلم", t: "salaam", m: "Peace", o: 42, p: "Noun" },
-            { a: "النبى", t: "'an-nabi", m: "The Prophet", o: 75, p: "Noun" },
-            { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun" },
-            { a: "عباد", t: "'ibaad", m: "slaves, servants", o: 125, p: "Noun" },
-            { a: "سوف", t: "sawfa", m: "soon", o: 42, p: "Particle" },
-            { a: "ابراهيم", t: "'ibraaheem", m: "Ibrahim", o: 69, p: "Noun" },
-            { a: "نفس", t: "nafs", m: "soul", o: 293, p: "Noun" },
-            { a: "كثير", t: "kaseer", m: "much", o: 63, p: "Noun" },
-            { a: "الذنوب", t: "Az-zunoob", m: "the sins", o: 39, p: "Noun" },
-            { a: "غفور", t: "gafoor", m: "Oft-Forgiving", o: 91, p: "Noun" },
-            { a: "الدنيا", t: "'Ad-dunya", m: "the world", o: 115, p: "Noun" },
-            { a: "الآخرة", t: "'Al-'aakhirat", m: "the Hereafter", o: 115, p: "Noun" },
-            { a: "عذاب", t: "'azaab", m: "punishment", o: 322, p: "Noun" },
-            { a: "النار", t: "'An-naar", m: "the Fire", o: 145, p: "Noun" }
+            { a: "الله", t: "Allah", m: "Allah", o: 2550, p: "Noun", r: "" },
+            { a: "الشيطان", t: "Ash-Shaytaan", m: "Satan", o: 88, p: "Noun", r: "ش ط ن" },
+            { a: "هو", t: "huwa", m: "he", o: 481, p: "Noun", r: "" },
+            { a: "هم", t: "hum", m: "they", o: 444, p: "Noun", r: "" },
+            { a: "انت", t: "'anta", m: "you", o: 81, p: "Noun", r: "" },
+            { a: "انا", t: "'anaa", m: "I", o: 68, p: "Noun", r: "" },
+            { a: "انتم", t: "'antum", m: "you all", o: 135, p: "Noun", r: "" },
+            { a: "نحن", t: "nahnu", m: "we", o: 86, p: "Noun", r: "" },
+            { a: "من", t: "man", m: "who", o: 831, p: "Noun", r: "" },
+            { a: "هل", t: "hal", m: "Is, Do, Are...?", o: 93, p: "Particle", r: "" },
+            { a: "خير", t: "khayr", m: "best", o: 176, p: "Noun", r: "خ ي ر" },
+            { a: "اسم", t: "'ism", m: "Name", o: 39, p: "Noun", r: "س م و" },
+            { a: "الرحمن", t: "Ar-Rahmaan", m: "the Most Gracious", o: 57, p: "Noun", r: "ر ح م" },
+            { a: "الرحيم", t: "Ar-Raheem", m: "the Most Merciful", o: 116, p: "Noun", r: "ر ح م" },
+            { a: "الكريم", t: "Al-Kareem", m: "Generous", o: 27, p: "Noun", r: "ك ر م" },
+            { a: "الحمد", t: "Al-Hamd", m: "All praises and thanks", o: 149, p: "Noun", r: "ح م د" },
+            { a: "لله", t: "lil-laahi", m: "for Allah / to Allah", o: 149, p: "Noun", r: "" },
+            { a: "العالمين", t: "Al-'Aalameena", m: "the worlds", o: 73, p: "Noun", r: "ع ل م" },
+            { a: "مسلم", t: "Muslim", m: "Muslim", o: 42, p: "Noun", r: "س ل م" },
+            { a: "مؤمن", t: "mu'min", m: "believer", o: 230, p: "Noun", r: "أ م ن" },
+            { a: "مشرك", t: "mushrik", m: "polytheist", o: 49, p: "Noun", r: "ش ر ك" },
+            { a: "كافر", t: "kaafir", m: "disbeliever", o: 134, p: "Noun", r: "ك ف ر" },
+            { a: "صالح", t: "şaalih", m: "a righteous person", o: 136, p: "Noun", r: "ص ل ح" },
+            { a: "يوم", t: "yawm", m: "day", o: 405, p: "Noun", r: "ي و م" },
+            { a: "الدين", t: "Ad-Deen", m: "the Judgment.", o: 92, p: "Noun", r: "د ي ن" },
+            { a: "اياك", t: "'iyyaaka", m: "You Alone", o: 24, p: "Noun", r: "" },
+            { a: "رب", t: "Rabb", m: "Lord", o: 971, p: "Noun", r: "ر ب ب" },
+            { a: "ما", t: "maa", m: "that which", o: 2154, p: "Particle", r: "" },
+            { a: "الصراط", t: "Aş-Şiraat", m: "the path", o: 45, p: "Noun", r: "ص ر ط" },
+            { a: "المستقيم", t: "Al-Mustaqeem", m: "the straight", o: 37, p: "Noun", r: "ق و م" },
+            { a: "الذين", t: "Al-lazeena", m: "(of) those", o: 1080, p: "Noun", r: "" },
+            { a: "غير", t: "ghayr", m: "not (of)", o: 147, p: "Noun", r: "غ ي ر" },
+            { a: "لا", t: "laa", m: "not", o: 1687, p: "Particle", r: "" },
+            { a: "الضالين", t: "Ad-Daalleena", m: "those who go astray", o: 14, p: "Noun", r: "ض ل ل" },
+            { a: "هي", t: "hiya", m: "It; she", o: 64, p: "Noun", r: "" },
+            { a: "كتاب", t: "kitaab", m: "a book", o: 261, p: "Noun", r: "ك ت ب" },
+            { a: "انزلنا", t: "anzalna", m: "We revealed", o: 55, p: "Verb", r: "ن ز ل" },
+            { a: "اية", t: "aayat", m: "sign/verse", o: 382, p: "Noun", r: "أ ي ي" },
+            { a: "الارض", t: "Al-'ard", m: "the earth", o: 461, p: "Noun", r: "أ ر ض" },
+            { a: "السماء", t: "As-Samaa'", m: "the heaven", o: 310, p: "Noun", r: "س م و" },
+            { a: "اولوا", t: "'uloo", m: "those of...", o: 43, p: "Noun", r: "" },
+            { a: "لو", t: "Law", m: "if", o: 201, p: "Particle", r: "" },
+            { a: "ل", t: "li", m: "for", o: 1361, p: "Particle", r: "" },
+            { a: "من", t: "min", m: "from", o: 3215, p: "Particle", r: "" },
+            { a: "عن", t: "'an", m: "with", o: 416, p: "Particle", r: "" },
+            { a: "لقد", t: "laqad", m: "certainly", o: 406, p: "Particle", r: "" },
+            { a: "القرآن", t: "Al-Qur'aan", m: "the Qur'an", o: 70, p: "Noun", r: "ق ر أ" },
+            { a: "ان", t: "'in", m: "if", o: 691, p: "Particle", r: "" },
+            { a: "شاء", t: "shaa'a", m: "wills", o: 56, p: "Verb", r: "ش ي ء" },
+            { a: "ان", t: "'inna", m: "indeed", o: 1534, p: "Particle", r: "" },
+            { a: "انما", t: "'innamaa", m: "only", o: 145, p: "Particle", r: "" },
+            { a: "عمل", t: "'amal", m: "deed", o: 41, p: "Noun", r: "ع م ل" },
+            { a: "ب", t: "bi", m: "in", o: 510, p: "Particle", r: "" },
+            { a: "في", t: "fee", m: "in/into", o: 1684, p: "Particle", r: "" },
+            { a: "السبيل", t: "As-Sabeel", m: "the way", o: 176, p: "Noun", r: "س ب ل" },
+            { a: "على", t: "'alaa", m: "on; upon", o: 1423, p: "Particle", r: "" },
+            { a: "الذي", t: "'allazee", m: "(the one) who", o: 304, p: "Noun", r: "" },
+            { a: "اي", t: "'ayyun", m: "which", o: 59, p: "Noun", r: "" },
+            { a: "احسن", t: "'ahsan", m: "best", o: 36, p: "Noun", r: "ح س ن" },
+            { a: "إلى", t: "'ilaa", m: "to", o: 736, p: "Particle", r: "" },
+            { a: "مع", t: "ma'a", m: "with", o: 163, p: "Noun", r: "" },
+            { a: "عند", t: "'inda", m: "with", o: 197, p: "Noun", r: "" },
+            { a: "الانسان", t: "Al-'insaan", m: "the mankind", o: 65, p: "Noun", r: "أ ن س" },
+            { a: "إلا", t: "'illaa", m: "except", o: 664, p: "Particle", r: "" },
+            { a: "امنوا", t: "'aamanoo", m: "they believed", o: 258, p: "Verb", r: "أ م ن" },
+            { a: "الحق", t: "Al-Haqq", m: "the truth", o: 247, p: "Noun", r: "ح ق ق" },
+            { a: "او", t: "aw", m: "or", o: 280, p: "Particle", r: "" },
+            { a: "هذا", t: "haazaa", m: "this", o: 225, p: "Noun", r: "" },
+            { a: "هذه", t: "haazihee", m: "this", o: 47, p: "Noun", r: "" },
+            { a: "ذلك", t: "zaalika", m: "that", o: 478, p: "Noun", r: "" },
+            { a: "تلك", t: "tilka", m: "that/these", o: 43, p: "Noun", r: "" },
+            { a: "هؤلاء", t: "haa'ulaa'i", m: "these", o: 46, p: "Noun", r: "" },
+            { a: "اولئك", t: "'ulaa'ika", m: "those", o: 204, p: "Noun", r: "" },
+            { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun", r: "" },
+            { a: "اذا", t: "izaa", m: "when", o: 423, p: "Noun", r: "" },
+            { a: "جاء", t: "jaa'a", m: "he came", o: 171, p: "Verb", r: "ج ي ء" },
+            { a: "الناس", t: "'annaas", m: "the people", o: 241, p: "Noun", r: "ن و س" },
+            { a: "فعل", t: "fa'ala", m: "he did", o: 100, p: "Verb", r: "ف ع ل" },
+            { a: "جعل", t: "ja'ala", m: "he made/he set", o: 344, p: "Verb", r: "ج ع ل" },
+            { a: "فتح", t: "fataha", m: "he opened/he revealed", o: 25, p: "Verb", r: "ف ت ح" },
+            { a: "قل", t: "qul", m: "say", o: 332, p: "Verb", r: "ق و ل" },
+            { a: "احد", t: "'ahad", m: "the One", o: 74, p: "Noun", r: "أ ح د" },
+            { a: "لم", t: "lam", m: "not", o: 384, p: "Particle", r: "" },
+            { a: "لن", t: "lan", m: "never", o: 106, p: "Particle", r: "" },
+            { a: "نصر", t: "nasr", m: "help", o: 80, p: "Noun", r: "ن ص ر" },
+            { a: "خلق", t: "khalaqa", m: "He created", o: 237, p: "Verb", r: "خ ل ق" },
+            { a: "ذكر", t: "zakara", m: "he remembered", o: 151, p: "Verb", r: "ذ ك ر" },
+            { a: "عبد", t: "'abada", m: "he worshipped", o: 142, p: "Verb", r: "ع ب د" },
+            { a: "شىء", t: "shay'", m: "thing", o: 283, p: "Noun", r: "ش ي ء" },
+            { a: "ضرب", t: "daraba", m: "he hit/he stroke", o: 50, p: "Verb", r: "ض ر ب" },
+            { a: "سمع", t: "sami'a", m: "he listened", o: 98, p: "Verb", r: "س م ع" },
+            { a: "علم", t: "'alima", m: "he knew", o: 562, p: "Verb", r: "ع ل م" },
+            { a: "عمل", t: "'amila", m: "he did", o: 318, p: "Verb", r: "ع م ل" },
+            { a: "حديث", t: "hadees", m: "statement; story", o: 23, p: "Noun", r: "ح د ث" },
+            { a: "اله", t: "'ilaah", m: "the God", o: 145, p: "Noun", r: "أ ل ه" },
+            { a: "صدر", t: "sadr", m: "chest", o: 44, p: "Noun", r: "ص د ر" },
+            { a: "ملك", t: "malak", m: "angel", o: 88, p: "Noun", r: "م ل ك" },
+            { a: "جنة", t: "jinnah", m: "Jinn", o: 32, p: "Noun", r: "ج ن ن" },
+            { a: "يا", t: "yaa", m: "O; oh", o: 361, p: "Particle", r: "" },
+            { a: "قوم", t: "qawm", m: "people", o: 383, p: "Noun", r: "ق و م" },
+            { a: "ايها", t: "'ayyuhaa", m: "O; oh", o: 153, p: "Particle", r: "" },
+            { a: "ان", t: "'an", m: "that", o: 571, p: "Particle", r: "" },
+            { a: "ان", t: "'anna", m: "that", o: 359, p: "Particle", r: "" },
+            { a: "محمد", t: "Muhammad", m: "Muhammad", o: 4, p: "Noun", r: "ح م د" },
+            { a: "رسول", t: "Rasool", m: "Messenger", o: 332, p: "Noun", r: "ر س ل" },
+            { a: "الصلوة", t: "'As-salat", m: "the prayer", o: 83, p: "Noun", r: "ص ل و" },
+            { a: "شريك", t: "shareek", m: "partner", o: 40, p: "Noun", r: "ش ر ك" },
+            { a: "ماذا", t: "maazaa", m: "what", o: 27, p: "Noun", r: "" },
+            { a: "سبحن", t: "subhaana", m: "Glory", o: 41, p: "Noun", r: "س ب ح" },
+            { a: "العظيم", t: "Al-'azeem", m: "The Great", o: 107, p: "Noun", r: "ع ظ م" },
+            { a: "طيبات", t: "tayyibaat", m: "good things", o: 46, p: "Noun", r: "ط ي ب" },
+            { a: "سلم", t: "salaam", m: "Peace", o: 42, p: "Noun", r: "س ل م" },
+            { a: "النبى", t: "'an-nabi", m: "The Prophet", o: 75, p: "Noun", r: "ن ب أ" },
+            { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun", r: "ر ح م" },
+            { a: "عباد", t: "'ibaad", m: "slaves, servants", o: 125, p: "Noun", r: "ع ب د" },
+            { a: "سوف", t: "sawfa", m: "soon", o: 42, p: "Particle", r: "" },
+            { a: "ابراهيم", t: "'ibraaheem", m: "Ibrahim", o: 69, p: "Noun", r: "" },
+            { a: "نفس", t: "nafs", m: "soul", o: 293, p: "Noun", r: "ن ف س" },
+            { a: "كثير", t: "kaseer", m: "much", o: 63, p: "Noun", r: "ك ث ر" },
+            { a: "الذنوب", t: "Az-zunoob", m: "the sins", o: 39, p: "Noun", r: "ذ ن ب" },
+            { a: "غفور", t: "gafoor", m: "Oft-Forgiving", o: 91, p: "Noun", r: "غ ف ر" },
+            { a: "الدنيا", t: "'Ad-dunya", m: "the world", o: 115, p: "Noun", r: "د ن و" },
+            { a: "الآخرة", t: "'Al-'aakhirat", m: "the Hereafter", o: 115, p: "Noun", r: "أ خ ر" },
+            { a: "عذاب", t: "'azaab", m: "punishment", o: 322, p: "Noun", r: "ع ذ ب" },
+            { a: "النار", t: "'An-naar", m: "the Fire", o: 145, p: "Noun", r: "ن و ر" }
         ];
 
         // Optimized Mobile Arabic Keyboard Layout (Standard 5-row mobile phone layout)
@@ -4919,15 +4937,19 @@
             }
         }
 
-        // Maintenance mode disabled - instant access for all users
-        const MAINTENANCE_MODE = false;
+        // Maintenance mode enabled
+        const MAINTENANCE_MODE = true;
 
         function checkAdminAccess() {
-            return true;
+            return (currentUser && currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
         }
 
         function initAppRouting() {
-            switchScreen('screen-menu');
+            if (MAINTENANCE_MODE && !checkAdminAccess()) {
+                switchScreen('screen-maintenance');
+            } else {
+                switchScreen('screen-menu');
+            }
             updateUserHeaderUI(currentUser, currentUserProfile);
         }
 
@@ -4943,6 +4965,7 @@
                 meaning: true,
                 pos: true,
                 occ: true,
+                root: true,
                 arabic: true
             },
             wordDisplay: 'arabic' // 'arabic' or 'aralish'
@@ -5279,10 +5302,13 @@
             getEl('input-meaning').selectedIndex = 0;
             getEl('input-pos').selectedIndex = 0;
             getEl('input-occ').selectedIndex = 0;
+            const rootInput = getEl('input-root');
+            if (rootInput) rootInput.selectedIndex = 0;
             getEl('input-arabic').value = '';
             
-            ['input-meaning', 'input-pos', 'input-occ', 'input-arabic'].forEach(id => {
-                getEl(id).classList.remove('correct', 'wrong');
+            ['input-meaning', 'input-pos', 'input-occ', 'input-root', 'input-arabic'].forEach(id => {
+                const el = getEl(id);
+                if (el) el.classList.remove('correct', 'wrong');
             });
             
             const msgEl = getEl('result-msg');
@@ -5339,10 +5365,11 @@
             quizSettings.fields.meaning = getEl('toggle-field-meaning').checked;
             quizSettings.fields.pos = getEl('toggle-field-pos').checked;
             quizSettings.fields.occ = getEl('toggle-field-occ').checked;
+            quizSettings.fields.root = getEl('toggle-field-root').checked;
             quizSettings.fields.arabic = getEl('toggle-field-arabic').checked;
 
             // Ensure at least 1 field is enabled
-            if (!quizSettings.fields.meaning && !quizSettings.fields.pos && !quizSettings.fields.occ && !quizSettings.fields.arabic) {
+            if (!quizSettings.fields.meaning && !quizSettings.fields.pos && !quizSettings.fields.occ && !quizSettings.fields.root && !quizSettings.fields.arabic) {
                 quizSettings.fields.meaning = true;
                 getEl('toggle-field-meaning').checked = true;
             }
@@ -5397,6 +5424,7 @@
             getEl('toggle-field-meaning').checked = quizSettings.fields.meaning;
             getEl('toggle-field-pos').checked = quizSettings.fields.pos;
             getEl('toggle-field-occ').checked = quizSettings.fields.occ;
+            getEl('toggle-field-root').checked = quizSettings.fields.root !== false;
             getEl('toggle-field-arabic').checked = quizSettings.fields.arabic;
             
             updateWhitelistBadges();
@@ -5602,8 +5630,9 @@
                         </div>
                         <div class="flashcard-back">
                             <h3 style="font-size: 1.1rem; margin-bottom: 5px;">${word.m}</h3>
-                            <p style="font-size: 0.85rem;"><strong>Category:</strong> ${word.p}</p>
-                            <p style="font-size: 0.85rem;"><strong>Freq:</strong> ${word.o} times</p>
+                            <p style="font-size: 0.85rem; margin: 4px 0;"><strong>Category:</strong> ${word.p}</p>
+                            ${word.r ? `<p style="font-size: 0.85rem; margin: 4px 0;"><strong>Root:</strong> <span dir="rtl" style="font-family: 'Amiri', serif; font-size: 1rem; color: var(--gold);">${word.r}</span></p>` : ''}
+                            <p style="font-size: 0.85rem; margin: 4px 0;"><strong>Freq:</strong> ${word.o} times</p>
                         </div>
                     </div>
                 `;
@@ -5713,6 +5742,8 @@
             getEl('group-meaning').style.display = quizSettings.fields.meaning ? 'flex' : 'none';
             getEl('group-pos').style.display = quizSettings.fields.pos ? 'flex' : 'none';
             getEl('group-occ').style.display = quizSettings.fields.occ ? 'flex' : 'none';
+            const groupRoot = getEl('group-root');
+            if (groupRoot) groupRoot.style.display = quizSettings.fields.root ? 'flex' : 'none';
             getEl('group-arabic').style.display = quizSettings.fields.arabic ? 'flex' : 'none';
 
             currentIndex = 0;
@@ -5790,6 +5821,24 @@
                 });
             }
 
+            if (quizSettings.fields.root) {
+                const groupRoot = getEl('group-root');
+                const rootSelect = getEl('input-root');
+                if (groupRoot && rootSelect) {
+                    if (word.r) {
+                        groupRoot.style.display = 'flex';
+                        const wrongRoots = shuffle(wordsData.filter(w => w.r && w.r !== word.r)).slice(0, 3).map(w => w.r);
+                        const allRoots = shuffle([word.r, ...wrongRoots]);
+                        rootSelect.innerHTML = '<option value="" disabled selected>Select root letters...</option>';
+                        allRoots.forEach(r => {
+                            rootSelect.innerHTML += `<option value="${r}" dir="rtl">${r}</option>`;
+                        });
+                    } else {
+                        groupRoot.style.display = 'none';
+                    }
+                }
+            }
+
             if (quizSettings.fields.arabic) {
                 renderKeyboard();
             }
@@ -5854,6 +5903,14 @@
                 else { getEl('input-occ').classList.add('wrong'); allCorrect = false; }
             }
 
+            // Validate Root Letters
+            if (quizSettings.fields.root && word.r) {
+                const valRoot = getEl('input-root').value;
+                if (!valRoot) missingInputs = true;
+                else if (valRoot === word.r) getEl('input-root').classList.add('correct');
+                else { getEl('input-root').classList.add('wrong'); allCorrect = false; }
+            }
+
             // Validate Arabic Sight Typing
             if (quizSettings.fields.arabic) {
                 const valArabic = normalizeArabic(getEl('input-arabic').value.trim());
@@ -5886,7 +5943,8 @@
                 setTimeout(() => getEl('screen-quiz').classList.remove('shake'), 600);
                 playSound('incorrect');
                 
-                msgEl.innerHTML = `Incorrect. Word: <b>${word.a}</b> (${word.t}), Meaning: <b>${word.m}</b> (Occurs <b>${word.o}</b> times).`;
+                const rootStr = word.r ? `, Root: <b>${word.r}</b>` : '';
+                msgEl.innerHTML = `Incorrect. Word: <b>${word.a}</b> (${word.t}), Meaning: <b>${word.m}</b>${rootStr} (Occurs <b>${word.o}</b> times).`;
                 msgEl.style.color = "var(--danger)";
             }
 
@@ -5951,8 +6009,8 @@
             }, 400);
         }
 
-        // Auto-rotate every 11 seconds with smooth fade
-        setInterval(nextQuote, 11000);
+        // Auto-rotate every 6.2 seconds with smooth fade
+        setInterval(nextQuote, 6200);
 
         // Initialize Theme Preferences, Settings, Routing and Auth Actions
         loadThemePreferences();
