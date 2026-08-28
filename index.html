@@ -73,10 +73,8 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDK (Compat v10 for browser-native SPA) -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- Supabase JS SDK v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --bg-color-1: #022c22;
@@ -2084,6 +2082,21 @@
             transform: translateY(-2px);
         }
 
+        .btn-discord {
+            background: #5865F2;
+            color: #ffffff !important;
+            border: 1px solid #4752C4;
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+            font-weight: 600;
+        }
+
+        .btn-discord:hover {
+            background: #4752C4;
+            color: #ffffff !important;
+            box-shadow: 0 8px 18px rgba(88, 101, 242, 0.4);
+            transform: translateY(-2px);
+        }
+
         .auth-error-banner {
             background: rgba(239, 68, 68, 0.18);
             border: 1px solid rgba(239, 68, 68, 0.45);
@@ -2345,25 +2358,7 @@
         <button class="corner-download-close-btn" onclick="dismissDownloadPromptPermanently(event)" title="Already have app / dismiss">✕</button>
     </div>
 
-    <!-- User Account Header Bar (Hidden in standard guest mode) -->
-    <div class="user-top-bar" id="user-top-bar" style="display: none !important;">
-        <!-- Guest State (Not Logged In) -->
-        <button class="user-profile-pill" id="btn-open-login" style="display: none;" onclick="openAuthModal('login')">
-            <span>👤</span>
-            <span>Sign In / Register</span>
-        </button>
 
-        <!-- Logged In User State -->
-        <div id="user-profile-widget" style="display: none; align-items: center; gap: 8px;">
-            <button class="user-profile-pill" id="user-profile-pill" onclick="openUserProfileModal()">
-                <div class="user-avatar-circle" id="user-avatar-display">U</div>
-                <span id="user-display-name">User</span>
-            </button>
-            <button class="btn-mini" id="admin-panel-btn" onclick="openAdminModal()" style="display: none; padding: 7px 12px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.45); color: #fca5a5;" title="Moderation Panel">
-                🛡️ Admin
-            </button>
-        </div>
-    </div>
 
     <!-- UNDER CONSTRUCTION / MAINTENANCE SCREEN -->
     <div class="glass-panel maintenance-panel" id="screen-maintenance" style="display: none;">
@@ -2399,6 +2394,25 @@
 
     <!-- MAIN MENU SCREEN -->
     <div class="glass-panel active" id="screen-menu">
+        <!-- Inline non-fixed auth / profile widget that scrolls away naturally -->
+        <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 12px; width: 100%;">
+            <div id="guest-auth-widget-inline" style="display: flex; gap: 8px;">
+                <button class="user-profile-pill" onclick="openAuthModal('login')">
+                    <span>👤</span>
+                    <span>Sign In / Register</span>
+                </button>
+            </div>
+            <div id="user-profile-widget-inline" style="display: none; align-items: center; gap: 8px;">
+                <button class="user-profile-pill" onclick="openUserProfileModal()">
+                    <div class="user-avatar-circle" id="user-avatar-display">U</div>
+                    <span id="user-display-name">User</span>
+                </button>
+                <button class="btn-mini" id="admin-panel-btn" onclick="openAdminModal()" style="display: none; padding: 7px 12px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.45); color: #fca5a5;" title="Moderation Panel">
+                    🛡️ Admin
+                </button>
+            </div>
+        </div>
+
         <h1>QuranSPLNGB</h1>
         <p class="subtitle">Master top Qur'anic vocabulary with interactive quizzes & sight-spelling.</p>
         
@@ -2654,7 +2668,7 @@
 
             <div class="input-group" id="group-root">
                 <label>Root Letters (جذر)</label>
-                <select id="input-root" dir="rtl" style="font-family: 'Amiri', serif;">
+                <select id="input-root">
                     <option value="" disabled selected>Select root letters...</option>
                 </select>
             </div>
@@ -2914,6 +2928,14 @@
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                 </svg>
                 <span>Continue with Google</span>
+            </button>
+
+            <!-- Discord Sign In -->
+            <button class="btn btn-discord" style="width: 100%; margin-top: 8px;" onclick="handleDiscordSignIn()">
+                <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="currentColor">
+                    <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6,5.42,80.21h0A105.73,105.73,0,0,0,32.79,93.68,82.12,82.12,0,0,0,39,84.9a68.53,68.53,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,82,82,0,0,0,6.22,8.78,105.5,105.5,0,0,0,27.37-13.47c8.26-26.6-1.57-50.5-12.06-72.11ZM42.45,65.69C36.18,65.69,31,60,31,53s5.18-12.72,11.45-12.72S53.9,46,53.88,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5.18-12.72,11.45-12.72S96.15,46,96.13,53,91,65.69,84.69,65.69Z"/>
+                </svg>
+                <span>Continue with Discord</span>
             </button>
 
             <div class="auth-divider">
@@ -3410,11 +3432,11 @@
         ];
 
         // ==========================================
-        // FIREBASE AUTHENTICATION & FIRESTORE ENGINE
+        // SUPABASE AUTHENTICATION & DATABASE ENGINE
         // ==========================================
-        let firebaseApp = null;
-        let firebaseAuth = null;
-        let firebaseDb = null;
+        const SUPABASE_URL = 'https://ixoizrmemlqwnvqnbqdc.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_ZPwUg1mxO3cdJMz3NBd-sQ_jVBigvuX';
+        let supabaseClient = null;
         let currentUser = null;
         let currentUserProfile = null;
         let pendingSignupData = null;
@@ -3424,83 +3446,106 @@
 
         const ADMIN_EMAIL = 'koolm6948@gmail.com';
 
-        function initFirebase() {
+        function initSupabase() {
             try {
-                const firebaseConfig = {
-                    apiKey: "AIzaSyDbatdKha55PmPvrNrZHws-IAn5eChYS-s",
-                    authDomain: "quransplngb.firebaseapp.com",
-                    projectId: "quransplngb",
-                    storageBucket: "quransplngb.firebasestorage.app",
-                    messagingSenderId: "634633280419",
-                    appId: "1:634633280419:web:44c2fcffe975cf29755816",
-                    measurementId: "G-VP6ZNP6SR2"
-                };
-
-                if (!firebase.apps.length) {
-                    firebaseApp = firebase.initializeApp(firebaseConfig);
-                } else {
-                    firebaseApp = firebase.app();
+                if (window.supabase) {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                        handleAuthStateChanged(session ? session.user : null);
+                    });
+                    supabaseClient.auth.onAuthStateChange((event, session) => {
+                        handleAuthStateChanged(session ? session.user : null);
+                    });
                 }
-
-                firebaseAuth = firebase.auth();
-                firebaseDb = firebase.firestore();
-
-                // Listen to Auth State Changes
-                firebaseAuth.onAuthStateChanged(handleAuthStateChanged);
             } catch (err) {
-                console.error("Firebase init failed:", err);
+                console.error("Supabase init failed:", err);
             }
         }
 
         async function handleAuthStateChanged(user) {
             currentUser = user;
             if (user) {
-                // Fetch user document from Firestore
                 try {
-                    const userDocRef = firebaseDb.collection('users').doc(user.uid);
-                    const docSnap = await userDocRef.get();
+                    const userId = user.id;
+                    const email = user.email || '';
+                    const fullName = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0] || 'Member';
+                    const names = fullName.trim().split(' ');
+                    const firstName = names[0] || 'Member';
+                    const lastName = names.slice(1).join(' ') || '';
 
-                    if (docSnap.exists) {
-                        currentUserProfile = docSnap.data();
+                    // Try to fetch profile from Supabase 'profiles' table
+                    const { data: profile, error } = await supabaseClient
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', userId)
+                        .single();
+
+                    if (profile) {
+                        currentUserProfile = profile;
+                        // Normalize keys for compatibility
+                        currentUserProfile.userId = currentUserProfile.id;
+                        currentUserProfile.displayName = currentUserProfile.display_name || fullName;
+                        currentUserProfile.firstName = currentUserProfile.first_name || firstName;
+                        currentUserProfile.lastName = currentUserProfile.last_name || lastName;
+                        currentUserProfile.photoURL = currentUserProfile.photo_url || user.user_metadata?.avatar_url || '';
+                        currentUserProfile.avatarGradient = currentUserProfile.avatar_gradient || 'emerald';
+                        currentUserProfile.isAdmin = currentUserProfile.is_admin || (email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+
+                        await supabaseClient
+                            .from('profiles')
+                            .update({ last_login_at: new Date().toISOString() })
+                            .eq('id', userId);
                     } else {
-                        // Create initial profile if first time
-                        const names = (user.displayName || '').trim().split(' ');
-                        const firstName = names[0] || 'Member';
-                        const lastName = names.slice(1).join(' ') || '';
-                        
                         currentUserProfile = {
-                            userId: user.uid,
-                            email: user.email || '',
+                            userId: userId,
+                            id: userId,
+                            email: email,
                             firstName: firstName,
                             lastName: lastName,
-                            displayName: user.displayName || `${firstName} ${lastName}`.trim(),
-                            photoURL: user.photoURL || '',
-                            provider: (user.providerData && user.providerData[0]) ? user.providerData[0].providerId : 'password',
+                            display_name: fullName,
+                            displayName: fullName,
+                            photo_url: user.user_metadata?.avatar_url || '',
+                            photoURL: user.user_metadata?.avatar_url || '',
+                            avatar_gradient: 'emerald',
+                            avatarGradient: 'emerald',
                             status: 'active',
+                            ban_reason: '',
                             banReason: '',
-                            isAdmin: (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+                            is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                            isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                            created_at: new Date().toISOString(),
+                            last_login_at: new Date().toISOString()
                         };
 
-                        await userDocRef.set(currentUserProfile, { merge: true });
+                        await supabaseClient.from('profiles').upsert([currentUserProfile]);
                     }
 
-                    // Check if user is locked or banned
-                    if (currentUserProfile && currentUserProfile.status === 'banned') {
-                        showBannedScreen(currentUserProfile.banReason || 'Account suspended for policy violation.');
+                    if (currentUserProfile && (currentUserProfile.status === 'banned' || currentUserProfile.status === 'suspended')) {
+                        showBannedScreen(currentUserProfile.ban_reason || currentUserProfile.banReason || 'Account suspended for policy violation.');
                     } else {
                         hideBannedScreen();
-                        // If user is logged in, exit maintenance mode and show main app
                         const maintScreen = getEl('screen-maintenance');
                         if (maintScreen && maintScreen.classList.contains('active')) {
                             switchScreen('screen-menu');
                         }
                         updateUserHeaderUI(currentUser, currentUserProfile);
+
+                        const dismissedKey = 'dismissed_v1_announcement_' + userId;
+                        if (!localStorage.getItem(dismissedKey)) {
+                            setTimeout(() => {
+                                showV1AnnouncementModal(userId);
+                            }, 800);
+                        }
                     }
                 } catch (err) {
-                    console.error("Error fetching user profile:", err);
-                    updateUserHeaderUI(user, { displayName: user.displayName || user.email || 'Member' });
+                    console.error("Error fetching/creating user profile in Supabase:", err);
+                    updateUserHeaderUI(user, { displayName: user.email || 'Member', avatarGradient: 'emerald' });
+                    const dismissedKey = 'dismissed_v1_announcement_' + user.id;
+                    if (!localStorage.getItem(dismissedKey)) {
+                        setTimeout(() => {
+                            showV1AnnouncementModal(user.id);
+                        }, 800);
+                    }
                 }
             } else {
                 currentUserProfile = null;
@@ -3601,16 +3646,42 @@
         }
 
         function updateUserHeaderUI(user, profile) {
-            const topBar = getEl('user-top-bar');
-            if (topBar) topBar.style.display = 'none';
+            const guestWidgetInline = getEl('guest-auth-widget-inline');
+            const userWidgetInline = getEl('user-profile-widget-inline');
+            const adminBtn = getEl('admin-panel-btn');
 
             const studyBtn = getEl('btn-menu-study');
             const whitelistBtn = getEl('btn-menu-whitelist');
             const settingsBtn = getEl('btn-menu-settings');
-            
-            if (studyBtn) studyBtn.style.display = 'block';
-            if (whitelistBtn) whitelistBtn.style.display = 'flex';
-            if (settingsBtn) settingsBtn.style.display = 'block';
+
+            const isAdmin = checkAdminAccess();
+
+            if (user) {
+                if (guestWidgetInline) guestWidgetInline.style.display = 'none';
+                if (userWidgetInline) {
+                    userWidgetInline.style.display = 'flex';
+                    const avatarEl = getEl('user-avatar-display');
+                    const nameEl = getEl('user-display-name');
+                    renderAvatarIntoElement(avatarEl, user, profile, 32, '0.85rem');
+                    if (nameEl) nameEl.innerText = profile?.displayName || profile?.display_name || user.email?.split('@')[0] || 'User';
+                }
+                if (adminBtn) {
+                    adminBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+                }
+
+                if (studyBtn) studyBtn.style.display = 'block';
+                if (whitelistBtn) whitelistBtn.style.display = 'flex';
+                if (settingsBtn) settingsBtn.style.display = 'block';
+            } else {
+                if (guestWidgetInline) guestWidgetInline.style.display = 'flex';
+                if (userWidgetInline) userWidgetInline.style.display = 'none';
+                if (adminBtn) adminBtn.style.display = 'none';
+
+                // Gated: Not signed in -> hide study, whitelist, settings on menu. Only show Quiz & Themes!
+                if (studyBtn) studyBtn.style.display = 'none';
+                if (whitelistBtn) whitelistBtn.style.display = 'none';
+                if (settingsBtn) settingsBtn.style.display = 'none';
+            }
         }
 
         function showBannedScreen(reason) {
@@ -3668,24 +3739,24 @@
             const forgotPwdBtn = getEl('auth-forgot-pwd-btn');
 
             if (authMode === 'signup') {
-                if (titleEl) titleEl.innerText = 'Create your Account';
-                if (subtitleEl) subtitleEl.innerText = 'Sign up to continue to QuranSPLNGB and track your learning.';
+                if (titleEl) titleEl.innerText = 'Sign Up to QuranSPLNGB';
+                if (subtitleEl) subtitleEl.innerText = 'Sign up/login to continue to QuranSPLNGB.';
                 if (nameFields) nameFields.style.display = 'block';
                 if (firstNameInput) firstNameInput.required = true;
                 if (lastNameInput) lastNameInput.required = true;
                 if (submitBtn) submitBtn.innerText = 'Create Free Account';
-                if (switchText) switchText.innerText = 'Already have an account?';
-                if (switchBtn) switchBtn.innerText = 'Sign In!';
+                if (switchText) switchText.innerText = 'Already have an account,';
+                if (switchBtn) switchBtn.innerText = 'login!';
                 if (forgotPwdBtn) forgotPwdBtn.style.display = 'none';
             } else {
                 if (titleEl) titleEl.innerText = 'Sign In to QuranSPLNGB';
-                if (subtitleEl) subtitleEl.innerText = 'Sign in to continue to QuranSPLNGB and save your progress.';
+                if (subtitleEl) subtitleEl.innerText = 'Sign up/login to continue to QuranSPLNGB.';
                 if (nameFields) nameFields.style.display = 'none';
                 if (firstNameInput) firstNameInput.required = false;
                 if (lastNameInput) lastNameInput.required = false;
                 if (submitBtn) submitBtn.innerText = 'Sign In';
-                if (switchText) switchText.innerText = "Don't have an account?";
-                if (switchBtn) switchBtn.innerText = 'Create one!';
+                if (switchText) switchText.innerText = "Don't have an account,";
+                if (switchBtn) switchBtn.innerText = 'create one!';
                 if (forgotPwdBtn) forgotPwdBtn.style.display = 'inline';
             }
         }
@@ -3731,33 +3802,17 @@
             }
 
             try {
-                // Configure actionCodeSettings so reset password can redirect back into the app
-                const currentAppUrl = window.location.origin + window.location.pathname + '?preview=true';
-                const actionCodeSettings = {
-                    url: currentAppUrl,
-                    handleCodeInApp: true
-                };
+                const currentAppUrl = window.location.origin + window.location.pathname;
+                const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                    redirectTo: currentAppUrl
+                });
+                if (error) throw error;
 
-                try {
-                    await firebaseAuth.sendPasswordResetEmail(email, actionCodeSettings);
-                } catch (actionErr) {
-                    console.warn("Fallback to standard reset email without custom URL:", actionErr);
-                    await firebaseAuth.sendPasswordResetEmail(email);
-                }
-
-                showAuthSuccess(`✅ A password reset email has been sent to ${email}!\n\n💡 Tip: If you sign in with Google using this email, you don't need a password link — just click "Continue with Google" above.`);
+                showAuthSuccess(`✅ A password reset email has been sent to ${email}!\n\n💡 Tip: If you sign in with Google using this email, you don't need a password link.`);
                 playSound('correct');
             } catch (err) {
                 console.error("Password reset error:", err);
-                if (err.code === 'auth/user-not-found') {
-                    showAuthError('No account found with this email address. Please click "Create one!" below to register.');
-                } else if (err.code === 'auth/invalid-email') {
-                    showAuthError('Please enter a valid email address.');
-                } else if (err.code === 'auth/too-many-requests') {
-                    showAuthError('Too many password reset requests sent. Please wait a few minutes before trying again, or use Google Sign-In above.');
-                } else {
-                    showAuthError(err.message || 'Failed to send password reset email.');
-                }
+                showAuthError(err.message || 'Failed to send password reset email.');
             }
         }
 
@@ -3821,42 +3876,16 @@
                 const btn = getEl('btn-save-new-password');
                 if (btn) { btn.innerText = 'Saving Password...'; btn.disabled = true; }
 
-                if (currentResetOobCode) {
-                    // Reset via email link token
-                    await firebaseAuth.confirmPasswordReset(currentResetOobCode, newPassword);
-                    closeModal('modal-reset-password');
-                    showToast("🎉 Password updated successfully! You can now sign in with your new password.", 6000);
-                    playSound('correct');
+                const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+                if (error) throw error;
 
-                    openAuthModal('login');
-                    const emailInput = getEl('auth-email');
-                    if (emailInput && currentResetEmail) emailInput.value = currentResetEmail;
-                    const pwdInput = getEl('auth-password');
-                    if (pwdInput) { pwdInput.value = newPassword; pwdInput.focus(); }
-                } else if (currentUser) {
-                    // Direct in-app update for logged-in user
-                    await currentUser.updatePassword(newPassword);
-                    closeModal('modal-reset-password');
-                    showToast("🎉 Your account password has been set successfully!", 5000);
-                    playSound('correct');
-                } else {
-                    if (errEl) {
-                        errEl.innerText = "Session expired. Please sign in or request a new reset link.";
-                        errEl.style.display = 'block';
-                    }
-                }
+                closeModal('modal-reset-password');
+                showToast("🎉 Password updated successfully!", 5000);
+                playSound('correct');
             } catch (err) {
                 console.error("Confirm password error:", err);
                 if (errEl) {
-                    if (err.code === 'auth/expired-action-code' || err.code === 'auth/invalid-action-code') {
-                        errEl.innerText = "This reset link has expired or has already been used. Please request a new link from the Sign In window, or sign in with Google.";
-                    } else if (err.code === 'auth/weak-password') {
-                        errEl.innerText = "The password is too weak. Please choose a stronger password.";
-                    } else if (err.code === 'auth/requires-recent-login') {
-                        errEl.innerText = "For security reasons, please sign out and sign in again before changing your password.";
-                    } else {
-                        errEl.innerText = err.message || "Failed to update password.";
-                    }
+                    errEl.innerText = err.message || "Failed to update password.";
                     errEl.style.display = 'block';
                 }
             } finally {
@@ -3867,92 +3896,47 @@
 
         async function checkAuthActionFromUrl() {
             try {
-                const searchParams = new URLSearchParams(window.location.search);
-                let mode = searchParams.get('mode');
-                let oobCode = searchParams.get('oobCode');
-
-                // Also inspect URL hash if present
-                if (!mode && window.location.hash.includes('mode=')) {
-                    const hashString = window.location.hash.startsWith('#') ? window.location.hash.substring(1) : window.location.hash;
-                    const hashParams = new URLSearchParams(hashString);
-                    mode = hashParams.get('mode') || mode;
-                    oobCode = hashParams.get('oobCode') || oobCode;
-                }
-
-                if (mode === 'resetPassword' && oobCode) {
-                    try {
-                        const email = await firebaseAuth.verifyPasswordResetCode(oobCode);
-                        openResetPasswordModal(oobCode, email);
-                    } catch (err) {
-                        console.error("Error verifying password reset code from URL:", err);
-                        showToast("⚠️ This password reset link has expired or has already been used. Please request a fresh one or sign in with Google.", 7000);
-                    }
-                } else if (mode === 'verifyEmail' && oobCode) {
-                    try {
-                        await firebaseAuth.applyActionCode(oobCode);
-                        showToast("✅ Your email address has been verified successfully! You can now sign in.", 6000);
-                    } catch (err) {
-                        console.error("Error verifying email code from URL:", err);
-                    }
+                const hash = window.location.hash;
+                if (hash && hash.includes('type=recovery')) {
+                    showToast("🔑 Please enter your new account password.", 6000);
+                    openResetPasswordModal(null);
                 }
             } catch (e) {
                 console.error("Error checking auth action url params:", e);
             }
         }
 
-        // Google Sign In (Popup)
+        // Google Sign In (Supabase OAuth)
         async function handleGoogleSignIn() {
             hideAuthMessages();
             try {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                const result = await firebaseAuth.signInWithPopup(provider);
-                const user = result.user;
-
-                // Sync profile in Firestore
-                const userDocRef = firebaseDb.collection('users').doc(user.uid);
-                const docSnap = await userDocRef.get();
-                const names = (user.displayName || '').trim().split(' ');
-                const firstName = names[0] || 'User';
-                const lastName = names.slice(1).join(' ') || '';
-                const dispName = user.displayName || `${firstName} ${lastName}`.trim() || 'User';
-
-                if (!docSnap.exists) {
-                    const newProfile = {
-                        userId: user.uid,
-                        email: user.email || '',
-                        firstName: firstName,
-                        lastName: lastName,
-                        displayName: dispName,
-                        photoURL: user.photoURL || '',
-                        provider: 'google.com',
-                        status: 'active',
-                        banReason: '',
-                        isAdmin: (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    currentUserProfile = newProfile;
-                    await userDocRef.set(newProfile);
-                } else {
-                    currentUserProfile = docSnap.data();
-                    await userDocRef.update({
-                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-
-                closeModal('modal-auth');
-                switchScreen('screen-menu');
-                updateUserHeaderUI(user, currentUserProfile);
-                playSound('correct');
-                showToast(`🎉 Welcome back, ${dispName}! You are signed in and all features are unlocked.`, 5000);
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin + window.location.pathname
+                    }
+                });
+                if (error) throw error;
             } catch (err) {
                 console.error("Google sign in error:", err);
-                if (err.code === 'auth/unauthorized-domain') {
-                    showAuthError("Google Sign-In domain authorization: please use Email & Password below or add this domain in Firebase Console.");
-                } else if (err.code !== 'auth/popup-closed-by-user') {
-                    showAuthError(err.message || 'Google sign in failed. Please try signing in with Email below.');
-                }
+                showAuthError(err.message || 'Google sign in failed.');
+            }
+        }
+
+        // Discord Sign In (Supabase OAuth)
+        async function handleDiscordSignIn() {
+            hideAuthMessages();
+            try {
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'discord',
+                    options: {
+                        redirectTo: window.location.origin + window.location.pathname
+                    }
+                });
+                if (error) throw error;
+            } catch (err) {
+                console.error("Discord sign in error:", err);
+                showAuthError(err.message || 'Discord sign in failed.');
             }
         }
 
@@ -3965,47 +3949,31 @@
             const password = (getEl('auth-password')?.value || '');
 
             if (authMode === 'login') {
-                // Standard login
                 try {
                     const submitBtn = getEl('auth-submit-btn');
                     if (submitBtn) { submitBtn.innerText = 'Signing In...'; submitBtn.disabled = true; }
 
-                    const userCred = await firebaseAuth.signInWithEmailAndPassword(email, password);
-                    
-                    // Update login timestamp
-                    if (userCred.user) {
-                        try {
-                            await firebaseDb.collection('users').doc(userCred.user.uid).update({
-                                lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
-                        } catch(e){}
-                    }
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
 
                     closeModal('modal-auth');
                     switchScreen('screen-menu');
-                    updateUserHeaderUI(userCred.user, currentUserProfile);
+                    updateUserHeaderUI(data.user, currentUserProfile);
                     playSound('correct');
                     showToast("🎉 Signed in successfully! Welcome back.", 4000);
                 } catch (err) {
                     console.error("Login error:", err);
-                    let msg = 'Failed to sign in. Please verify your email and password.';
-                    if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-                        msg = 'Incorrect email or password. Please check your credentials or create a new account.';
-                    } else if (err.code === 'auth/too-many-requests') {
-                        msg = 'Too many attempts. Please wait a moment and try again.';
-                    }
-                    showAuthError(msg);
+                    showAuthError(err.message || 'Failed to sign in. Please verify your email and password.');
                 } finally {
                     const submitBtn = getEl('auth-submit-btn');
                     if (submitBtn) { submitBtn.innerText = 'Sign In'; submitBtn.disabled = false; }
                 }
             } else {
-                // Real Signup flow
                 const firstName = (getEl('auth-first-name')?.value || '').trim();
                 const lastName = (getEl('auth-last-name')?.value || '').trim();
 
                 if (!firstName || !lastName) {
-                    showAuthError('Please enter your real first and last name. You must provide your real name.');
+                    showAuthError('Please enter your real first and last name.');
                     return;
                 }
 
@@ -4018,63 +3986,53 @@
                     const submitBtn = getEl('auth-submit-btn');
                     if (submitBtn) { submitBtn.innerText = 'Creating Account...'; submitBtn.disabled = true; }
 
-                    // 1. Create real Firebase user
-                    const userCred = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-                    const user = userCred.user;
                     const displayName = `${firstName} ${lastName}`.trim();
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: { full_name: displayName, first_name: firstName, last_name: lastName }
+                        }
+                    });
+                    if (error) throw error;
 
-                    // 2. Set display name in Firebase Auth
-                    try {
-                        await user.updateProfile({ displayName: displayName });
-                    } catch(e) {}
-
-                    // 3. Send real Firebase verification email
-                    try {
-                        await user.sendEmailVerification();
-                    } catch(e) {
-                        console.warn("Real email verification send note:", e);
+                    const user = data.user;
+                    if (user) {
+                        const userDoc = {
+                            id: user.id,
+                            userId: user.id,
+                            email: email,
+                            first_name: firstName,
+                            firstName: firstName,
+                            last_name: lastName,
+                            lastName: lastName,
+                            display_name: displayName,
+                            displayName: displayName,
+                            photo_url: '',
+                            photoURL: '',
+                            avatar_gradient: 'emerald',
+                            avatarGradient: 'emerald',
+                            status: 'active',
+                            ban_reason: '',
+                            banReason: '',
+                            is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                            isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+                            created_at: new Date().toISOString(),
+                            last_login_at: new Date().toISOString()
+                        };
+                        currentUserProfile = userDoc;
+                        await supabaseClient.from('profiles').upsert([userDoc]);
                     }
-
-                    // 4. Create Firestore user document
-                    const userDoc = {
-                        userId: user.uid,
-                        email: email,
-                        firstName: firstName,
-                        lastName: lastName,
-                        displayName: displayName,
-                        photoURL: '',
-                        provider: 'password',
-                        status: 'active',
-                        banReason: '',
-                        isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-
-                    currentUserProfile = userDoc;
-                    await firebaseDb.collection('users').doc(user.uid).set(userDoc);
 
                     closeModal('modal-auth');
                     switchScreen('screen-menu');
                     updateUserHeaderUI(user, currentUserProfile);
                     playSound('correct');
                     setTimeout(fireConfetti, 300);
-                    showToast(`🎉 Welcome, ${firstName}! A real email verification link has been sent to ${email}. You are now signed in!`, 6000);
+                    showToast(`🎉 Welcome, ${firstName}! Account created successfully.`, 6000);
                 } catch (err) {
                     console.error("Signup error:", err);
-                    if (err.code === 'auth/email-already-in-use') {
-                        showAuthError('An account with this email already exists. Please enter your password to sign in.');
-                        authMode = 'login';
-                        updateAuthModalState();
-                        const pwdInput = getEl('auth-password');
-                        if (pwdInput) { pwdInput.value = ''; pwdInput.focus(); }
-                    } else if (err.code === 'auth/invalid-email') {
-                        showAuthError('Please enter a valid email address.');
-                    } else if (err.code === 'auth/weak-password') {
-                        showAuthError('Password must be at least 6 characters long.');
-                    } else {
-                        showAuthError(err.message || 'Failed to create account. Please try again.');
-                    }
+                    showAuthError(err.message || 'Failed to create account.');
                 } finally {
                     const submitBtn = getEl('auth-submit-btn');
                     if (submitBtn) {
@@ -4176,6 +4134,7 @@
             if (!currentUser) return;
             if (!currentUserProfile) currentUserProfile = {};
             currentUserProfile.avatarGradient = key;
+            currentUserProfile.avatar_gradient = key;
             
             renderAvatarGradientChips();
             updateUserHeaderUI(currentUser, currentUserProfile);
@@ -4183,10 +4142,11 @@
             playSound('click');
 
             try {
-                await firebaseDb.collection('users').doc(currentUser.uid).set({
+                await supabaseClient.from('profiles').update({
+                    avatar_gradient: key,
                     avatarGradient: key,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                    updated_at: new Date().toISOString()
+                }).eq('id', currentUser.id);
             } catch (err) {
                 console.error("Error saving avatar gradient:", err);
             }
@@ -4203,16 +4163,18 @@
             if (!currentUser) return;
             if (currentUserProfile) {
                 currentUserProfile.photoURL = '';
+                currentUserProfile.photo_url = '';
             }
             updateUserHeaderUI(currentUser, currentUserProfile);
             renderProfileModalDetails();
             playSound('click');
 
             try {
-                await firebaseDb.collection('users').doc(currentUser.uid).set({
+                await supabaseClient.from('profiles').update({
+                    photo_url: '',
                     photoURL: '',
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                    updated_at: new Date().toISOString()
+                }).eq('id', currentUser.id);
                 showToast("Avatar reset to default initials.", 3000);
             } catch (err) {
                 console.error("Error clearing photoURL:", err);
@@ -4220,20 +4182,23 @@
         }
 
         async function resetAvatarToGooglePhoto() {
-            if (!currentUser || !currentUser.photoURL) return;
-            const gPhoto = currentUser.photoURL;
+            if (!currentUser) return;
+            const gPhoto = currentUser.user_metadata?.avatar_url || currentUser.photoURL || '';
+            if (!gPhoto) return;
             if (currentUserProfile) {
                 currentUserProfile.photoURL = gPhoto;
+                currentUserProfile.photo_url = gPhoto;
             }
             updateUserHeaderUI(currentUser, currentUserProfile);
             renderProfileModalDetails();
             playSound('click');
 
             try {
-                await firebaseDb.collection('users').doc(currentUser.uid).set({
+                await supabaseClient.from('profiles').update({
+                    photo_url: gPhoto,
                     photoURL: gPhoto,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                    updated_at: new Date().toISOString()
+                }).eq('id', currentUser.id);
                 showToast("Avatar set to Google account photo.", 3000);
             } catch (err) {
                 console.error("Error resetting to Google photo:", err);
@@ -4588,10 +4553,11 @@
 
                 const croppedDataUrl = outputCanvas.toDataURL('image/jpeg', 0.88);
 
-                await firebaseDb.collection('users').doc(currentUser.uid).set({
+                await supabaseClient.from('profiles').update({
+                    photo_url: croppedDataUrl,
                     photoURL: croppedDataUrl,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                    updated_at: new Date().toISOString()
+                }).eq('id', currentUser.id);
 
                 if (currentUserProfile) {
                     currentUserProfile.photoURL = croppedDataUrl;
@@ -4625,17 +4591,11 @@
         async function sendProfilePasswordReset() {
             if (!currentUser || !currentUser.email) return;
             try {
-                const currentAppUrl = window.location.origin + window.location.pathname + '?preview=true';
-                const actionCodeSettings = {
-                    url: currentAppUrl,
-                    handleCodeInApp: true
-                };
-
-                try {
-                    await firebaseAuth.sendPasswordResetEmail(currentUser.email, actionCodeSettings);
-                } catch (e) {
-                    await firebaseAuth.sendPasswordResetEmail(currentUser.email);
-                }
+                const currentAppUrl = window.location.origin + window.location.pathname;
+                const { error } = await supabaseClient.auth.resetPasswordForEmail(currentUser.email, {
+                    redirectTo: currentAppUrl
+                });
+                if (error) throw error;
 
                 showToast(`📧 A password reset link has been sent to ${currentUser.email}. Please check your Inbox and Spam folder!`, 6000);
                 playSound('correct');
@@ -4647,8 +4607,8 @@
 
         async function handleSignOut() {
             try {
-                if (firebaseAuth) {
-                    await firebaseAuth.signOut();
+                if (supabaseClient) {
+                    await supabaseClient.auth.signOut();
                 }
                 closeModal('modal-user-profile');
                 closeModal('modal-admin');
@@ -4677,18 +4637,23 @@
                 if (btn) { btn.innerText = 'Submitting Appeal...'; btn.disabled = true; }
 
                 const appealDoc = {
-                    userId: (currentUser ? currentUser.uid : 'guest-appeal'),
+                    id: 'app_' + Math.random().toString(36).substring(2, 9),
+                    user_id: (currentUser ? currentUser.id : 'guest-appeal'),
+                    userId: (currentUser ? currentUser.id : 'guest-appeal'),
+                    user_email: (currentUser ? currentUser.email : contact),
                     userEmail: (currentUser ? currentUser.email : contact),
+                    contact_info: contact,
                     contactInfo: contact,
                     message: message,
-                    status: 'pending', // 'pending', 'approved', 'rejected'
-                    submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    status: 'pending',
+                    submitted_at: new Date().toISOString(),
+                    submittedAt: new Date().toISOString()
                 };
 
-                await firebaseDb.collection('appeals').add(appealDoc);
+                await supabaseClient.from('appeals').insert([appealDoc]);
 
                 if (succBox) {
-                    succBox.innerText = 'Your appeal request has been submitted to the admin team. We will review your identity and update your account.';
+                    succBox.innerText = "Thanks for submitting! We will review your submission soon inshallah.";
                     succBox.style.display = 'block';
                 }
                 if (errBox) errBox.style.display = 'none';
@@ -4749,20 +4714,12 @@
 
         async function loadAdminData() {
             try {
-                // Fetch Users
-                const usersSnap = await firebaseDb.collection('users').get();
-                adminUsersList = [];
-                usersSnap.forEach(doc => {
-                    adminUsersList.push({ id: doc.id, ...doc.data() });
-                });
+                const { data: users, error: userErr } = await supabaseClient.from('profiles').select('*');
+                adminUsersList = users || [];
                 renderAdminUsersList();
 
-                // Fetch Appeals
-                const appealsSnap = await firebaseDb.collection('appeals').orderBy('submittedAt', 'desc').get();
-                adminAppealsList = [];
-                appealsSnap.forEach(doc => {
-                    adminAppealsList.push({ id: doc.id, ...doc.data() });
-                });
+                const { data: appeals, error: appealErr } = await supabaseClient.from('appeals').select('*').order('submitted_at', { ascending: false });
+                adminAppealsList = appeals || [];
                 renderAdminAppealsList();
 
                 const countEl = getEl('admin-appeals-count');
@@ -4781,9 +4738,9 @@
 
             const filtered = adminUsersList.filter(u => {
                 if (!search) return true;
-                const name = (u.displayName || `${u.firstName || ''} ${u.lastName || ''}`).toLowerCase();
+                const name = (u.displayName || u.display_name || `${u.firstName || u.first_name || ''} ${u.lastName || u.last_name || ''}`).toLowerCase();
                 const email = (u.email || '').toLowerCase();
-                const id = (u.id || '').toLowerCase();
+                const id = (u.id || u.userId || '').toLowerCase();
                 return name.includes(search) || email.includes(search) || id.includes(search);
             });
 
@@ -4798,7 +4755,7 @@
                 item.style.padding = '10px 14px';
 
                 const isBanned = (u.status === 'banned');
-                const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (u.isAdmin === true);
+                const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (u.isAdmin === true) || (u.is_admin === true);
                 
                 const uAvatarInfo = getUserAvatarInfo(u, u);
                 const avatarContent = uAvatarInfo.hasPhoto
@@ -4813,18 +4770,18 @@
                         </div>
                         <div style="flex:1; min-width:0;">
                             <div style="font-weight:700; font-size:0.92rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
-                                <span>${u.displayName || `${u.firstName || ''} ${u.lastName || ''}`}</span>
+                                <span>${u.displayName || u.display_name || `${u.firstName || u.first_name || ''} ${u.lastName || u.last_name || ''}`}</span>
                                 ${isUserAdmin ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 6px; border-radius:4px;">ADMIN</span>' : ''}
                                 ${isBanned ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.25); color:#f87171; padding:1px 6px; border-radius:4px;">🚫 BANNED</span>' : '<span style="font-size:0.7rem; background:rgba(16,185,129,0.2); color:var(--accent); padding:1px 6px; border-radius:4px;">ACTIVE</span>'}
                             </div>
                             <div style="font-size:0.8rem; color:var(--text-muted); word-break:break-all;">
-                                ${u.email || 'No email'} | UID: <span style="font-family:monospace; font-size:0.72rem;">${u.id.substring(0, 8)}...</span>
+                                ${u.email || 'No email'} | UID: <span style="font-family:monospace; font-size:0.72rem;">${(u.id || u.userId || '').substring(0, 8)}...</span>
                             </div>
-                            ${isBanned && u.banReason ? `<div style="font-size:0.75rem; color:#fca5a5; margin-top:2px;">Reason: ${u.banReason}</div>` : ''}
+                            ${isBanned && (u.banReason || u.ban_reason) ? `<div style="font-size:0.75rem; color:#fca5a5; margin-top:2px;">Reason: ${u.banReason || u.ban_reason}</div>` : ''}
                         </div>
                     </div>
                     <div>
-                        <button class="btn-mini" onclick="openAdminBanDialog('${u.id}')" style="padding:6px 12px; background:${isBanned ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; border-color:${isBanned ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'};">
+                        <button class="btn-mini" onclick="openAdminBanDialog('${u.id || u.userId}')" style="padding:6px 12px; background:${isBanned ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; border-color:${isBanned ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'};">
                             ${isBanned ? '✅ Unban / Unlock' : '🚫 Ban User'}
                         </button>
                     </div>
@@ -4855,8 +4812,8 @@
                 item.innerHTML = `
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
                         <div>
-                            <strong style="color:var(--text-main); font-size:0.95rem;">${app.userEmail || 'User'}</strong>
-                            <div style="font-size:0.8rem; color:var(--accent);">Contact: ${app.contactInfo}</div>
+                            <strong style="color:var(--text-main); font-size:0.95rem;">${app.user_email || app.userEmail || 'User'}</strong>
+                            <div style="font-size:0.8rem; color:var(--accent);">Contact: ${app.contact_info || app.contactInfo}</div>
                         </div>
                         <span style="font-size:0.75rem; padding:2px 8px; border-radius:6px; background:rgba(245,158,11,0.2); color:var(--gold);">
                             ${app.status || 'Pending'}
@@ -4866,7 +4823,7 @@
                         "${app.message}"
                     </div>
                     <div style="display:flex; gap:8px; justify-content:flex-end;">
-                        <button class="btn-mini" onclick="openAdminBanDialog('${app.userId}')" style="padding:6px 12px; background:rgba(16,185,129,0.2); border-color:var(--accent);">
+                        <button class="btn-mini" onclick="openAdminBanDialog('${app.user_id || app.userId}')" style="padding:6px 12px; background:rgba(16,185,129,0.2); border-color:var(--accent);">
                             Manage Account Status
                         </button>
                         <button class="btn-mini" onclick="resolveAppeal('${app.id}')" style="padding:6px 12px; background:rgba(255,255,255,0.1);">
@@ -4880,7 +4837,7 @@
         }
 
         function openAdminBanDialog(userId) {
-            const user = adminUsersList.find(u => u.id === userId);
+            const user = adminUsersList.find(u => (u.id === userId || u.userId === userId));
             if (!user) return;
             adminBanTargetUser = user;
 
@@ -4889,10 +4846,10 @@
             const selectEl = getEl('admin-ban-status-select');
             const reasonInput = getEl('admin-ban-reason-input');
 
-            if (nameEl) nameEl.innerText = user.displayName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+            if (nameEl) nameEl.innerText = user.displayName || user.display_name || `${user.firstName || user.first_name || ''} ${user.lastName || user.last_name || ''}`.trim() || 'User';
             if (emailEl) emailEl.innerText = user.email || user.id;
             if (selectEl) selectEl.value = (user.status === 'banned') ? 'banned' : 'banned';
-            if (reasonInput) reasonInput.value = user.banReason || 'Fake name provided (Violation of Real Name Policy)';
+            if (reasonInput) reasonInput.value = user.banReason || user.ban_reason || 'Fake name provided (Violation of Real Name Policy)';
 
             openModal('modal-admin-ban-dialog');
         }
@@ -4906,11 +4863,12 @@
                 const btn = getEl('admin-ban-confirm-btn');
                 if (btn) { btn.innerText = 'Saving...'; btn.disabled = true; }
 
-                await firebaseDb.collection('users').doc(adminBanTargetUser.id).update({
+                await supabaseClient.from('profiles').update({
                     status: newStatus,
+                    ban_reason: (newStatus === 'banned') ? reason : '',
                     banReason: (newStatus === 'banned') ? reason : '',
-                    moderatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+                    moderated_at: new Date().toISOString()
+                }).eq('id', adminBanTargetUser.id || adminBanTargetUser.userId);
 
                 closeModal('modal-admin-ban-dialog');
                 await loadAdminData();
@@ -4926,10 +4884,10 @@
 
         async function resolveAppeal(appealId) {
             try {
-                await firebaseDb.collection('appeals').doc(appealId).update({
+                await supabaseClient.from('appeals').update({
                     status: 'resolved',
-                    resolvedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+                    resolved_at: new Date().toISOString()
+                }).eq('id', appealId);
                 await loadAdminData();
                 playSound('correct');
             } catch (err) {
@@ -4938,10 +4896,10 @@
         }
 
         // Maintenance mode enabled
-        const MAINTENANCE_MODE = true;
+        const MAINTENANCE_MODE = false;
 
         function checkAdminAccess() {
-            return (currentUser && currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
+            return (currentUser && currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && (currentUserProfile.isAdmin || currentUserProfile.is_admin));
         }
 
         function initAppRouting() {
@@ -5712,6 +5670,10 @@
 
         // Setup Quiz
         function startQuiz() {
+            if (!currentUser && !checkAdminAccess()) {
+                openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", 'Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.');
+                return;
+            }
             saveSettings();
 
             // Prepare Candidate Words Based on Settings Order
@@ -5825,17 +5787,20 @@
                 const groupRoot = getEl('group-root');
                 const rootSelect = getEl('input-root');
                 if (groupRoot && rootSelect) {
-                    if (word.r) {
-                        groupRoot.style.display = 'flex';
-                        const wrongRoots = shuffle(wordsData.filter(w => w.r && w.r !== word.r)).slice(0, 3).map(w => w.r);
-                        const allRoots = shuffle([word.r, ...wrongRoots]);
-                        rootSelect.innerHTML = '<option value="" disabled selected>Select root letters...</option>';
-                        allRoots.forEach(r => {
-                            rootSelect.innerHTML += `<option value="${r}" dir="rtl">${r}</option>`;
-                        });
-                    } else {
-                        groupRoot.style.display = 'none';
+                    groupRoot.style.display = 'flex';
+                    const correctRoot = word.r ? word.r : "None";
+                    const wrongRoots = shuffle(wordsData.filter(w => w.r && w.r !== word.r)).slice(0, 3).map(w => w.r);
+                    let optionsList = [correctRoot, ...wrongRoots];
+                    if (correctRoot !== "None") {
+                        optionsList.push("None");
                     }
+                    const allRoots = shuffle([...new Set(optionsList)]);
+                    
+                    rootSelect.innerHTML = '<option value="" disabled selected>Select root letters...</option>';
+                    rootSelect.innerHTML += `<option value="None">None (Proper Noun / Pronoun / Particle)</option>`;
+                    allRoots.filter(r => r !== "None").forEach(r => {
+                        rootSelect.innerHTML += `<option value="${r}">${r}</option>`;
+                    });
                 }
             }
 
@@ -5904,10 +5869,11 @@
             }
 
             // Validate Root Letters
-            if (quizSettings.fields.root && word.r) {
+            if (quizSettings.fields.root) {
                 const valRoot = getEl('input-root').value;
+                const correctRoot = word.r ? word.r : "None";
                 if (!valRoot) missingInputs = true;
-                else if (valRoot === word.r) getEl('input-root').classList.add('correct');
+                else if (valRoot === correctRoot) getEl('input-root').classList.add('correct');
                 else { getEl('input-root').classList.add('wrong'); allCorrect = false; }
             }
 
@@ -6015,11 +5981,60 @@
         // Initialize Theme Preferences, Settings, Routing and Auth Actions
         loadThemePreferences();
         loadSavedSettings();
-        initFirebase();
+        initSupabase();
         initAppRouting();
         checkAuthActionFromUrl();
         updateDownloadAppVisibility();
         checkAndShowWelcomeDownloadPrompt();
+    </script>
+
+    <!-- MODAL: VERSION 1.0 RELEASE ANNOUNCEMENT -->
+    <div class="modal-overlay" id="modal-v1-announcement" onclick="if(event.target === this) closeV1AnnouncementModal()">
+        <div class="glass-panel modal-card auth-card" style="max-width: 520px; text-align: left; border-color: var(--primary);" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 26px;">🎉</span>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0;">QuranSPLNGB Version 1.0</h3>
+                </div>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeV1AnnouncementModal()">✕</button>
+            </div>
+            <div style="color: var(--text-main); font-size: 0.98rem; line-height: 1.7; margin-bottom: 24px; white-space: pre-line; background: rgba(0,0,0,0.18); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+<b>Assalaam u Alaikum!</b>
+
+Alhamdulillah, We have now officially launched the first Production Release of our app! <b>QuranSPLNGB, Version 1.0!</b> I fixed the few bugs that you guys experienced while testing the app out for the first time, which includes root letters, and, well that's it actually. 
+
+But we added a sign in feature, so feel free to sign up with your <b>email, google, or Discord account</b> right now (possibly more options coming soon). 
+
+<b>Jazakallahu Khairan</b>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; font-weight: 700;" onclick="closeV1AnnouncementModal()">
+                Alhamdulillah, Let's Get Started! 🚀
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let activeAnnouncementUserId = null;
+
+        function showV1AnnouncementModal(userId) {
+            activeAnnouncementUserId = userId;
+            const modal = getEl('modal-v1-announcement');
+            if (modal) {
+                modal.classList.add('active');
+            }
+        }
+
+        function closeV1AnnouncementModal() {
+            const modal = getEl('modal-v1-announcement');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            if (activeAnnouncementUserId) {
+                try {
+                    localStorage.setItem('dismissed_v1_announcement_' + activeAnnouncementUserId, 'true');
+                } catch (e) {}
+            }
+        }
     </script>
 
     <!-- Ad Blocker Detection Modal -->
