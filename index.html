@@ -6250,9 +6250,9 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 <div id="community-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px; background: rgba(0,0,0,0.22); border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 12px;">
                     <!-- Injected by JS -->
                 </div>
-                <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 10px; align-items: center; width: 100%;">
-                    <input type="text" id="community-chat-input" placeholder="Type a message or emoji in global chat (e.g. Assalaamualaykum! 👋)..." class="auth-input" style="flex: 1; min-width: 0; width: 100%; margin-bottom: 0; padding: 12px 16px; font-size: 0.95rem; background: rgba(0,0,0,0.35); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 10px;" required autocomplete="off">
-                    <button type="submit" class="btn btn-primary" style="padding: 12px 20px; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;">Send 🚀</button>
+                <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 10px; align-items: center; width: 100%; margin-top: auto;">
+                    <input type="text" id="community-chat-input" placeholder="Type a message or emoji in global chat..." style="flex: 1; min-width: 0; width: 100%; height: 46px; padding: 0 16px; font-size: 1rem; background: rgba(0,0,0,0.55); color: #ffffff !important; border: 2px solid var(--accent); border-radius: 12px; outline: none; box-sizing: border-box;" required autocomplete="off">
+                    <button type="submit" class="btn btn-primary" style="height: 46px; padding: 0 22px; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; cursor: pointer;">Send 🚀</button>
                 </form>
             </div>
 
@@ -6274,9 +6274,9 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                         <div id="dm-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; padding: 4px;">
                             <div style="text-align:center; color:var(--text-muted); padding:30px;">Choose someone to chat privately. (Admins can view all DMs for safety).</div>
                         </div>
-                        <form onsubmit="sendDirectMessage(event)" id="dm-input-form" style="display: none; gap: 10px; align-items: center; width: 100%;">
-                            <input type="text" id="dm-chat-input" placeholder="Type a private DM..." class="auth-input" style="flex: 1; min-width: 0; width: 100%; margin-bottom: 0; padding: 12px 16px; font-size: 0.95rem; background: rgba(0,0,0,0.35); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 10px;" required autocomplete="off">
-                            <button type="submit" class="btn btn-primary" style="padding: 12px 20px; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;">Send DM</button>
+                        <form onsubmit="sendDirectMessage(event)" id="dm-input-form" style="display: none; gap: 10px; align-items: center; width: 100%; margin-top: auto;">
+                            <input type="text" id="dm-chat-input" placeholder="Type a private DM..." style="flex: 1; min-width: 0; width: 100%; height: 46px; padding: 0 16px; font-size: 1rem; background: rgba(0,0,0,0.55); color: #ffffff !important; border: 2px solid var(--accent); border-radius: 12px; outline: none; box-sizing: border-box;" required autocomplete="off">
+                            <button type="submit" class="btn btn-primary" style="height: 46px; padding: 0 22px; font-weight: 700; font-size: 0.95rem; flex-shrink: 0; cursor: pointer;">Send DM</button>
                         </form>
                     </div>
                 </div>
