@@ -4776,22 +4776,8 @@
             playSound('click');
         }
 
-        function getKnownStudentsDefaultList() {
-            return [
-                { id: 'db975bf5-d86f-4700-9e79-80e111cbf8e8', userId: 'db975bf5-d86f-4700-9e79-80e111cbf8e8', display_name: 'Ayaan Nawaz', displayName: 'Ayaan Nawaz', email: 'ayaannawaz2010@gmail.com', avatar_gradient: 'emerald', is_admin: false, status: 'active' },
-                { id: '63f62a0a-c062-4ccb-8c71-baa1eb8b74ad', userId: '63f62a0a-c062-4ccb-8c71-baa1eb8b74ad', display_name: 'MuHaMMaD NaWaZ', displayName: 'MuHaMMaD NaWaZ', email: 'geyes43933@gmail.com', avatar_gradient: 'purple', is_admin: false, status: 'active' },
-                { id: '503e984e-acaa-48cf-9e86-f44b6eb229b8', userId: '503e984e-acaa-48cf-9e86-f44b6eb229b8', display_name: 'Ziauddin Zain', displayName: 'Ziauddin Zain', email: 'koolm6948@gmail.com', avatar_gradient: 'blue', is_admin: true, status: 'active' },
-                { id: '58c93d18-90ce-44d4-b2a6-a7c1c16d3a4a', userId: '58c93d18-90ce-44d4-b2a6-a7c1c16d3a4a', display_name: 'Millennium Items', displayName: 'Millennium Items', email: 'mimennium911@gmail.com', avatar_gradient: 'crimson', is_admin: false, status: 'active' },
-                { id: 'fa38402d-fc3a-4ae9-b088-207e3c166477', userId: 'fa38402d-fc3a-4ae9-b088-207e3c166477', display_name: 'Farhan Khan', displayName: 'Farhan Khan', email: 'mrfatman1211@gmail.com', avatar_gradient: 'emerald', is_admin: false, status: 'active' },
-                { id: '1d5bd1fb-efc9-4871-aeb2-f1286b9c27c7', userId: '1d5bd1fb-efc9-4871-aeb2-f1286b9c27c7', display_name: 'Waahid', displayName: 'Waahid', email: 'w.khan172@outlook.com', avatar_gradient: 'purple', is_admin: false, status: 'active' }
-            ];
-        }
-
         async function loadAdminData() {
             let aggregatedMap = new Map();
-
-            // 0. Seed known student defaults from Supabase records
-            getKnownStudentsDefaultList().forEach(u => aggregatedMap.set(u.email, u));
 
             // 1. Fetch from Supabase profiles
             try {
@@ -6419,9 +6405,6 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
 
         async function loadDmUsersAndMessages() {
             let aggregatedMap = new Map();
-
-            // 0. Seed known student defaults from Supabase records
-            getKnownStudentsDefaultList().forEach(u => aggregatedMap.set(u.email, u));
 
             // 1. Fetch from Supabase profiles
             try {
