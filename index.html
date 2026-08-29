@@ -3516,28 +3516,34 @@
                             .update({ last_login_at: new Date().toISOString() })
                             .eq('id', userId);
                     } else {
-                        currentUserProfile = {
-                            userId: userId,
+                        const dbPayload = {
                             id: userId,
                             email: email,
-                            firstName: firstName,
-                            lastName: lastName,
+                            first_name: firstName,
+                            last_name: lastName,
                             display_name: fullName,
-                            displayName: fullName,
                             photo_url: user.user_metadata?.avatar_url || '',
-                            photoURL: user.user_metadata?.avatar_url || '',
                             avatar_gradient: 'emerald',
-                            avatarGradient: 'emerald',
                             status: 'active',
                             ban_reason: '',
-                            banReason: '',
                             is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                            isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
                             created_at: new Date().toISOString(),
                             last_login_at: new Date().toISOString()
                         };
 
-                        await supabaseClient.from('profiles').upsert([currentUserProfile]);
+                        currentUserProfile = {
+                            ...dbPayload,
+                            userId: userId,
+                            firstName: firstName,
+                            lastName: lastName,
+                            displayName: fullName,
+                            photoURL: dbPayload.photo_url,
+                            avatarGradient: 'emerald',
+                            banReason: '',
+                            isAdmin: dbPayload.is_admin
+                        };
+
+                        await supabaseClient.from('profiles').upsert([dbPayload]);
                     }
 
                     // Cache in known_app_users localStorage
@@ -4026,30 +4032,34 @@
 
                     const user = data.user;
                     if (user) {
-                        const userDoc = {
+                        const dbPayload = {
                             id: user.id,
-                            userId: user.id,
                             email: email,
                             first_name: firstName,
-                            firstName: firstName,
                             last_name: lastName,
-                            lastName: lastName,
                             display_name: displayName,
-                            displayName: displayName,
                             photo_url: '',
-                            photoURL: '',
                             avatar_gradient: 'emerald',
-                            avatarGradient: 'emerald',
                             status: 'active',
                             ban_reason: '',
-                            banReason: '',
                             is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
-                            isAdmin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
                             created_at: new Date().toISOString(),
                             last_login_at: new Date().toISOString()
                         };
-                        currentUserProfile = userDoc;
-                        await supabaseClient.from('profiles').upsert([userDoc]);
+
+                        currentUserProfile = {
+                            ...dbPayload,
+                            userId: user.id,
+                            firstName: firstName,
+                            lastName: lastName,
+                            displayName: displayName,
+                            photoURL: '',
+                            avatarGradient: 'emerald',
+                            banReason: '',
+                            isAdmin: dbPayload.is_admin
+                        };
+
+                        await supabaseClient.from('profiles').upsert([dbPayload]);
                     }
 
                     closeModal('modal-auth');
@@ -4208,7 +4218,6 @@
             try {
                 await supabaseClient.from('profiles').update({
                     avatar_gradient: key,
-                    avatarGradient: key,
                     updated_at: new Date().toISOString()
                 }).eq('id', currentUser.id);
             } catch (err) {
@@ -4236,7 +4245,6 @@
             try {
                 await supabaseClient.from('profiles').update({
                     photo_url: '',
-                    photoURL: '',
                     updated_at: new Date().toISOString()
                 }).eq('id', currentUser.id);
                 showToast("Avatar reset to default initials.", 3000);
@@ -4260,7 +4268,6 @@
             try {
                 await supabaseClient.from('profiles').update({
                     photo_url: gPhoto,
-                    photoURL: gPhoto,
                     updated_at: new Date().toISOString()
                 }).eq('id', currentUser.id);
                 showToast("Avatar set to Google account photo.", 3000);
@@ -4619,7 +4626,6 @@
 
                 await supabaseClient.from('profiles').update({
                     photo_url: croppedDataUrl,
-                    photoURL: croppedDataUrl,
                     updated_at: new Date().toISOString()
                 }).eq('id', currentUser.id);
 
@@ -4703,15 +4709,11 @@
                 const appealDoc = {
                     id: 'app_' + Math.random().toString(36).substring(2, 9),
                     user_id: (currentUser ? currentUser.id : 'guest-appeal'),
-                    userId: (currentUser ? currentUser.id : 'guest-appeal'),
                     user_email: (currentUser ? currentUser.email : contact),
-                    userEmail: (currentUser ? currentUser.email : contact),
                     contact_info: contact,
-                    contactInfo: contact,
                     message: message,
                     status: 'pending',
-                    submitted_at: new Date().toISOString(),
-                    submittedAt: new Date().toISOString()
+                    submitted_at: new Date().toISOString()
                 };
 
                 await supabaseClient.from('appeals').insert([appealDoc]);
@@ -4776,56 +4778,92 @@
             playSound('click');
         }
 
+        function normalizeUserProfile(u) {
+            if (!u) return null;
+            const uid = u.id || u.userId || u.user_id || u.email;
+            if (!uid) return null;
+            const email = u.email || u.user_email || '';
+            const displayName = u.display_name || u.displayName || u.sender_name || (email ? email.split('@')[0] : 'Member');
+            const firstName = u.first_name || u.firstName || displayName.split(' ')[0] || 'Member';
+            const lastName = u.last_name || u.lastName || displayName.split(' ').slice(1).join(' ') || '';
+            const photoURL = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || '';
+            const avatarGradient = u.avatar_gradient || u.avatarGradient || 'emerald';
+            const status = u.status || 'active';
+            const banReason = u.ban_reason || u.banReason || '';
+            const isAdmin = (u.is_admin === true) || (u.isAdmin === true) || (email && email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+
+            return {
+                id: uid,
+                userId: uid,
+                email: email,
+                user_email: email,
+                display_name: displayName,
+                displayName: displayName,
+                first_name: firstName,
+                firstName: firstName,
+                last_name: lastName,
+                lastName: lastName,
+                photo_url: photoURL,
+                photoURL: photoURL,
+                avatar_gradient: avatarGradient,
+                avatarGradient: avatarGradient,
+                status: status,
+                ban_reason: banReason,
+                banReason: banReason,
+                is_admin: isAdmin,
+                isAdmin: isAdmin,
+                created_at: u.created_at || u.createdAt || new Date().toISOString(),
+                last_login_at: u.last_login_at || u.lastLoginAt || new Date().toISOString()
+            };
+        }
+
         async function loadAdminData() {
             let aggregatedMap = new Map();
+
+            const addUserToMap = (raw) => {
+                const norm = normalizeUserProfile(raw);
+                if (norm && norm.id) {
+                    if (!aggregatedMap.has(norm.id)) {
+                        aggregatedMap.set(norm.id, norm);
+                    } else {
+                        const existing = aggregatedMap.get(norm.id);
+                        aggregatedMap.set(norm.id, { ...norm, ...existing });
+                    }
+                }
+            };
+
+            // 0. Active session user
+            if (currentUserProfile) addUserToMap(currentUserProfile);
+            else if (currentUser) addUserToMap({ id: currentUser.id, email: currentUser.email, display_name: currentUser.email ? currentUser.email.split('@')[0] : 'User' });
 
             // 1. Fetch from Supabase profiles
             try {
                 const { data: usersData } = await supabaseClient.from('profiles').select('*');
-                if (usersData) {
-                    usersData.forEach(u => {
-                        const uid = u.id || u.userId || u.email;
-                        if (uid) aggregatedMap.set(uid, u);
-                    });
-                }
+                if (usersData) usersData.forEach(addUserToMap);
             } catch (e) {}
 
             // 2. Fetch from community messages
             try {
                 const { data: commData } = await supabaseClient.from('community_messages').select('user_id, user_email, display_name, avatar_url, avatar_gradient, is_admin');
                 if (commData) {
-                    commData.forEach(m => {
-                        const uid = m.user_id || m.user_email;
-                        if (uid && !aggregatedMap.has(uid)) {
-                            aggregatedMap.set(uid, {
-                                id: m.user_id,
-                                email: m.user_email,
-                                display_name: m.display_name,
-                                displayName: m.display_name,
-                                avatar_url: m.avatar_url,
-                                avatar_gradient: m.avatar_gradient,
-                                is_admin: m.is_admin,
-                                isAdmin: m.is_admin
-                            });
-                        }
-                    });
+                    commData.forEach(m => addUserToMap({
+                        id: m.user_id,
+                        email: m.user_email,
+                        display_name: m.display_name,
+                        photo_url: m.avatar_url,
+                        avatar_gradient: m.avatar_gradient,
+                        is_admin: m.is_admin
+                    }));
                 }
             } catch (e) {}
 
             // 3. Fetch from direct messages
             try {
-                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name');
+                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, recipient_id');
                 if (dmData) {
                     dmData.forEach(d => {
-                        const uid = d.sender_id || d.sender_email;
-                        if (uid && !aggregatedMap.has(uid)) {
-                            aggregatedMap.set(uid, {
-                                id: d.sender_id,
-                                email: d.sender_email,
-                                display_name: d.sender_name,
-                                displayName: d.sender_name
-                            });
-                        }
+                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name });
+                        if (d.recipient_id) addUserToMap({ id: d.recipient_id });
                     });
                 }
             } catch (e) {}
@@ -4835,19 +4873,25 @@
                 const cachedKnown = localStorage.getItem('known_app_users');
                 if (cachedKnown) {
                     const parsed = JSON.parse(cachedKnown);
-                    if (Array.isArray(parsed)) {
-                        parsed.forEach(u => {
-                            const uid = u.id || u.userId || u.email;
-                            if (uid && !aggregatedMap.has(uid)) {
-                                aggregatedMap.set(uid, u);
-                            }
-                        });
-                    }
+                    if (Array.isArray(parsed)) parsed.forEach(addUserToMap);
                 }
+            } catch (e) {}
+
+            // 5. LocalStorage fallback community/direct messages
+            try {
+                const fallbackComm = JSON.parse(localStorage.getItem('fallback_community_messages') || '[]');
+                fallbackComm.forEach(m => addUserToMap({ id: m.user_id, email: m.user_email, display_name: m.display_name }));
+
+                const fallbackDm = JSON.parse(localStorage.getItem('fallback_direct_messages') || '[]');
+                fallbackDm.forEach(d => addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name }));
             } catch (e) {}
 
             adminUsersList = Array.from(aggregatedMap.values());
             renderAdminUsersList();
+
+            try {
+                localStorage.setItem('known_app_users', JSON.stringify(adminUsersList));
+            } catch (e) {}
 
             try {
                 const { data: appeals, error: appealErr } = await supabaseClient.from('appeals').select('*').order('submitted_at', { ascending: false });
@@ -4998,7 +5042,6 @@
                 await supabaseClient.from('profiles').update({
                     status: newStatus,
                     ban_reason: (newStatus === 'banned') ? reason : '',
-                    banReason: (newStatus === 'banned') ? reason : '',
                     moderated_at: new Date().toISOString()
                 }).eq('id', adminBanTargetUser.id || adminBanTargetUser.userId);
 
@@ -6406,36 +6449,40 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
         async function loadDmUsersAndMessages() {
             let aggregatedMap = new Map();
 
+            const addUserToMap = (raw) => {
+                const norm = normalizeUserProfile(raw);
+                if (norm && norm.id) {
+                    if (!aggregatedMap.has(norm.id)) {
+                        aggregatedMap.set(norm.id, norm);
+                    } else {
+                        const existing = aggregatedMap.get(norm.id);
+                        aggregatedMap.set(norm.id, { ...norm, ...existing });
+                    }
+                }
+            };
+
+            // 0. Active session user
+            if (currentUserProfile) addUserToMap(currentUserProfile);
+            else if (currentUser) addUserToMap({ id: currentUser.id, email: currentUser.email, display_name: currentUser.email ? currentUser.email.split('@')[0] : 'User' });
+
             // 1. Fetch from Supabase profiles
             try {
-                const { data: usersData, error } = await supabaseClient.from('profiles').select('*');
-                if (usersData) {
-                    usersData.forEach(u => {
-                        const uid = u.id || u.userId || u.email;
-                        if (uid) aggregatedMap.set(uid, u);
-                    });
-                }
+                const { data: usersData } = await supabaseClient.from('profiles').select('*');
+                if (usersData) usersData.forEach(addUserToMap);
             } catch (e) {}
 
             // 2. Fetch from community messages
             try {
                 const { data: commData } = await supabaseClient.from('community_messages').select('user_id, user_email, display_name, avatar_url, avatar_gradient, is_admin');
                 if (commData) {
-                    commData.forEach(m => {
-                        const uid = m.user_id || m.user_email;
-                        if (uid && !aggregatedMap.has(uid)) {
-                            aggregatedMap.set(uid, {
-                                id: m.user_id,
-                                email: m.user_email,
-                                display_name: m.display_name,
-                                displayName: m.display_name,
-                                avatar_url: m.avatar_url,
-                                avatar_gradient: m.avatar_gradient,
-                                is_admin: m.is_admin,
-                                isAdmin: m.is_admin
-                            });
-                        }
-                    });
+                    commData.forEach(m => addUserToMap({
+                        id: m.user_id,
+                        email: m.user_email,
+                        display_name: m.display_name,
+                        photo_url: m.avatar_url,
+                        avatar_gradient: m.avatar_gradient,
+                        is_admin: m.is_admin
+                    }));
                 }
             } catch (e) {}
 
@@ -6444,15 +6491,8 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, recipient_id');
                 if (dmData) {
                     dmData.forEach(d => {
-                        const uid = d.sender_id || d.sender_email;
-                        if (uid && !aggregatedMap.has(uid)) {
-                            aggregatedMap.set(uid, {
-                                id: d.sender_id,
-                                email: d.sender_email,
-                                display_name: d.sender_name,
-                                displayName: d.sender_name
-                            });
-                        }
+                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name });
+                        if (d.recipient_id) addUserToMap({ id: d.recipient_id });
                     });
                 }
             } catch (e) {}
@@ -6462,18 +6502,20 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const cachedKnown = localStorage.getItem('known_app_users');
                 if (cachedKnown) {
                     const parsed = JSON.parse(cachedKnown);
-                    if (Array.isArray(parsed)) {
-                        parsed.forEach(u => {
-                            const uid = u.id || u.userId || u.email;
-                            if (uid && !aggregatedMap.has(uid)) {
-                                aggregatedMap.set(uid, u);
-                            }
-                        });
-                    }
+                    if (Array.isArray(parsed)) parsed.forEach(addUserToMap);
                 }
             } catch (e) {}
 
-            // Also cache current aggregated list back to localStorage
+            // 5. LocalStorage fallback community/direct messages
+            try {
+                const fallbackComm = JSON.parse(localStorage.getItem('fallback_community_messages') || '[]');
+                fallbackComm.forEach(m => addUserToMap({ id: m.user_id, email: m.user_email, display_name: m.display_name }));
+
+                const fallbackDm = JSON.parse(localStorage.getItem('fallback_direct_messages') || '[]');
+                fallbackDm.forEach(d => addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name }));
+            } catch (e) {}
+
+            // Cache current aggregated list back to localStorage
             try {
                 const allArr = Array.from(aggregatedMap.values());
                 localStorage.setItem('known_app_users', JSON.stringify(allArr));
@@ -6484,7 +6526,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             dmUsersList = Array.from(aggregatedMap.values()).filter(u => {
                 const uid = u.id || u.userId;
                 const uemail = u.email;
-                if (myId && (uid === myId)) return false;
+                if (myId && uid && (uid === myId)) return false;
                 if (myEmail && uemail && (uemail.toLowerCase() === myEmail.toLowerCase())) return false;
                 return true;
             });
@@ -6497,9 +6539,15 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 directMessagesList = cached ? JSON.parse(cached) : [];
             }
 
+            if (dmUsersList.length > 0 && !activeDmRecipient) {
+                activeDmRecipient = dmUsersList[0];
+            }
+
             renderDmUsersList();
             if (activeDmRecipient) {
                 renderDmConversation();
+                const form = getEl('dm-input-form');
+                if (form) form.style.display = 'flex';
             }
         }
 
@@ -6517,11 +6565,13 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const name = u.display_name || u.displayName || u.email || 'Member';
                 const isSelected = activeDmRecipient && (activeDmRecipient.id === u.id || activeDmRecipient.userId === u.userId);
                 const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || u.isAdmin || u.is_admin;
+                const avatarUrl = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || '';
+                const uId = u.id || u.userId;
 
                 html += `
-                    <div onclick='selectDmUser(${JSON.stringify(u)})' style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
+                    <div onclick="selectDmUserById('${escapeHtml(uId)}')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
                         <div style="width: 28px; height: 28px; border-radius: 50%; background: ${u.avatar_gradient || 'emerald'}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow:hidden; flex-shrink:0;">
-                            ${u.avatar_url ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : name.charAt(0).toUpperCase()}
+                            ${avatarUrl ? `<img src="${escapeHtml(avatarUrl)}" style="width:100%;height:100%;object-fit:cover;">` : escapeHtml(name.charAt(0).toUpperCase())}
                         </div>
                         <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
                             ${escapeHtml(name)}
@@ -6533,7 +6583,19 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             container.innerHTML = html;
         }
 
+        function selectDmUserById(userId) {
+            const target = dmUsersList.find(u => (u.id === userId || u.userId === userId));
+            if (target) {
+                activeDmRecipient = target;
+                renderDmUsersList();
+                renderDmConversation();
+                const form = getEl('dm-input-form');
+                if (form) form.style.display = 'flex';
+            }
+        }
+
         function selectDmUser(userObj) {
+            if (!userObj) return;
             activeDmRecipient = userObj;
             renderDmUsersList();
             renderDmConversation();
