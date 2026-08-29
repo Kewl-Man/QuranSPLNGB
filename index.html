@@ -6250,9 +6250,9 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 <div id="community-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px; background: rgba(0,0,0,0.22); border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 12px;">
                     <!-- Injected by JS -->
                 </div>
-                <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 8px; align-items: center;">
-                    <input type="text" id="community-chat-input" placeholder="Type a message or emoji in global chat (e.g. Assalaamualaykum! 👋)..." class="auth-input" style="flex: 1; margin-bottom: 0;" required autocomplete="off">
-                    <button type="submit" class="btn btn-primary" style="padding: 10px 20px; font-weight: 700;">Send 🚀</button>
+                <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="community-chat-input" placeholder="Type a message or emoji in global chat (e.g. Assalaamualaykum! 👋)..." class="auth-input" style="flex: 1; margin-bottom: 0; padding: 14px 18px; font-size: 1rem; background: rgba(0,0,0,0.45); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 12px;" required autocomplete="off">
+                    <button type="submit" class="btn btn-primary" style="padding: 14px 24px; font-weight: 700; font-size: 1rem;">Send 🚀</button>
                 </form>
             </div>
 
@@ -6274,9 +6274,9 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                         <div id="dm-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; padding: 4px;">
                             <div style="text-align:center; color:var(--text-muted); padding:30px;">Choose someone to chat privately. (Admins can view all DMs for safety).</div>
                         </div>
-                        <form onsubmit="sendDirectMessage(event)" id="dm-input-form" style="display: none; gap: 8px; align-items: center;">
-                            <input type="text" id="dm-chat-input" placeholder="Type a private DM..." class="auth-input" style="flex: 1; margin-bottom: 0;" required autocomplete="off">
-                            <button type="submit" class="btn btn-primary" style="padding: 9px 16px; font-weight: 700;">Send DM</button>
+                        <form onsubmit="sendDirectMessage(event)" id="dm-input-form" style="display: none; gap: 10px; align-items: center;">
+                            <input type="text" id="dm-chat-input" placeholder="Type a private DM..." class="auth-input" style="flex: 1; margin-bottom: 0; padding: 14px 18px; font-size: 1rem; background: rgba(0,0,0,0.45); color: var(--text-main); border: 1px solid var(--glass-border); border-radius: 12px;" required autocomplete="off">
+                            <button type="submit" class="btn btn-primary" style="padding: 14px 24px; font-weight: 700; font-size: 1rem;">Send DM</button>
                         </form>
                     </div>
                 </div>
@@ -6625,9 +6625,8 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             const recipientId = activeDmRecipient.id || activeDmRecipient.userId;
             const isAdmin = checkAdminAccess();
 
-            // Admins can view all DMs or messages involving them/others. For normal users, messages between myId and recipientId.
+            // Messages between the current user and the selected recipient
             const conversation = directMessagesList.filter(m => {
-                if (isAdmin) return true; // Admin can oversee safety
                 return (m.sender_id === myId && m.recipient_id === recipientId) || (m.sender_id === recipientId && m.recipient_id === myId);
             });
 
