@@ -4778,6 +4778,16 @@
             playSound('click');
         }
 
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return '';
+            return unsafe
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
         function normalizeUserProfile(u) {
             if (!u) return null;
             const uid = u.id || u.userId || u.user_id || u.email;
