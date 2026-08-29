@@ -3541,6 +3541,14 @@
                         await supabaseClient.from('profiles').upsert([currentUserProfile]);
                     }
 
+                    // Cache in known_app_users localStorage
+                    try {
+                        const existing = JSON.parse(localStorage.getItem('known_app_users') || '[]');
+                        const filtered = existing.filter(u => (u.id !== currentUserProfile.id && u.userId !== currentUserProfile.userId && u.email !== currentUserProfile.email));
+                        filtered.push(currentUserProfile);
+                        localStorage.setItem('known_app_users', JSON.stringify(filtered));
+                    } catch (e) {}
+
                     if (currentUserProfile && (currentUserProfile.status === 'banned' || currentUserProfile.status === 'suspended')) {
                         showBannedScreen(currentUserProfile.ban_reason || currentUserProfile.banReason || 'Account suspended for policy violation.');
                     } else {
@@ -6293,16 +6301,94 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
         }
 
         async function loadDmUsersAndMessages() {
+            let aggregatedMap = new Map();
+
+            // 1. Fetch from Supabase profiles
             try {
                 const { data: usersData, error } = await supabaseClient.from('profiles').select('*');
-                dmUsersList = (usersData || []).filter(u => u.id !== currentUser.id && u.userId !== currentUser.id);
-            } catch (e) {
-                dmUsersList = [];
-            }
+                if (usersData) {
+                    usersData.forEach(u => {
+                        const uid = u.id || u.userId || u.email;
+                        if (uid) aggregatedMap.set(uid, u);
+                    });
+                }
+            } catch (e) {}
+
+            // 2. Fetch from community messages
+            try {
+                const { data: commData } = await supabaseClient.from('community_messages').select('user_id, user_email, display_name, avatar_url, avatar_gradient, is_admin');
+                if (commData) {
+                    commData.forEach(m => {
+                        const uid = m.user_id || m.user_email;
+                        if (uid && !aggregatedMap.has(uid)) {
+                            aggregatedMap.set(uid, {
+                                id: m.user_id,
+                                email: m.user_email,
+                                display_name: m.display_name,
+                                displayName: m.display_name,
+                                avatar_url: m.avatar_url,
+                                avatar_gradient: m.avatar_gradient,
+                                is_admin: m.is_admin,
+                                isAdmin: m.is_admin
+                            });
+                        }
+                    });
+                }
+            } catch (e) {}
+
+            // 3. Fetch from direct messages
+            try {
+                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, recipient_id');
+                if (dmData) {
+                    dmData.forEach(d => {
+                        const uid = d.sender_id || d.sender_email;
+                        if (uid && !aggregatedMap.has(uid)) {
+                            aggregatedMap.set(uid, {
+                                id: d.sender_id,
+                                email: d.sender_email,
+                                display_name: d.sender_name,
+                                displayName: d.sender_name
+                            });
+                        }
+                    });
+                }
+            } catch (e) {}
+
+            // 4. LocalStorage known users cache
+            try {
+                const cachedKnown = localStorage.getItem('known_app_users');
+                if (cachedKnown) {
+                    const parsed = JSON.parse(cachedKnown);
+                    if (Array.isArray(parsed)) {
+                        parsed.forEach(u => {
+                            const uid = u.id || u.userId || u.email;
+                            if (uid && !aggregatedMap.has(uid)) {
+                                aggregatedMap.set(uid, u);
+                            }
+                        });
+                    }
+                }
+            } catch (e) {}
+
+            // Also cache current aggregated list back to localStorage
+            try {
+                const allArr = Array.from(aggregatedMap.values());
+                localStorage.setItem('known_app_users', JSON.stringify(allArr));
+            } catch (e) {}
+
+            const myId = currentUser ? currentUser.id : '';
+            const myEmail = currentUser ? currentUser.email : '';
+            dmUsersList = Array.from(aggregatedMap.values()).filter(u => {
+                const uid = u.id || u.userId;
+                const uemail = u.email;
+                if (myId && (uid === myId)) return false;
+                if (myEmail && uemail && (uemail.toLowerCase() === myEmail.toLowerCase())) return false;
+                return true;
+            });
 
             try {
-                const { data: dmData } = await supabaseClient.from('direct_messages').select('*').order('created_at', { ascending: true });
-                directMessagesList = dmData || [];
+                const { data: dmData2 } = await supabaseClient.from('direct_messages').select('*').order('created_at', { ascending: true });
+                directMessagesList = dmData2 || [];
             } catch (e) {
                 const cached = localStorage.getItem('fallback_direct_messages');
                 directMessagesList = cached ? JSON.parse(cached) : [];
