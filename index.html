@@ -2403,9 +2403,16 @@
                 </button>
             </div>
             <div id="user-profile-widget-inline" style="display: none; align-items: center; gap: 8px;">
+                <button class="user-profile-pill" onclick="openCommunityChatModal()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent); position: relative;">
+                    <span>💬 Chat</span>
+                    <span id="chat-notification-badge" style="display: none; position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 6px rgba(239,68,68,0.5);">0</span>
+                </button>
                 <button class="user-profile-pill" onclick="openUserProfileModal()">
                     <div class="user-avatar-circle" id="user-avatar-display">U</div>
                     <span id="user-display-name">User</span>
+                </button>
+                <button class="btn-mini" onclick="openUserProfileModal()" style="padding: 7px 10px; background: rgba(255,255,255,0.1); border-color: var(--glass-border); font-size: 1rem;" title="Account Settings">
+                    ⚙️
                 </button>
                 <button class="btn-mini" id="admin-panel-btn" onclick="openAdminModal()" style="display: none; padding: 7px 12px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.45); color: #fca5a5;" title="Moderation Panel">
                     🛡️ Admin
@@ -3078,6 +3085,20 @@
                     </button>
                     <button type="button" class="btn-mini" id="btn-reset-initials-photo" onclick="resetAvatarToDefaultInitials()" style="display: none; padding: 4px 10px; font-size: 0.75rem; background: rgba(255,255,255,0.08);">
                         🔤 Use Default Initials
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Linking Section -->
+            <div style="margin-bottom: 16px; padding: 14px; background: rgba(0,0,0,0.18); border: 1px solid var(--glass-border); border-radius: 14px;">
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">🔗 Link Google / Discord Sign-In:</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px;">Link multiple providers to sign in with either Google or Discord to the exact same account.</div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="btn-mini" onclick="linkAuthProvider('google')" style="flex: 1; padding: 8px 12px; background: rgba(66, 133, 244, 0.2); border-color: rgba(66, 133, 244, 0.4); font-weight: 600;">
+                        🔗 Link Google
+                    </button>
+                    <button type="button" class="btn-mini" onclick="linkAuthProvider('discord')" style="flex: 1; padding: 8px 12px; background: rgba(88, 101, 242, 0.2); border-color: rgba(88, 101, 242, 0.4); font-weight: 600;">
+                        🔗 Link Discord
                     </button>
                 </div>
             </div>
@@ -5990,15 +6011,15 @@
 
     <!-- MODAL: VERSION 1.0 RELEASE ANNOUNCEMENT -->
     <div class="modal-overlay" id="modal-v1-announcement" onclick="if(event.target === this) closeV1AnnouncementModal()">
-        <div class="glass-panel modal-card auth-card" style="max-width: 520px; text-align: left; border-color: var(--primary);" onclick="event.stopPropagation()">
+        <div class="glass-panel modal-card auth-card" style="max-width: 520px; text-align: left; border-color: var(--primary); background: var(--card-bg, #064e3b);" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 26px;">🎉</span>
-                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0;">QuranSPLNGB Version 1.0</h3>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--gold, #fbbf24); margin: 0;">QuranSPLNGB Version 1.0</h3>
                 </div>
                 <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeV1AnnouncementModal()">✕</button>
             </div>
-            <div style="color: var(--text-main); font-size: 0.98rem; line-height: 1.7; margin-bottom: 24px; white-space: pre-line; background: rgba(0,0,0,0.18); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+            <div style="color: var(--text-main); font-size: 0.98rem; line-height: 1.7; margin-bottom: 24px; white-space: pre-line; background: rgba(0,0,0,0.25); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
 <b>Assalaam u Alaikum!</b>
 
 Alhamdulillah, We have now officially launched the first Production Release of our app! <b>QuranSPLNGB, Version 1.0!</b> I fixed the few bugs that you guys experienced while testing the app out for the first time, which includes root letters, and, well that's it actually. 
@@ -6007,7 +6028,7 @@ But we added a sign in feature, so feel free to sign up with your <b>email, goog
 
 <b>Jazakallahu Khairan</b>
             </div>
-            <button class="btn btn-primary" style="width: 100%; font-weight: 700;" onclick="closeV1AnnouncementModal()">
+            <button class="btn btn-primary" style="width: 100%; font-weight: 700; background: var(--primary, #10b981); color: #000;" onclick="closeV1AnnouncementModal()">
                 Alhamdulillah, Let's Get Started! 🚀
             </button>
         </div>
@@ -6021,6 +6042,7 @@ But we added a sign in feature, so feel free to sign up with your <b>email, goog
             const modal = getEl('modal-v1-announcement');
             if (modal) {
                 modal.classList.add('active');
+                modal.style.display = 'flex';
             }
         }
 
@@ -6028,6 +6050,7 @@ But we added a sign in feature, so feel free to sign up with your <b>email, goog
             const modal = getEl('modal-v1-announcement');
             if (modal) {
                 modal.classList.remove('active');
+                modal.style.display = 'none';
             }
             if (activeAnnouncementUserId) {
                 try {
@@ -6035,6 +6058,225 @@ But we added a sign in feature, so feel free to sign up with your <b>email, goog
                 } catch (e) {}
             }
         }
+    </script>
+
+    <!-- MODAL: COMMUNITY CHAT -->
+    <div class="modal-overlay" id="modal-community-chat" onclick="if(event.target === this) closeCommunityChatModal()">
+        <div class="glass-panel modal-card wide" style="max-width: 650px; height: 80vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 22px;">💬</span>
+                    <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin: 0;">QuranSPLNGB Community Chat</h3>
+                </div>
+                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeCommunityChatModal()">✕</button>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="community-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px; background: rgba(0,0,0,0.22); border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 12px;">
+                <!-- Injected by JS -->
+            </div>
+
+            <!-- Chat Input Form -->
+            <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 8px; align-items: center;">
+                <input type="text" id="community-chat-input" placeholder="Type a message or emoji (e.g. Assalaamualaykum! 👋)..." class="auth-input" style="flex: 1; margin-bottom: 0;" required autocomplete="off">
+                <button type="submit" class="btn btn-primary" style="padding: 10px 20px; font-weight: 700;">Send 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let communityChatMessagesList = [];
+
+        async function openCommunityChatModal() {
+            if (!currentUser) {
+                openAuthModal('login', "✨ Sign in to join the Community Chat!", "Sign in with your email, Google, or Discord account to chat with other learners.");
+                return;
+            }
+            openModal('modal-community-chat');
+            await loadCommunityMessages();
+            if (currentUser) {
+                try {
+                    localStorage.setItem('last_read_chat_timestamp_' + currentUser.id, Date.now().toString());
+                    const badge = getEl('chat-notification-badge');
+                    if (badge) {
+                        badge.style.display = 'none';
+                        badge.innerText = '0';
+                    }
+                } catch (e) {}
+            }
+        }
+
+        function closeCommunityChatModal() {
+            closeModal('modal-community-chat');
+        }
+
+        async function loadCommunityMessages() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('community_messages')
+                    .select('*')
+                    .order('created_at', { ascending: true })
+                    .limit(100);
+                
+                if (!error && data) {
+                    communityChatMessagesList = data;
+                } else {
+                    const cached = localStorage.getItem('fallback_community_messages');
+                    communityChatMessagesList = cached ? JSON.parse(cached) : [];
+                }
+                renderCommunityMessages();
+            } catch (err) {
+                const cached = localStorage.getItem('fallback_community_messages');
+                communityChatMessagesList = cached ? JSON.parse(cached) : [];
+                renderCommunityMessages();
+            }
+        }
+
+        function renderCommunityMessages() {
+            const container = getEl('community-chat-messages');
+            if (!container) return;
+
+            if (communityChatMessagesList.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:40px;">No messages yet. Be the first to say Assalaamualaykum! 👋</div>`;
+                return;
+            }
+
+            const isAdmin = checkAdminAccess();
+            let html = '';
+            communityChatMessagesList.forEach(msg => {
+                const isMsgAdmin = (msg.user_email && msg.user_email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || msg.is_admin;
+                const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                const gradient = msg.avatar_gradient || 'emerald';
+                const avatarContent = msg.avatar_url ? `<img src="${msg.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : (msg.display_name ? msg.display_name.charAt(0).toUpperCase() : 'U');
+
+                html += `
+                    <div style="display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: ${gradient}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; overflow:hidden;">
+                            ${avatarContent}
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+                                <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">${escapeHtml(msg.display_name || 'User')}</span>
+                                ${isMsgAdmin ? '<span style="font-size:0.65rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 6px; border-radius:4px; font-weight:700;">ADMIN</span>' : ''}
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">${timeStr}</span>
+                            </div>
+                            <div style="font-size: 0.92rem; color: var(--text-main); word-break: break-word; line-height: 1.4;">${escapeHtml(msg.message)}</div>
+                        </div>
+                        ${isAdmin ? `<button class="btn-mini" onclick="deleteCommunityMessage('${msg.id}')" style="padding: 3px 8px; font-size: 0.7rem; background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4);" title="Delete / Moderate">🗑️</button>` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function sendCommunityMessage(e) {
+            e.preventDefault();
+            if (!currentUser) {
+                openAuthModal('login');
+                return;
+            }
+            const input = getEl('community-chat-input');
+            const text = (input?.value || '').trim();
+            if (!text) return;
+
+            const profile = currentUserProfile || {};
+            const displayName = profile.display_name || profile.displayName || currentUser.email?.split('@')[0] || 'User';
+            const avatarUrl = profile.avatar_url || profile.avatarUrl || '';
+            const avatarGradient = profile.avatar_gradient || profile.avatarGradient || 'linear-gradient(135deg, #10b981, #047857)';
+            const isAdmin = checkAdminAccess();
+
+            const newMsg = {
+                id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+                user_id: currentUser.id,
+                user_email: currentUser.email,
+                display_name: displayName,
+                avatar_url: avatarUrl,
+                avatar_gradient: avatarGradient,
+                message: text,
+                created_at: new Date().toISOString(),
+                is_admin: isAdmin
+            };
+
+            try {
+                const { error } = await supabaseClient.from('community_messages').insert([newMsg]);
+                if (error) {
+                    communityChatMessagesList.push(newMsg);
+                    localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+                } else {
+                    communityChatMessagesList.push(newMsg);
+                }
+                if (input) input.value = '';
+                renderCommunityMessages();
+            } catch (err) {
+                communityChatMessagesList.push(newMsg);
+                localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+                if (input) input.value = '';
+                renderCommunityMessages();
+            }
+        }
+
+        async function deleteCommunityMessage(msgId) {
+            if (!confirm("Are you sure you want to delete this message?")) return;
+            try {
+                await supabaseClient.from('community_messages').delete().eq('id', msgId);
+                communityChatMessagesList = communityChatMessagesList.filter(m => m.id !== msgId);
+                localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+                renderCommunityMessages();
+            } catch (err) {
+                communityChatMessagesList = communityChatMessagesList.filter(m => m.id !== msgId);
+                localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+                renderCommunityMessages();
+            }
+        }
+
+        async function checkChatUnreadNotifications() {
+            if (!currentUser) return;
+            try {
+                const { data, error } = await supabaseClient
+                    .from('community_messages')
+                    .select('created_at, user_id')
+                    .order('created_at', { ascending: false })
+                    .limit(50);
+                
+                let list = data || [];
+                if (error || !data) {
+                    const cached = localStorage.getItem('fallback_community_messages');
+                    list = cached ? JSON.parse(cached) : [];
+                }
+
+                const lastReadTime = parseInt(localStorage.getItem('last_read_chat_timestamp_' + currentUser.id) || '0', 10);
+                const unreadCount = list.filter(m => new Date(m.created_at).getTime() > lastReadTime && m.user_id !== currentUser.id).length;
+
+                const badge = getEl('chat-notification-badge');
+                if (badge) {
+                    if (unreadCount > 0) {
+                        badge.style.display = 'inline-block';
+                        badge.innerText = unreadCount > 9 ? '9+' : unreadCount.toString();
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+            } catch (e) {}
+        }
+
+        async function linkAuthProvider(provider) {
+            try {
+                const { data, error } = await supabaseClient.auth.linkIdentity({
+                    provider: provider,
+                    options: {
+                        redirectTo: window.location.origin + window.location.pathname
+                    }
+                });
+                if (error) throw error;
+                alert("Redirecting to link your " + provider + " account...");
+            } catch (err) {
+                console.error("Link identity error:", err);
+                alert("Error linking account: " + (err.message || err));
+            }
+        }
+
+        setInterval(checkChatUnreadNotifications, 8000);
     </script>
 
     <!-- Ad Blocker Detection Modal -->
