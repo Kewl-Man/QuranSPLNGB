@@ -3513,7 +3513,7 @@
 
                         await supabaseClient
                             .from('profiles')
-                            .update({ last_login_at: new Date().toISOString() })
+                            .update({ last_login_at: new Date().toISOString(), photo_url: currentUserProfile.photoURL, avatar_gradient: currentUserProfile.avatarGradient })
                             .eq('id', userId);
                     } else {
                         const dbPayload = {
@@ -4836,7 +4836,7 @@
                         aggregatedMap.set(norm.id, norm);
                     } else {
                         const existing = aggregatedMap.get(norm.id);
-                        aggregatedMap.set(norm.id, { ...norm, ...existing });
+                        const merged = { ...norm, ...existing }; if (!merged.photo_url && norm.photo_url) merged.photo_url = norm.photo_url; if (!merged.photoURL && norm.photoURL) merged.photoURL = norm.photoURL; aggregatedMap.set(norm.id, merged);
                     }
                 }
             };
@@ -6371,12 +6371,19 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             communityChatMessagesList.forEach(msg => {
                 const isMsgAdmin = (msg.user_email && msg.user_email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || msg.is_admin;
                 const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-                const gradient = msg.avatar_gradient || 'emerald';
-                const avatarContent = msg.avatar_url ? `<img src="${msg.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : (msg.display_name ? msg.display_name.charAt(0).toUpperCase() : 'U');
+                
+                const pForAvatar = { 
+                    photo_url: msg.avatar_url, 
+                    avatar_gradient: msg.avatar_gradient || 'emerald',
+                    displayName: msg.display_name
+                };
+                const msgAvatarInfo = getUserAvatarInfo(null, pForAvatar);
+                const avatarBg = msgAvatarInfo.hasPhoto ? 'transparent' : msgAvatarInfo.gradientCss;
+                const avatarContent = msgAvatarInfo.hasPhoto ? `<img src="${escapeHtml(msgAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escapeHtml(msgAvatarInfo.initials);
 
                 html += `
                     <div style="display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
-                        <div style="width: 36px; height: 36px; border-radius: 50%; background: ${gradient}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; overflow:hidden;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; overflow:hidden;">
                             ${avatarContent}
                         </div>
                         <div style="flex: 1; min-width: 0;">
@@ -6465,7 +6472,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                         aggregatedMap.set(norm.id, norm);
                     } else {
                         const existing = aggregatedMap.get(norm.id);
-                        aggregatedMap.set(norm.id, { ...norm, ...existing });
+                        const merged = { ...norm, ...existing }; if (!merged.photo_url && norm.photo_url) merged.photo_url = norm.photo_url; if (!merged.photoURL && norm.photoURL) merged.photoURL = norm.photoURL; aggregatedMap.set(norm.id, merged);
                     }
                 }
             };
@@ -6574,13 +6581,16 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const name = u.display_name || u.displayName || u.email || 'Member';
                 const isSelected = activeDmRecipient && (activeDmRecipient.id === u.id || activeDmRecipient.userId === u.userId);
                 const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || u.isAdmin || u.is_admin;
-                const avatarUrl = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || '';
                 const uId = u.id || u.userId;
+                
+                const uAvatarInfo = getUserAvatarInfo(null, u);
+                const avatarBg = uAvatarInfo.hasPhoto ? 'transparent' : uAvatarInfo.gradientCss;
+                const avatarContent = uAvatarInfo.hasPhoto ? `<img src="${escapeHtml(uAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;">` : escapeHtml(uAvatarInfo.initials);
 
                 html += `
                     <div onclick="selectDmUserById('${escapeHtml(uId)}')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
-                        <div style="width: 28px; height: 28px; border-radius: 50%; background: ${u.avatar_gradient || 'emerald'}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow:hidden; flex-shrink:0;">
-                            ${avatarUrl ? `<img src="${escapeHtml(avatarUrl)}" style="width:100%;height:100%;object-fit:cover;">` : escapeHtml(name.charAt(0).toUpperCase())}
+                        <div style="width: 28px; height: 28px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow:hidden; flex-shrink:0;">
+                            ${avatarContent}
                         </div>
                         <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
                             ${escapeHtml(name)}
@@ -6639,14 +6649,22 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const isMe = msg.sender_id === myId;
                 const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
                 const senderProfile = isMe ? currentUserProfile : activeDmRecipient;
-                const senderAvatar = msg.sender_avatar || senderProfile?.photo_url || senderProfile?.photoURL || senderProfile?.avatar_url || '';
-                const senderGradient = senderProfile?.avatar_gradient || senderProfile?.avatarGradient || 'emerald';
                 const senderName = msg.sender_name || senderProfile?.display_name || senderProfile?.displayName || 'User';
-                const avatarHtml = senderAvatar ? `<img src="${escapeHtml(senderAvatar)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escapeHtml(senderName.charAt(0).toUpperCase());
+
+                // Use robust avatar info parsing
+                const pForAvatar = { 
+                    ...senderProfile, 
+                    photo_url: msg.sender_avatar || senderProfile?.photo_url || senderProfile?.photoURL, 
+                    avatar_gradient: senderProfile?.avatar_gradient || senderProfile?.avatarGradient || 'emerald',
+                    displayName: senderName
+                };
+                const msgAvatarInfo = getUserAvatarInfo(null, pForAvatar);
+                const avatarBg = msgAvatarInfo.hasPhoto ? 'transparent' : msgAvatarInfo.gradientCss;
+                const avatarHtml = msgAvatarInfo.hasPhoto ? `<img src="${escapeHtml(msgAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escapeHtml(msgAvatarInfo.initials);
 
                 html += `
                     <div style="display: flex; align-items: flex-start; gap: 8px; flex-direction: ${isMe ? 'row-reverse' : 'row'}; margin-bottom: 10px;">
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: ${senderGradient}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow: hidden; flex-shrink: 0;">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow: hidden; flex-shrink: 0;">
                             ${avatarHtml}
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 75%;">
