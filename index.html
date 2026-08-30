@@ -3080,10 +3080,10 @@
                 <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">🔗 Link Google / Discord Sign-In:</div>
                 <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px;">Link multiple providers to sign in with either Google or Discord to the exact same account.</div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button type="button" class="btn-mini" onclick="linkAuthProvider('google')" style="flex: 1; padding: 8px 12px; background: rgba(66, 133, 244, 0.2); border-color: rgba(66, 133, 244, 0.4); font-weight: 600;">
+                    <button type="button" class="btn-mini" id="btn-link-google" onclick="linkAuthProvider('google')" style="flex: 1; padding: 8px 12px; background: rgba(66, 133, 244, 0.2); border-color: rgba(66, 133, 244, 0.4); font-weight: 600;">
                         🔗 Link Google
                     </button>
-                    <button type="button" class="btn-mini" onclick="linkAuthProvider('discord')" style="flex: 1; padding: 8px 12px; background: rgba(88, 101, 242, 0.2); border-color: rgba(88, 101, 242, 0.4); font-weight: 600;">
+                    <button type="button" class="btn-mini" id="btn-link-discord" onclick="linkAuthProvider('discord')" style="flex: 1; padding: 8px 12px; background: rgba(88, 101, 242, 0.2); border-color: rgba(88, 101, 242, 0.4); font-weight: 600;">
                         🔗 Link Discord
                     </button>
                 </div>
@@ -4101,6 +4101,44 @@
                 resetGoogleBtn.style.display = isDifferent ? 'inline-flex' : 'none';
                 if (actRow) {
                     actRow.style.display = isDifferent ? 'flex' : 'none';
+                }
+            }
+
+            const providers = (currentUser.app_metadata && currentUser.app_metadata.providers) || [];
+            const hasGoogle = providers.includes('google');
+            const hasDiscord = providers.includes('discord');
+
+            const btnLinkGoogle = getEl('btn-link-google');
+            if (btnLinkGoogle) {
+                if (hasGoogle) {
+                    btnLinkGoogle.innerHTML = '✅ Google Linked';
+                    btnLinkGoogle.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btnLinkGoogle.style.borderColor = 'var(--accent)';
+                    btnLinkGoogle.onclick = null;
+                    btnLinkGoogle.style.cursor = 'default';
+                } else {
+                    btnLinkGoogle.innerHTML = '🔗 Link Google';
+                    btnLinkGoogle.style.background = 'rgba(66, 133, 244, 0.2)';
+                    btnLinkGoogle.style.borderColor = 'rgba(66, 133, 244, 0.4)';
+                    btnLinkGoogle.onclick = () => linkAuthProvider('google');
+                    btnLinkGoogle.style.cursor = 'pointer';
+                }
+            }
+
+            const btnLinkDiscord = getEl('btn-link-discord');
+            if (btnLinkDiscord) {
+                if (hasDiscord) {
+                    btnLinkDiscord.innerHTML = '✅ Discord Linked';
+                    btnLinkDiscord.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btnLinkDiscord.style.borderColor = 'var(--accent)';
+                    btnLinkDiscord.onclick = null;
+                    btnLinkDiscord.style.cursor = 'default';
+                } else {
+                    btnLinkDiscord.innerHTML = '🔗 Link Discord';
+                    btnLinkDiscord.style.background = 'rgba(88, 101, 242, 0.2)';
+                    btnLinkDiscord.style.borderColor = 'rgba(88, 101, 242, 0.4)';
+                    btnLinkDiscord.onclick = () => linkAuthProvider('discord');
+                    btnLinkDiscord.style.cursor = 'pointer';
                 }
             }
 
