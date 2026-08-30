@@ -4795,8 +4795,8 @@
             const displayName = u.display_name || u.displayName || u.sender_name || (email ? email.split('@')[0] : 'Member');
             const firstName = u.first_name || u.firstName || displayName.split(' ')[0] || 'Member';
             const lastName = u.last_name || u.lastName || displayName.split(' ').slice(1).join(' ') || '';
-            const photoURL = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || '';
-            const avatarGradient = u.avatar_gradient || u.avatarGradient || 'emerald';
+            const photoURL = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || u.sender_avatar || '';
+            const avatarGradient = u.avatar_gradient || u.avatarGradient || u.sender_gradient || 'emerald';
             const status = u.status || 'active';
             const banReason = u.ban_reason || u.banReason || '';
             const isAdmin = (u.is_admin === true) || (u.isAdmin === true) || (email && email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
@@ -4868,10 +4868,10 @@
 
             // 3. Fetch from direct messages
             try {
-                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, recipient_id');
+                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, sender_avatar, sender_gradient, recipient_id');
                 if (dmData) {
                     dmData.forEach(d => {
-                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name });
+                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name, photo_url: d.sender_avatar, avatar_gradient: d.sender_gradient });
                         if (d.recipient_id) addUserToMap({ id: d.recipient_id });
                     });
                 }
@@ -6497,10 +6497,10 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
 
             // 3. Fetch from direct messages
             try {
-                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, recipient_id');
+                const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, sender_avatar, sender_gradient, recipient_id');
                 if (dmData) {
                     dmData.forEach(d => {
-                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name });
+                        addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name, photo_url: d.sender_avatar, avatar_gradient: d.sender_gradient });
                         if (d.recipient_id) addUserToMap({ id: d.recipient_id });
                     });
                 }
