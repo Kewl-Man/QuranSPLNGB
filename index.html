@@ -3507,7 +3507,7 @@
                         currentUserProfile.displayName = currentUserProfile.display_name || fullName;
                         currentUserProfile.firstName = currentUserProfile.first_name || firstName;
                         currentUserProfile.lastName = currentUserProfile.last_name || lastName;
-                        currentUserProfile.photoURL = currentUserProfile.photo_url || user.user_metadata?.avatar_url || '';
+                        currentUserProfile.photoURL = currentUserProfile.photo_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || '';
                         currentUserProfile.avatarGradient = currentUserProfile.avatar_gradient || 'emerald';
                         currentUserProfile.isAdmin = currentUserProfile.is_admin || (email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
 
@@ -3522,7 +3522,7 @@
                             first_name: firstName,
                             last_name: lastName,
                             display_name: fullName,
-                            photo_url: user.user_metadata?.avatar_url || '',
+                            photo_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
                             avatar_gradient: 'emerald',
                             status: 'active',
                             ban_reason: '',
@@ -3636,7 +3636,7 @@
             const initials = getInitialsFromNames(user, profile);
             
             let photoURL = (profile && (profile.photoURL || profile.photo_url || profile.avatar_url || profile.avatarUrl)) || 
-                           (user && (user.photoURL || user.photo_url || user.avatar_url || user.avatarUrl || user.user_metadata?.avatar_url)) || '';
+                           (user && (user.photoURL || user.photo_url || user.avatar_url || user.avatarUrl || user.user_metadata?.avatar_url || user.user_metadata?.picture)) || '';
             
             let gradKey = (profile && (profile.avatarGradient || profile.avatar_gradient)) || 
                           (user && (user.avatarGradient || user.avatar_gradient)) || '';
@@ -4254,7 +4254,7 @@
 
         async function resetAvatarToGooglePhoto() {
             if (!currentUser) return;
-            const gPhoto = currentUser.user_metadata?.avatar_url || currentUser.photoURL || '';
+            const gPhoto = currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture || currentUser.photoURL || '';
             if (!gPhoto) return;
             if (currentUserProfile) {
                 currentUserProfile.photoURL = gPhoto;
