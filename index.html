@@ -30,6 +30,7 @@
                 document.addEventListener("DOMContentLoaded", applyFavicon);
             }
         })();
+
     </script>
     <title>QuranSPLNGB - Qur'anic Vocabulary & Sight-Spelling</title>
     <script>
@@ -53,14 +54,17 @@
             } catch (_) {}
             return true;
         };
+
     </script>
     <!-- Google tag (gtag.js) -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP6ZNP6SR2"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-VP6ZNP6SR2');
+
     </script>
     <script>
         // Clean up any legacy Service Workers from previous versions
@@ -71,9 +75,11 @@
                 }
             }).catch(function() {});
         }
+
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Supabase JS SDK v2 -->
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -6060,6 +6066,7 @@
         checkAuthActionFromUrl();
         updateDownloadAppVisibility();
         checkAndShowWelcomeDownloadPrompt();
+
     </script>
 
     <!-- MODAL: VERSION 1.0 RELEASE ANNOUNCEMENT -->
@@ -6111,6 +6118,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 } catch (e) {}
             }
         }
+
     </script>
 
     <!-- MODAL: COMMUNITY CHAT & DMs -->
@@ -6121,7 +6129,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                     <span style="font-size: 22px;">💬</span>
                     <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin: 0;">QuranSPLNGB Hub (Chat & DMs)</h3>
                 </div>
-                <button class="btn-mini" style="font-size: 1rem; padding: 4px 10px;" onclick="closeCommunityChatModal()">✕</button>
+                <div style="display:flex;align-items:center;gap:8px;"><div style="position:relative;"><div id="online-users-badge" style="font-size:0.8rem;padding:4px 10px;background:rgba(16,185,129,0.2);border:1px solid var(--accent);color:var(--accent);border-radius:12px;cursor:pointer;font-weight:700;" onmouseenter="document.getElementById('online-users-dropdown').style.display='flex'" onmouseleave="document.getElementById('online-users-dropdown').style.display='none'">🟢 1 Online</div><div id="online-users-dropdown" class="glass-panel" style="display:none;position:absolute;right:0;top:100%;margin-top:8px;width:220px;z-index:100;max-height:300px;overflow-y:auto;border:1px solid var(--glass-border);border-radius:12px;padding:10px;flex-direction:column;gap:8px;" onmouseenter="this.style.display='flex'" onmouseleave="this.style.display='none'"></div></div><button class="btn-mini" style="font-size:1rem;padding:4px 10px;" onclick="closeCommunityChatModal()">✕</button></div>
             </div>
 
             <!-- Chat Tabs: Global vs DMs -->
@@ -6139,6 +6147,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 <div id="community-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px; background: rgba(0,0,0,0.22); border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 12px;">
                     <!-- Injected by JS -->
                 </div>
+                <div id="global-typing-indicator" style="font-size: 0.82rem; color: var(--accent); min-height: 18px; margin-bottom: 4px; font-weight: 600; display: flex; align-items: center; gap: 6px;"></div>
                 <form onsubmit="sendCommunityMessage(event)" style="display: flex; gap: 10px; align-items: center; width: 100%; margin-top: auto; flex-shrink: 0;">
                     <input type="text" id="community-chat-input" placeholder="Type a message or emoji in global chat..." style="flex: 1; min-width: 0; width: 100%; height: 46px; padding: 0 16px; font-size: 1rem; background: rgba(0,0,0,0.55); color: #ffffff !important; border: 2px solid var(--accent); border-radius: 12px; outline: none; box-sizing: border-box;" required autocomplete="off">
                     <button type="submit" class="btn btn-primary" style="height: 46px; width: 46px; display: flex; align-items: center; justify-content: center; padding: 0; font-size: 1.2rem; flex-shrink: 0; border-radius: 12px; cursor: pointer;" title="Send">🚀</button>
@@ -6163,6 +6172,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                         <div id="dm-chat-messages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; padding: 4px;">
                             <div style="text-align:center; color:var(--text-muted); padding:30px;">Choose someone to chat privately. (Admins can view all DMs for safety).</div>
                         </div>
+                        <div id="dm-typing-indicator" style="font-size: 0.82rem; color: var(--accent); min-height: 18px; margin-bottom: 4px; font-weight: 600; display: flex; align-items: center; gap: 6px;"></div>
                         <form onsubmit="sendDirectMessage(event)" id="dm-input-form" style="display: none; gap: 10px; align-items: center; width: 100%; margin-top: auto; flex-shrink: 0;">
                             <input type="text" id="dm-chat-input" placeholder="Type a private DM..." style="flex: 1; min-width: 0; width: 100%; height: 46px; padding: 0 16px; font-size: 1rem; background: rgba(0,0,0,0.55); color: #ffffff !important; border: 2px solid var(--accent); border-radius: 12px; outline: none; box-sizing: border-box;" required autocomplete="off">
                             <button type="submit" class="btn btn-primary" style="height: 46px; width: 46px; display: flex; align-items: center; justify-content: center; padding: 0; font-size: 1.2rem; flex-shrink: 0; border-radius: 12px; cursor: pointer;" title="Send DM">🚀</button>
@@ -6680,6 +6690,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
         }
 
         setInterval(checkChatUnreadNotifications, 8000);
+
     </script>
 
     <!-- Ad Blocker Detection Modal -->
@@ -6748,6 +6759,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 modal.style.display = 'flex';
             }
         }
+
     </script>
 
     <!-- Adsterra 728x90 Sticky Bottom Banner Ad Container -->
@@ -6771,6 +6783,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                     wrapper.appendChild(adScript);
                 }
             } catch (e) {}
+
         </script>
     </div>
 </body>
