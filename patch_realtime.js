@@ -152,3 +152,14 @@ function renderOnlineUsersBadge() {
     }
     dropdown.innerHTML = html;
 }
+
+function cleanupRealtimePresence() {
+    if (presenceChannel && supabaseClient) {
+        supabaseClient.removeChannel(presenceChannel);
+        presenceChannel = null;
+    }
+    onlineUsers = {};
+    typingUsers = {};
+    renderOnlineUsersBadge();
+    renderTypingIndicators();
+}

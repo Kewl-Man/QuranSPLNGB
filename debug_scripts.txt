@@ -1,0 +1,3515 @@
+--- BLOCK 6 ---
+1: 
+2:         // Full Database of 125 Words of the Qur'an
+3:         const wordsData = [
+4:             { a: "الله", t: "Allah", m: "Allah", o: 2550, p: "Noun", r: "" },
+5:             { a: "الشيطان", t: "Ash-Shaytaan", m: "Satan", o: 88, p: "Noun", r: "ش ط ن" },
+6:             { a: "هو", t: "huwa", m: "he", o: 481, p: "Noun", r: "" },
+7:             { a: "هم", t: "hum", m: "they", o: 444, p: "Noun", r: "" },
+8:             { a: "انت", t: "'anta", m: "you", o: 81, p: "Noun", r: "" },
+9:             { a: "انا", t: "'anaa", m: "I", o: 68, p: "Noun", r: "" },
+10:             { a: "انتم", t: "'antum", m: "you all", o: 135, p: "Noun", r: "" },
+11:             { a: "نحن", t: "nahnu", m: "we", o: 86, p: "Noun", r: "" },
+12:             { a: "من", t: "man", m: "who", o: 831, p: "Noun", r: "" },
+13:             { a: "هل", t: "hal", m: "Is, Do, Are...?", o: 93, p: "Particle", r: "" },
+14:             { a: "خير", t: "khayr", m: "best", o: 176, p: "Noun", r: "خ ي ر" },
+15:             { a: "اسم", t: "'ism", m: "Name", o: 39, p: "Noun", r: "س م و" },
+16:             { a: "الرحمن", t: "Ar-Rahmaan", m: "the Most Gracious", o: 57, p: "Noun", r: "ر ح م" },
+17:             { a: "الرحيم", t: "Ar-Raheem", m: "the Most Merciful", o: 116, p: "Noun", r: "ر ح م" },
+18:             { a: "الكريم", t: "Al-Kareem", m: "Generous", o: 27, p: "Noun", r: "ك ر م" },
+19:             { a: "الحمد", t: "Al-Hamd", m: "All praises and thanks", o: 149, p: "Noun", r: "ح م د" },
+20:             { a: "لله", t: "lil-laahi", m: "for Allah / to Allah", o: 149, p: "Noun", r: "" },
+21:             { a: "العالمين", t: "Al-'Aalameena", m: "the worlds", o: 73, p: "Noun", r: "ع ل م" },
+22:             { a: "مسلم", t: "Muslim", m: "Muslim", o: 42, p: "Noun", r: "س ل م" },
+23:             { a: "مؤمن", t: "mu'min", m: "believer", o: 230, p: "Noun", r: "أ م ن" },
+24:             { a: "مشرك", t: "mushrik", m: "polytheist", o: 49, p: "Noun", r: "ش ر ك" },
+25:             { a: "كافر", t: "kaafir", m: "disbeliever", o: 134, p: "Noun", r: "ك ف ر" },
+26:             { a: "صالح", t: "şaalih", m: "a righteous person", o: 136, p: "Noun", r: "ص ل ح" },
+27:             { a: "يوم", t: "yawm", m: "day", o: 405, p: "Noun", r: "ي و م" },
+28:             { a: "الدين", t: "Ad-Deen", m: "the Judgment.", o: 92, p: "Noun", r: "د ي ن" },
+29:             { a: "اياك", t: "'iyyaaka", m: "You Alone", o: 24, p: "Noun", r: "" },
+30:             { a: "رب", t: "Rabb", m: "Lord", o: 971, p: "Noun", r: "ر ب ب" },
+31:             { a: "ما", t: "maa", m: "that which", o: 2154, p: "Particle", r: "" },
+32:             { a: "الصراط", t: "Aş-Şiraat", m: "the path", o: 45, p: "Noun", r: "ص ر ط" },
+33:             { a: "المستقيم", t: "Al-Mustaqeem", m: "the straight", o: 37, p: "Noun", r: "ق و م" },
+34:             { a: "الذين", t: "Al-lazeena", m: "(of) those", o: 1080, p: "Noun", r: "" },
+35:             { a: "غير", t: "ghayr", m: "not (of)", o: 147, p: "Noun", r: "غ ي ر" },
+36:             { a: "لا", t: "laa", m: "not", o: 1687, p: "Particle", r: "" },
+37:             { a: "الضالين", t: "Ad-Daalleena", m: "those who go astray", o: 14, p: "Noun", r: "ض ل ل" },
+38:             { a: "هي", t: "hiya", m: "It; she", o: 64, p: "Noun", r: "" },
+39:             { a: "كتاب", t: "kitaab", m: "a book", o: 261, p: "Noun", r: "ك ت ب" },
+40:             { a: "انزلنا", t: "anzalna", m: "We revealed", o: 55, p: "Verb", r: "ن ز ل" },
+41:             { a: "اية", t: "aayat", m: "sign/verse", o: 382, p: "Noun", r: "أ ي ي" },
+42:             { a: "الارض", t: "Al-'ard", m: "the earth", o: 461, p: "Noun", r: "أ ر ض" },
+43:             { a: "السماء", t: "As-Samaa'", m: "the heaven", o: 310, p: "Noun", r: "س م و" },
+44:             { a: "اولوا", t: "'uloo", m: "those of...", o: 43, p: "Noun", r: "" },
+45:             { a: "لو", t: "Law", m: "if", o: 201, p: "Particle", r: "" },
+46:             { a: "ل", t: "li", m: "for", o: 1361, p: "Particle", r: "" },
+47:             { a: "من", t: "min", m: "from", o: 3215, p: "Particle", r: "" },
+48:             { a: "عن", t: "'an", m: "with", o: 416, p: "Particle", r: "" },
+49:             { a: "لقد", t: "laqad", m: "certainly", o: 406, p: "Particle", r: "" },
+50:             { a: "القرآن", t: "Al-Qur'aan", m: "the Qur'an", o: 70, p: "Noun", r: "ق ر أ" },
+51:             { a: "ان", t: "'in", m: "if", o: 691, p: "Particle", r: "" },
+52:             { a: "شاء", t: "shaa'a", m: "wills", o: 56, p: "Verb", r: "ش ي ء" },
+53:             { a: "ان", t: "'inna", m: "indeed", o: 1534, p: "Particle", r: "" },
+54:             { a: "انما", t: "'innamaa", m: "only", o: 145, p: "Particle", r: "" },
+55:             { a: "عمل", t: "'amal", m: "deed", o: 41, p: "Noun", r: "ع م ل" },
+56:             { a: "ب", t: "bi", m: "in", o: 510, p: "Particle", r: "" },
+57:             { a: "في", t: "fee", m: "in/into", o: 1684, p: "Particle", r: "" },
+58:             { a: "السبيل", t: "As-Sabeel", m: "the way", o: 176, p: "Noun", r: "س ب ل" },
+59:             { a: "على", t: "'alaa", m: "on; upon", o: 1423, p: "Particle", r: "" },
+60:             { a: "الذي", t: "'allazee", m: "(the one) who", o: 304, p: "Noun", r: "" },
+61:             { a: "اي", t: "'ayyun", m: "which", o: 59, p: "Noun", r: "" },
+62:             { a: "احسن", t: "'ahsan", m: "best", o: 36, p: "Noun", r: "ح س ن" },
+63:             { a: "إلى", t: "'ilaa", m: "to", o: 736, p: "Particle", r: "" },
+64:             { a: "مع", t: "ma'a", m: "with", o: 163, p: "Noun", r: "" },
+65:             { a: "عند", t: "'inda", m: "with", o: 197, p: "Noun", r: "" },
+66:             { a: "الانسان", t: "Al-'insaan", m: "the mankind", o: 65, p: "Noun", r: "أ ن س" },
+67:             { a: "إلا", t: "'illaa", m: "except", o: 664, p: "Particle", r: "" },
+68:             { a: "امنوا", t: "'aamanoo", m: "they believed", o: 258, p: "Verb", r: "أ م ن" },
+69:             { a: "الحق", t: "Al-Haqq", m: "the truth", o: 247, p: "Noun", r: "ح ق ق" },
+70:             { a: "او", t: "aw", m: "or", o: 280, p: "Particle", r: "" },
+71:             { a: "هذا", t: "haazaa", m: "this", o: 225, p: "Noun", r: "" },
+72:             { a: "هذه", t: "haazihee", m: "this", o: 47, p: "Noun", r: "" },
+73:             { a: "ذلك", t: "zaalika", m: "that", o: 478, p: "Noun", r: "" },
+74:             { a: "تلك", t: "tilka", m: "that/these", o: 43, p: "Noun", r: "" },
+75:             { a: "هؤلاء", t: "haa'ulaa'i", m: "these", o: 46, p: "Noun", r: "" },
+76:             { a: "اولئك", t: "'ulaa'ika", m: "those", o: 204, p: "Noun", r: "" },
+77:             { a: "اذ", t: "'iz", m: "when", o: 239, p: "Noun", r: "" },
+78:             { a: "اذا", t: "izaa", m: "when", o: 423, p: "Noun", r: "" },
+79:             { a: "جاء", t: "jaa'a", m: "he came", o: 171, p: "Verb", r: "ج ي ء" },
+80:             { a: "الناس", t: "'annaas", m: "the people", o: 241, p: "Noun", r: "ن و س" },
+81:             { a: "فعل", t: "fa'ala", m: "he did", o: 100, p: "Verb", r: "ف ع ل" },
+82:             { a: "جعل", t: "ja'ala", m: "he made/he set", o: 344, p: "Verb", r: "ج ع ل" },
+83:             { a: "فتح", t: "fataha", m: "he opened/he revealed", o: 25, p: "Verb", r: "ف ت ح" },
+84:             { a: "قل", t: "qul", m: "say", o: 332, p: "Verb", r: "ق و ل" },
+85:             { a: "احد", t: "'ahad", m: "the One", o: 74, p: "Noun", r: "أ ح د" },
+86:             { a: "لم", t: "lam", m: "not", o: 384, p: "Particle", r: "" },
+87:             { a: "لن", t: "lan", m: "never", o: 106, p: "Particle", r: "" },
+88:             { a: "نصر", t: "nasr", m: "help", o: 80, p: "Noun", r: "ن ص ر" },
+89:             { a: "خلق", t: "khalaqa", m: "He created", o: 237, p: "Verb", r: "خ ل ق" },
+90:             { a: "ذكر", t: "zakara", m: "he remembered", o: 151, p: "Verb", r: "ذ ك ر" },
+91:             { a: "عبد", t: "'abada", m: "he worshipped", o: 142, p: "Verb", r: "ع ب د" },
+92:             { a: "شىء", t: "shay'", m: "thing", o: 283, p: "Noun", r: "ش ي ء" },
+93:             { a: "ضرب", t: "daraba", m: "he hit/he stroke", o: 50, p: "Verb", r: "ض ر ب" },
+94:             { a: "سمع", t: "sami'a", m: "he listened", o: 98, p: "Verb", r: "س م ع" },
+95:             { a: "علم", t: "'alima", m: "he knew", o: 562, p: "Verb", r: "ع ل م" },
+96:             { a: "عمل", t: "'amila", m: "he did", o: 318, p: "Verb", r: "ع م ل" },
+97:             { a: "حديث", t: "hadees", m: "statement; story", o: 23, p: "Noun", r: "ح د ث" },
+98:             { a: "اله", t: "'ilaah", m: "the God", o: 145, p: "Noun", r: "أ ل ه" },
+99:             { a: "صدر", t: "sadr", m: "chest", o: 44, p: "Noun", r: "ص د ر" },
+100:             { a: "ملك", t: "malak", m: "angel", o: 88, p: "Noun", r: "م ل ك" },
+101:             { a: "جنة", t: "jinnah", m: "Jinn", o: 32, p: "Noun", r: "ج ن ن" },
+102:             { a: "يا", t: "yaa", m: "O; oh", o: 361, p: "Particle", r: "" },
+103:             { a: "قوم", t: "qawm", m: "people", o: 383, p: "Noun", r: "ق و م" },
+104:             { a: "ايها", t: "'ayyuhaa", m: "O; oh", o: 153, p: "Particle", r: "" },
+105:             { a: "ان", t: "'an", m: "that", o: 571, p: "Particle", r: "" },
+106:             { a: "ان", t: "'anna", m: "that", o: 359, p: "Particle", r: "" },
+107:             { a: "محمد", t: "Muhammad", m: "Muhammad", o: 4, p: "Noun", r: "ح م د" },
+108:             { a: "رسول", t: "Rasool", m: "Messenger", o: 332, p: "Noun", r: "ر س ل" },
+109:             { a: "الصلوة", t: "'As-salat", m: "the prayer", o: 83, p: "Noun", r: "ص ل و" },
+110:             { a: "شريك", t: "shareek", m: "partner", o: 40, p: "Noun", r: "ش ر ك" },
+111:             { a: "ماذا", t: "maazaa", m: "what", o: 27, p: "Noun", r: "" },
+112:             { a: "سبحن", t: "subhaana", m: "Glory", o: 41, p: "Noun", r: "س ب ح" },
+113:             { a: "العظيم", t: "Al-'azeem", m: "The Great", o: 107, p: "Noun", r: "ع ظ م" },
+114:             { a: "طيبات", t: "tayyibaat", m: "good things", o: 46, p: "Noun", r: "ط ي ب" },
+115:             { a: "سلم", t: "salaam", m: "Peace", o: 42, p: "Noun", r: "س ل م" },
+116:             { a: "النبى", t: "'an-nabi", m: "The Prophet", o: 75, p: "Noun", r: "ن ب أ" },
+117:             { a: "رحمة", t: "rahmah", m: "(the) Mercy", o: 114, p: "Noun", r: "ر ح م" },
+118:             { a: "عباد", t: "'ibaad", m: "slaves, servants", o: 125, p: "Noun", r: "ع ب د" },
+119:             { a: "سوف", t: "sawfa", m: "soon", o: 42, p: "Particle", r: "" },
+120:             { a: "ابراهيم", t: "'ibraaheem", m: "Ibrahim", o: 69, p: "Noun", r: "" },
+121:             { a: "نفس", t: "nafs", m: "soul", o: 293, p: "Noun", r: "ن ف س" },
+122:             { a: "كثير", t: "kaseer", m: "much", o: 63, p: "Noun", r: "ك ث ر" },
+123:             { a: "الذنوب", t: "Az-zunoob", m: "the sins", o: 39, p: "Noun", r: "ذ ن ب" },
+124:             { a: "غفور", t: "gafoor", m: "Oft-Forgiving", o: 91, p: "Noun", r: "غ ف ر" },
+125:             { a: "الدنيا", t: "'Ad-dunya", m: "the world", o: 115, p: "Noun", r: "د ن و" },
+126:             { a: "الآخرة", t: "'Al-'aakhirat", m: "the Hereafter", o: 115, p: "Noun", r: "أ خ ر" },
+127:             { a: "عذاب", t: "'azaab", m: "punishment", o: 322, p: "Noun", r: "ع ذ ب" },
+128:             { a: "النار", t: "'An-naar", m: "the Fire", o: 145, p: "Noun", r: "ن و ر" }
+129:         ];
+130: 
+131:         // Optimized Mobile Arabic Keyboard Layout (Standard 5-row mobile phone layout)
+132:         const kbLayout = [
+133:             ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح'],
+134:             ['ج', 'ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م'],
+135:             ['ك', 'ط', 'د', 'ذ', 'ر', 'ز', 'ظ', 'ة', 'و', 'ى'],
+136:             ['أ', 'إ', 'آ', 'لا', 'ء', 'ئ', 'ؤ', '⌫'],
+137:             ['Clear', 'Space ␣']
+138:         ];
+139: 
+140:         // ==========================================
+141:         // SUPABASE AUTHENTICATION & DATABASE ENGINE
+142:         // ==========================================
+143:         const SUPABASE_URL = 'https://ixoizrmemlqwnvqnbqdc.supabase.co';
+144:         const SUPABASE_KEY = 'sb_publishable_ZPwUg1mxO3cdJMz3NBd-sQ_jVBigvuX';
+145:         let supabaseClient = null;
+146:         let currentUser = null;
+147:         let currentUserProfile = null;
+148:         let pendingSignupData = null;
+149:         let authMode = 'login'; // 'login' or 'signup'
+150:         let currentAdminTab = 'users';
+151:         let adminBanTargetUser = null;
+152: 
+153:         const ADMIN_EMAIL = 'koolm6948@gmail.com';
+154: 
+155:         function initSupabase() {
+156:             try {
+157:                 if (window.supabase) {
+158:                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+159:                     supabaseClient.auth.getSession().then(({ data: { session } }) => {
+160:                         handleAuthStateChanged(session ? session.user : null);
+161:                     }
+162:                     supabaseClient.auth.onAuthStateChange((event, session) => {
+163:                         handleAuthStateChanged(session ? session.user : null);
+164:                     }
+165:                 }
+166:             } catch (err) {
+167:                 console.error("Supabase init failed:", err);
+168:             }
+169:         }
+170: 
+171:         async function handleAuthStateChanged(user) {
+172:             currentUser = user;
+173:             if (user) {
+174:                 try {
+175:                     const userId = user.id;
+176:                     const email = user.email || '';
+177:                     const fullName = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0] || 'Member';
+178:                     const names = fullName.trim().split(' ');
+179:                     const firstName = names[0] || 'Member';
+180:                     const lastName = names.slice(1).join(' ') || '';
+181: 
+182:                     // Try to fetch profile from Supabase 'profiles' table
+183:                     const { data: profile, error } = await supabaseClient
+184:                         .from('profiles')
+185:                         .select('*')
+186:                         .eq('id', userId)
+187:                         .single();
+188: 
+189:                     if (profile) {
+190:                         currentUserProfile = profile;
+191:                         // Normalize keys for compatibility
+192:                         currentUserProfile.userId = currentUserProfile.id;
+193:                         currentUserProfile.displayName = currentUserProfile.display_name || fullName;
+194:                         currentUserProfile.firstName = currentUserProfile.first_name || firstName;
+195:                         currentUserProfile.lastName = currentUserProfile.last_name || lastName;
+196:                         currentUserProfile.photoURL = currentUserProfile.photo_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || '';
+197:                         currentUserProfile.avatarGradient = currentUserProfile.avatar_gradient || 'emerald';
+198:                         currentUserProfile.isAdmin = currentUserProfile.is_admin || (email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+199: 
+200:                         await supabaseClient
+201:                             .from('profiles')
+202:                             .update({ last_login_at: new Date().toISOString(), photo_url: currentUserProfile.photoURL, avatar_gradient: currentUserProfile.avatarGradient })
+203:                             .eq('id', userId);
+204:                     }
+205:                         const dbPayload = {
+206:                             id: userId,
+207:                             email: email,
+208:                             first_name: firstName,
+209:                             last_name: lastName,
+210:                             display_name: fullName,
+211:                             photo_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
+212:                             avatar_gradient: 'emerald',
+213:                             status: 'active',
+214:                             ban_reason: '',
+215:                             is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+216:                             created_at: new Date().toISOString(),
+217:                             last_login_at: new Date().toISOString()
+218:                         }
+219: 
+220:                         currentUserProfile = {
+221:                             ...dbPayload,
+222:                             userId: userId,
+223:                             firstName: firstName,
+224:                             lastName: lastName,
+225:                             displayName: fullName,
+226:                             photoURL: dbPayload.photo_url,
+227:                             avatarGradient: 'emerald',
+228:                             banReason: '',
+229:                             isAdmin: dbPayload.is_admin
+230:                         }
+231: 
+232:                         await supabaseClient.from('profiles').upsert([dbPayload]);
+233:                     }
+234: 
+235:                     // Cache in known_app_users localStorage
+236:                     try {
+237:                         const existing = JSON.parse(localStorage.getItem('known_app_users') || '[]');
+238:                         const filtered = existing.filter(u => (u.id !== currentUserProfile.id && u.userId !== currentUserProfile.userId && u.email !== currentUserProfile.email));
+239:                         filtered.push(currentUserProfile);
+240:                         localStorage.setItem('known_app_users', JSON.stringify(filtered));
+241:                     }
+242: 
+243:                     if (currentUserProfile && (currentUserProfile.status === 'banned' || currentUserProfile.status === 'suspended')) {
+244:                         showBannedScreen(currentUserProfile.ban_reason || currentUserProfile.banReason || 'Account suspended for policy violation.');
+245:                     }
+246:                         hideBannedScreen();
+247:                         const maintScreen = getEl('screen-maintenance');
+248:                         if (maintScreen && maintScreen.classList.contains('active')) {
+249:                             switchScreen('screen-menu');
+250:                         }
+251:                         updateUserHeaderUI(currentUser, currentUserProfile);
+252: 
+253:                         const dismissedKey = 'dismissed_v1_announcement_' + userId;
+254:                         if (!localStorage.getItem(dismissedKey)) {
+255:                             setTimeout(() => {
+256:                                 showV1AnnouncementModal(userId);
+257:                                 }, 800);
+258:                         }
+259:                     }
+260:                 }
+261:                     console.error("Error fetching/creating user profile in Supabase:", err);
+262:                     updateUserHeaderUI(user, { displayName: user.email || 'Member', avatarGradient: 'emerald' });
+263:                     const dismissedKey = 'dismissed_v1_announcement_' + user.id;
+264:                     if (!localStorage.getItem(dismissedKey)) {
+265:                         setTimeout(() => {
+266:                             showV1AnnouncementModal(user.id);
+267:                         }, 800);
+268:                     }
+269:                 }
+270:             } else {
+271:                 currentUserProfile = null;
+272:                 hideBannedScreen();
+273:                 updateUserHeaderUI(null, null);
+274:                 if (MAINTENANCE_MODE && !checkAdminAccess()) {
+275:                     switchScreen('screen-maintenance');
+276:                 }
+277:             }
+278:         }
+279: 
+280:         const DEFAULT_AVATAR = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzk0YTNiOCI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==`;
+281: 
+282:         function getUserAvatarInfo(user, profile) {
+283:             let photoURL = (profile && (profile.photoURL || profile.photo_url || profile.avatar_url || profile.avatarUrl)) || 
+284:                            (user && (user.photoURL || user.photo_url || user.avatar_url || user.avatarUrl || user.user_metadata?.avatar_url || user.user_metadata?.picture)) || '';
+285:             
+286:             return {
+287:                 hasPhoto: Boolean(photoURL),
+288:                 photoURL: photoURL || DEFAULT_AVATAR
+289:             };
+290:         }
+291: 
+292:         function renderAvatarIntoElement(el, user, profile, sizePx = 28, fontSize = '0.8rem') {
+293:             if (!el) return;
+294:             const info = getUserAvatarInfo(user, profile);
+295:             
+296:             el.style.width = sizePx + 'px';
+297:             el.style.height = sizePx + 'px';
+298:             
+299:             el.style.background = 'transparent';
+300:             el.innerHTML = `<img src="${info.photoURL}" alt="User Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.src='${DEFAULT_AVATAR}';">`;
+301:         }
+302: 
+303:         function updateUserHeaderUI(user, profile) {
+304:             const guestWidgetInline = getEl('guest-auth-widget-inline');
+305:             const userWidgetInline = getEl('user-profile-widget-inline');
+306:             const adminBtn = getEl('admin-panel-btn');
+307: 
+308:             const studyBtn = getEl('btn-menu-study');
+309:             const whitelistBtn = getEl('btn-menu-whitelist');
+310:             const settingsBtn = getEl('btn-menu-settings');
+311: 
+312:             const isAdmin = checkAdminAccess();
+313: 
+314:             if (user) {
+315:                 if (guestWidgetInline) guestWidgetInline.style.display = 'none';
+316:                 if (userWidgetInline) {
+317:                     userWidgetInline.style.display = 'flex';
+318:                     const avatarEl = getEl('user-avatar-display');
+319:                     const nameEl = getEl('user-display-name');
+320:                     renderAvatarIntoElement(avatarEl, user, profile, 32, '0.85rem');
+321:                     if (nameEl) nameEl.innerText = profile?.displayName || profile?.display_name || user.email?.split('@')[0] || 'User';
+322:                 }
+323:                 if (adminBtn) {
+324:                     adminBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+325:                 }
+326: 
+327:                 if (studyBtn) studyBtn.style.display = 'block';
+328:                 if (whitelistBtn) whitelistBtn.style.display = 'flex';
+329:                 if (settingsBtn) settingsBtn.style.display = 'block';
+330:             } else {
+331:                 if (guestWidgetInline) guestWidgetInline.style.display = 'flex';
+332:                 if (userWidgetInline) userWidgetInline.style.display = 'none';
+333:                 if (adminBtn) adminBtn.style.display = 'none';
+334: 
+335:                 // Gated: Not signed in -> hide study, whitelist, settings on menu. Only show Quiz & Themes!
+336:                 if (studyBtn) studyBtn.style.display = 'none';
+337:                 if (whitelistBtn) whitelistBtn.style.display = 'none';
+338:                 if (settingsBtn) settingsBtn.style.display = 'none';
+339:             }
+340:         }
+341: 
+342:         function showBannedScreen(reason) {
+343:             const screen = getEl('screen-banned');
+344:             const reasonEl = getEl('banned-reason-display');
+345:             if (reasonEl) reasonEl.innerText = reason || 'Violation of Real Name Policy or Terms of Service.';
+346:             if (screen) screen.classList.add('active');
+347:         }
+348: 
+349:         function hideBannedScreen() {
+350:             const screen = getEl('screen-banned');
+351:             if (screen) screen.classList.remove('active');
+352:         }
+353: 
+354:         // Auth Modal Controls
+355:         function openAuthModal(mode, promptTitle, promptSub) {
+356:             authMode = mode || 'login';
+357:             updateAuthModalState();
+358:             hideAuthMessages();
+359: 
+360:             const callout = getEl('auth-prompt-callout');
+361:             const calloutTitle = getEl('auth-prompt-callout-title');
+362:             const calloutSub = getEl('auth-prompt-callout-sub');
+363: 
+364:             if (callout) {
+365:                 callout.style.display = 'block';
+366:                 if (calloutTitle && promptTitle) calloutTitle.innerText = promptTitle;
+367:                 if (calloutSub && promptSub) calloutSub.innerText = promptSub;
+368:             }
+369: 
+370:             openModal('modal-auth');
+371:         }
+372: 
+373:         function handlePlayQuizClick() {
+374:             playSound('click');
+375:             startQuiz();
+376:         }
+377: 
+378:         function toggleAuthMode() {
+379:             authMode = (authMode === 'login') ? 'signup' : 'login';
+380:             updateAuthModalState();
+381:             hideAuthMessages();
+382:             playSound('click');
+383:         }
+384: 
+385:         function updateAuthModalState() {
+386:             const titleEl = getEl('auth-modal-title');
+387:             const subtitleEl = getEl('auth-modal-subtitle');
+388:             const nameFields = getEl('auth-name-fields');
+389:             const submitBtn = getEl('auth-submit-btn');
+390:             const switchText = getEl('auth-switch-text');
+391:             const switchBtn = getEl('auth-switch-btn');
+392:             const firstNameInput = getEl('auth-first-name');
+393:             const lastNameInput = getEl('auth-last-name');
+394:             const forgotPwdBtn = getEl('auth-forgot-pwd-btn');
+395: 
+396:             if (authMode === 'signup') {
+397:                 if (titleEl) titleEl.innerText = 'Sign Up to QuranSPLNGB';
+398:                 if (subtitleEl) subtitleEl.innerText = 'Sign up/login to continue to QuranSPLNGB.';
+399:                 if (nameFields) nameFields.style.display = 'block';
+400:                 if (firstNameInput) firstNameInput.required = true;
+401:                 if (lastNameInput) lastNameInput.required = true;
+402:                 if (submitBtn) submitBtn.innerText = 'Create Free Account';
+403:                 if (switchText) switchText.innerText = 'Already have an account,';
+404:                 if (switchBtn) switchBtn.innerText = 'login!';
+405:                 if (forgotPwdBtn) forgotPwdBtn.style.display = 'none';
+406:             } else {
+407:                 if (titleEl) titleEl.innerText = 'Sign In to QuranSPLNGB';
+408:                 if (subtitleEl) subtitleEl.innerText = 'Sign up/login to continue to QuranSPLNGB.';
+409:                 if (nameFields) nameFields.style.display = 'none';
+410:                 if (firstNameInput) firstNameInput.required = false;
+411:                 if (lastNameInput) lastNameInput.required = false;
+412:                 if (submitBtn) submitBtn.innerText = 'Sign In';
+413:                 if (switchText) switchText.innerText = "Don't have an account,";
+414:                 if (switchBtn) switchBtn.innerText = 'create one!';
+415:                 if (forgotPwdBtn) forgotPwdBtn.style.display = 'inline';
+416:             }
+417:         }
+418: 
+419:         function showAuthError(msg) {
+420:             const box = getEl('auth-error-box');
+421:             if (box) {
+422:                 box.innerText = msg;
+423:                 box.style.display = 'block';
+424:             }
+425:             const sBox = getEl('auth-success-box');
+426:             if (sBox) sBox.style.display = 'none';
+427:         }
+428: 
+429:         function showAuthSuccess(msg) {
+430:             const box = getEl('auth-success-box');
+431:             if (box) {
+432:                 box.innerText = msg;
+433:                 box.style.display = 'block';
+434:             }
+435:             const eBox = getEl('auth-error-box');
+436:             if (eBox) eBox.style.display = 'none';
+437:         }
+438: 
+439:         function hideAuthMessages() {
+440:             const eBox = getEl('auth-error-box');
+441:             if (eBox) eBox.style.display = 'none';
+442:             const sBox = getEl('auth-success-box');
+443:             if (sBox) sBox.style.display = 'none';
+444:         }
+445: 
+446:         // Forgot Password & In-App Action Handling
+447:         let currentResetOobCode = null;
+448:         let currentResetEmail = null;
+449: 
+450:         async function handleForgotPassword() {
+451:             hideAuthMessages();
+452:             const email = (getEl('auth-email')?.value || '').trim();
+453:             if (!email) {
+454:                 showAuthError('Please enter your email address above to receive a password reset link.');
+455:                 getEl('auth-email')?.focus();
+456:                 return;
+457:             }
+458: 
+459:             try {
+460:                 const currentAppUrl = window.location.origin + window.location.pathname;
+461:                 const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+462:                     redirectTo: currentAppUrl
+463:                 }
+464:                 if (error) throw error;
+465: 
+466:                 showAuthSuccess(`✅ A password reset email has been sent to ${email}!\n\n💡 Tip: If you sign in with Google using this email, you don't need a password link.`);
+467:                 playSound('correct');
+468:             } catch (err) {
+469:                 console.error("Password reset error:", err);
+470:                 showAuthError(err.message || 'Failed to send password reset email.');
+471:             }
+472:         }
+473: 
+474:         function openResetPasswordModal(oobCode, email) {
+475:             currentResetOobCode = oobCode;
+476:             currentResetEmail = email;
+477:             const titleEl = getEl('reset-password-title');
+478:             if (titleEl) titleEl.innerText = "🔑 Reset Password";
+479:             const subtitleEl = getEl('reset-password-subtitle');
+480:             if (subtitleEl) {
+481:                 subtitleEl.innerText = email ? `Enter a new password for ${email}.` : 'Enter a new password for your account.';
+482:             }
+483:             const errEl = getEl('reset-password-error');
+484:             if (errEl) errEl.style.display = 'none';
+485:             openModal('modal-reset-password');
+486:         }
+487: 
+488:         function openDirectChangePasswordModal() {
+489:             if (!currentUser) {
+490:                 openAuthModal('login');
+491:                 return;
+492:             }
+493:             currentResetOobCode = null;
+494:             currentResetEmail = currentUser.email;
+495:             closeModal('modal-user-profile');
+496:             const titleEl = getEl('reset-password-title');
+497:             if (titleEl) titleEl.innerText = "🔑 Set / Change Password";
+498:             const subtitleEl = getEl('reset-password-subtitle');
+499:             if (subtitleEl) {
+500:                 subtitleEl.innerText = `Set a new password for ${currentUser.email}.`;
+501:             }
+502:             const errEl = getEl('reset-password-error');
+503:             if (errEl) errEl.style.display = 'none';
+504:             openModal('modal-reset-password');
+505:         }
+506: 
+507:         async function handleConfirmNewPassword(e) {
+508:             e.preventDefault();
+509:             const newPassword = (getEl('reset-new-password')?.value || '');
+510:             const confirmPassword = (getEl('reset-confirm-password')?.value || '');
+511:             const errEl = getEl('reset-password-error');
+512:             if (errEl) errEl.style.display = 'none';
+513: 
+514:             if (newPassword.length < 6) {
+515:                 if (errEl) {
+516:                     errEl.innerText = "Password must be at least 6 characters long.";
+517:                     errEl.style.display = 'block';
+518:                 }
+519:                 return;
+520:             }
+521: 
+522:             if (newPassword !== confirmPassword) {
+523:                 if (errEl) {
+524:                     errEl.innerText = "Passwords do not match. Please re-enter.";
+525:                     errEl.style.display = 'block';
+526:                 }
+527:                 return;
+528:             }
+529: 
+530:             try {
+531:                 const btn = getEl('btn-save-new-password');
+532:                 if (btn) { btn.innerText = 'Saving Password...'; btn.disabled = true; }
+533: 
+534:                 const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+535:                 if (error) throw error;
+536: 
+537:                 closeModal('modal-reset-password');
+538:                 showToast("🎉 Password updated successfully!", 5000);
+539:                 playSound('correct');
+540:             } catch (err) {
+541:                 console.error("Confirm password error:", err);
+542:                 if (errEl) {
+543:                     errEl.innerText = err.message || "Failed to update password.";
+544:                     errEl.style.display = 'block';
+545:                 }
+546:             } finally {
+547:                 const btn = getEl('btn-save-new-password');
+548:                 if (btn) { btn.innerText = 'Save Password'; btn.disabled = false; }
+549:             }
+550:         }
+551: 
+552:         async function checkAuthActionFromUrl() {
+553:             try {
+554:                 const hash = window.location.hash;
+555:                 if (hash && hash.includes('type=recovery')) {
+556:                     showToast("🔑 Please enter your new account password.", 6000);
+557:                     openResetPasswordModal(null);
+558:                 }
+559:             } catch (e) {
+560:                 console.error("Error checking auth action url params:", e);
+561:             }
+562:         }
+563: 
+564:         // Google Sign In (Supabase OAuth)
+565:         async function handleGoogleSignIn() {
+566:             hideAuthMessages();
+567:             try {
+568:                 const { error } = await supabaseClient.auth.signInWithOAuth({
+569:                     provider: 'google',
+570:                     options: {
+571:                         redirectTo: window.location.origin + window.location.pathname
+572:                     }
+573:                 }
+574:                 if (error) throw error;
+575:             } catch (err) {
+576:                 console.error("Google sign in error:", err);
+577:                 showAuthError(err.message || 'Google sign in failed.');
+578:             }
+579:         }
+580: 
+581:         // Discord Sign In (Supabase OAuth)
+582:         async function handleDiscordSignIn() {
+583:             hideAuthMessages();
+584:             try {
+585:                 const { error } = await supabaseClient.auth.signInWithOAuth({
+586:                     provider: 'discord',
+587:                     options: {
+588:                         redirectTo: window.location.origin + window.location.pathname
+589:                     }
+590:                 }
+591:                 if (error) throw error;
+592:             } catch (err) {
+593:                 console.error("Discord sign in error:", err);
+594:                 showAuthError(err.message || 'Discord sign in failed.');
+595:             }
+596:         }
+597: 
+598:         // Email & Password Auth Submit Handler
+599:         async function handleAuthSubmit(e) {
+600:             e.preventDefault();
+601:             hideAuthMessages();
+602: 
+603:             const email = (getEl('auth-email')?.value || '').trim();
+604:             const password = (getEl('auth-password')?.value || '');
+605: 
+606:             if (authMode === 'login') {
+607:                 try {
+608:                     const submitBtn = getEl('auth-submit-btn');
+609:                     if (submitBtn) { submitBtn.innerText = 'Signing In...'; submitBtn.disabled = true; }
+610: 
+611:                     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+612:                     if (error) throw error;
+613: 
+614:                     closeModal('modal-auth');
+615:                     switchScreen('screen-menu');
+616:                     updateUserHeaderUI(data.user, currentUserProfile);
+617:                     playSound('correct');
+618:                     showToast("🎉 Signed in successfully! Welcome back.", 4000);
+619:                 }
+620:                     console.error("Login error:", err);
+621:                     showAuthError(err.message || 'Failed to sign in. Please verify your email and password.');
+622:                 }
+623:                     const submitBtn = getEl('auth-submit-btn');
+624:                     if (submitBtn) { submitBtn.innerText = 'Sign In'; submitBtn.disabled = false; }
+625:                 }
+626:             } else {
+627:                 const firstName = (getEl('auth-first-name')?.value || '').trim();
+628:                 const lastName = (getEl('auth-last-name')?.value || '').trim();
+629: 
+630:                 if (!firstName || !lastName) {
+631:                     showAuthError('Please enter your real first and last name.');
+632:                     return;
+633:                 }
+634: 
+635:                 if (password.length < 6) {
+636:                     showAuthError('Password must be at least 6 characters long.');
+637:                     return;
+638:                 }
+639: 
+640:                 try {
+641:                     const submitBtn = getEl('auth-submit-btn');
+642:                     if (submitBtn) { submitBtn.innerText = 'Creating Account...'; submitBtn.disabled = true; }
+643: 
+644:                     const displayName = `${firstName} ${lastName}`.trim();
+645:                     const { data, error } = await supabaseClient.auth.signUp({
+646:                         email,
+647:                         password,
+648:                         options: {
+649:                             data: { full_name: displayName, first_name: firstName, last_name: lastName }
+650:                         }
+651:                     }
+652:                     if (error) throw error;
+653: 
+654:                     const user = data.user;
+655:                     if (user) {
+656:                         const dbPayload = {
+657:                             id: user.id,
+658:                             email: email,
+659:                             first_name: firstName,
+660:                             last_name: lastName,
+661:                             display_name: displayName,
+662:                             photo_url: '',
+663:                             avatar_gradient: 'emerald',
+664:                             status: 'active',
+665:                             ban_reason: '',
+666:                             is_admin: (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()),
+667:                             created_at: new Date().toISOString(),
+668:                             last_login_at: new Date().toISOString()
+669:                         }
+670: 
+671:                         currentUserProfile = {
+672:                             ...dbPayload,
+673:                             userId: user.id,
+674:                             firstName: firstName,
+675:                             lastName: lastName,
+676:                             displayName: displayName,
+677:                             photoURL: '',
+678:                             avatarGradient: 'emerald',
+679:                             banReason: '',
+680:                             isAdmin: dbPayload.is_admin
+681:                         }
+682: 
+683:                         await supabaseClient.from('profiles').upsert([dbPayload]);
+684:                     }
+685: 
+686:                     closeModal('modal-auth');
+687:                     switchScreen('screen-menu');
+688:                     updateUserHeaderUI(user, currentUserProfile);
+689:                     playSound('correct');
+690:                     setTimeout(fireConfetti, 300);
+691:                     showToast(`🎉 Welcome, ${firstName}! Account created successfully.`, 6000);
+692:                 }
+693:                     console.error("Signup error:", err);
+694:                     showAuthError(err.message || 'Failed to create account.');
+695:                 }
+696:                     const submitBtn = getEl('auth-submit-btn');
+697:                     if (submitBtn) {
+698:                         submitBtn.innerText = (authMode === 'signup') ? 'Create Free Account' : 'Sign In';
+699:                         submitBtn.disabled = false;
+700:                     }
+701:                 }
+702:             }
+703:         }
+704: 
+705:         // ==========================================
+706:         // PROFILE & AVATAR MANAGEMENT (CAMERA, CROPPER, GRADIENTS)
+707:         // ==========================================
+708:         let cameraStream = null;
+709:         let cameraFacingMode = 'user'; // 'user' (front) or 'environment' (rear)
+710: 
+711:         let cropperImage = null;
+712:         let cropperScale = 1.0;
+713:         let cropperMinScale = 0.5;
+714:         let cropperOffsetX = 0;
+715:         let cropperOffsetY = 0;
+716:         let cropperRotation = 0;
+717:         let isCropperDragging = false;
+718:         let cropperDragStartX = 0;
+719:         let cropperDragStartY = 0;
+720:         let cropperEventsAttached = false;
+721: 
+722:         function openUserProfileModal() {
+723:             if (!currentUser) {
+724:                 openAuthModal('login');
+725:                 return;
+726:             }
+727:             renderProfileModalDetails();
+728:             initAvatarDragAndDrop();
+729:             openModal('modal-user-profile');
+730:         }
+731: 
+732:         function closeUserProfileModalWindow() {
+733:             if (currentUser) {
+734:                 localStorage.setItem('dismissed_account_tasks_' + currentUser.id, 'true');
+735:             }
+736:             closeModal('modal-user-profile');
+737:             updateAccountSettingsBadge();
+738:         }
+739: 
+740:         function updateAccountSettingsBadge() {
+741:             if (!currentUser) return;
+742:             const dismissed = localStorage.getItem('dismissed_account_tasks_' + currentUser.id) === 'true';
+743:             const badge = getEl('account-settings-badge');
+744:             if (!badge) return;
+745: 
+746:             if (dismissed) {
+747:                 badge.style.display = 'none';
+748:                 return;
+749:             }
+750: 
+751:             let unlinkedCount = 0;
+752:             const provider = currentUser.app_metadata?.provider || '';
+753:             const identities = currentUser.identities || [];
+754:             const hasGoogle = provider === 'google' || identities.some(i => i.provider === 'google');
+755:             const hasDiscord = provider === 'discord' || identities.some(i => i.provider === 'discord');
+756: 
+757:             if (!hasGoogle) unlinkedCount++;
+758:             if (!hasDiscord) unlinkedCount++;
+759: 
+760:             if (unlinkedCount > 0) {
+761:                 badge.innerText = unlinkedCount;
+762:                 badge.style.display = 'block';
+763:             } else {
+764:                 badge.style.display = 'none';
+765:             }
+766:         }
+767: 
+768:         function renderProfileModalDetails() {
+769:             if (!currentUser) return;
+770:             const nameEl = getEl('profile-modal-name');
+771:             const emailEl = getEl('profile-modal-email');
+772:             const avatarEl = getEl('profile-modal-avatar');
+773:             const roleEl = getEl('profile-modal-role');
+774:             const photoBadge = getEl('profile-photo-badge');
+775:             const resetGoogleBtn = getEl('btn-reset-google-photo');
+776: 
+777:             const dispName = (currentUserProfile && currentUserProfile.displayName) || currentUser.displayName || (currentUserProfile && currentUserProfile.firstName) || 'Member';
+778:             if (nameEl) nameEl.innerText = dispName;
+779:             if (emailEl) emailEl.innerText = currentUser.email || '';
+780: 
+781:             const avatarInfo = getUserAvatarInfo(currentUser, currentUserProfile);
+782:             renderAvatarIntoElement(avatarEl, currentUser, currentUserProfile, 64, '1.6rem');
+783: 
+784:             const isUserAdmin = (currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
+785:             if (roleEl) {
+786:                 roleEl.innerText = isUserAdmin ? '👑 Administrator' : 'Verified Member';
+787:                 roleEl.style.background = isUserAdmin ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+788:                 roleEl.style.color = isUserAdmin ? '#fca5a5' : 'var(--accent)';
+789:             }
+790: 
+791:             if (photoBadge) {
+792:                 photoBadge.innerText = avatarInfo.hasPhoto ? 'Custom Picture' : 'Default Avatar';
+793:             }
+794: 
+795:             const hasGooglePhoto = Boolean(currentUser.photoURL || currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture);
+796: 
+797:             if (resetGoogleBtn) {
+798:                 const actRow = getEl('avatar-reset-actions-row');
+799:                 const isDifferent = (hasGooglePhoto && currentUserProfile && currentUserProfile.photoURL !== (currentUser.photoURL || currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture));
+800:                 resetGoogleBtn.style.display = isDifferent ? 'inline-flex' : 'none';
+801:                 if (actRow) {
+802:                     actRow.style.display = isDifferent ? 'flex' : 'none';
+803:                 }
+804:             }
+805: 
+806:             const providers = (currentUser.app_metadata && currentUser.app_metadata.providers) || [];
+807:             const hasGoogle = providers.includes('google');
+808:             const hasDiscord = providers.includes('discord');
+809: 
+810:             const btnLinkGoogle = getEl('btn-link-google');
+811:             if (btnLinkGoogle) {
+812:                 if (hasGoogle) {
+813:                     btnLinkGoogle.innerHTML = '✅ Google Linked';
+814:                     btnLinkGoogle.style.background = 'rgba(16, 185, 129, 0.2)';
+815:                     btnLinkGoogle.style.borderColor = 'var(--accent)';
+816:                     btnLinkGoogle.onclick = null;
+817:                     btnLinkGoogle.style.cursor = 'default';
+818:                 }
+819:                     btnLinkGoogle.innerHTML = '🔗 Link Google';
+820:                     btnLinkGoogle.style.background = 'rgba(66, 133, 244, 0.2)';
+821:                     btnLinkGoogle.style.borderColor = 'rgba(66, 133, 244, 0.4)';
+822:                     btnLinkGoogle.onclick = () => linkAuthProvider('google');
+823:                     btnLinkGoogle.style.cursor = 'pointer';
+824:                 }
+825:             }
+826: 
+827:             const btnLinkDiscord = getEl('btn-link-discord');
+828:             if (btnLinkDiscord) {
+829:                 if (hasDiscord) {
+830:                     btnLinkDiscord.innerHTML = '✅ Discord Linked';
+831:                     btnLinkDiscord.style.background = 'rgba(16, 185, 129, 0.2)';
+832:                     btnLinkDiscord.style.borderColor = 'var(--accent)';
+833:                     btnLinkDiscord.onclick = null;
+834:                     btnLinkDiscord.style.cursor = 'default';
+835:                 }
+836:                     btnLinkDiscord.innerHTML = '🔗 Link Discord';
+837:                     btnLinkDiscord.style.background = 'rgba(88, 101, 242, 0.2)';
+838:                     btnLinkDiscord.style.borderColor = 'rgba(88, 101, 242, 0.4)';
+839:                     btnLinkDiscord.onclick = () => linkAuthProvider('discord');
+840:                     btnLinkDiscord.style.cursor = 'pointer';
+841:                 }
+842:             }
+843: 
+844:         }
+845: 
+846:         async function resetAvatarToGooglePhoto() {
+847:             if (!currentUser) return;
+848:             const gPhoto = currentUser.user_metadata?.avatar_url || currentUser.user_metadata?.picture || currentUser.photoURL || '';
+849:             if (!gPhoto) return;
+850:             if (currentUserProfile) {
+851:                 currentUserProfile.photoURL = gPhoto;
+852:                 currentUserProfile.photo_url = gPhoto;
+853:             }
+854:             updateUserHeaderUI(currentUser, currentUserProfile);
+855:             renderProfileModalDetails();
+856:             playSound('click');
+857: 
+858:             try {
+859:                 await supabaseClient.from('profiles').update({
+860:                     photo_url: gPhoto,
+861:                     updated_at: new Date().toISOString()
+862:                 }
+863:                 showToast("Avatar set to Google account photo.", 3000);
+864:             } catch (err) {
+865:                 console.error("Error resetting to Google photo:", err);
+866:             }
+867:         }
+868: 
+869:         // Camera System
+870:         async function openCameraCaptureModal() {
+871:             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+872:                 showToast("Camera access is not supported on this device/browser.", 4000);
+873:                 return;
+874:             }
+875:             
+876:             const errBanner = getEl('camera-error-banner');
+877:             if (errBanner) errBanner.style.display = 'none';
+878: 
+879:             openModal('modal-camera-capture');
+880:             await startCameraStream();
+881:         }
+882: 
+883:         async function startCameraStream() {
+884:             stopCameraStream();
+885:             const video = getEl('camera-stream-video');
+886:             const viewportBox = getEl('camera-viewport-box');
+887:             const errBanner = getEl('camera-error-banner');
+888:             
+889:             if (viewportBox) {
+890:                 if (cameraFacingMode === 'user') {
+891:                     viewportBox.classList.remove('rear');
+892:                 }
+893:                     viewportBox.classList.add('rear');
+894:                 }
+895:             }
+896: 
+897:             try {
+898:                 const constraints = {
+899:                     audio: false,
+900:                     video: {
+901:                         facingMode: cameraFacingMode,
+902:                         width: { ideal: 720 },
+903:                         height: { ideal: 720 }
+904:                     }
+905:                 }
+906:                 cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+907:                 if (video) {
+908:                     video.srcObject = cameraStream;
+909:                     await video.play().catch(() => {});
+910:                 }
+911:             } catch (err) {
+912:                 console.error("Camera stream error:", err);
+913:                 if (errBanner) {
+914:                     errBanner.innerText = "Camera error: " + (err.message || 'Permission denied. Please grant camera access.');
+915:                     errBanner.style.display = 'block';
+916:                 }
+917:             }
+918:         }
+919: 
+920:         function stopCameraStream() {
+921:             if (cameraStream) {
+922:                 cameraStream.getTracks().forEach(track => track.stop());
+923:                 cameraStream = null;
+924:             }
+925:             const video = getEl('camera-stream-video');
+926:             if (video) {
+927:                 video.srcObject = null;
+928:             }
+929:         }
+930: 
+931:         function flipCameraFacingMode() {
+932:             cameraFacingMode = (cameraFacingMode === 'user') ? 'environment' : 'user';
+933:             startCameraStream();
+934:             playSound('click');
+935:         }
+936: 
+937:         function capturePhotoFromCamera() {
+938:             const video = getEl('camera-stream-video');
+939:             if (!video || !video.videoWidth) {
+940:                 showToast("Camera stream not ready yet. Please wait a second.", 3000);
+941:                 return;
+942:             }
+943: 
+944:             const vW = video.videoWidth;
+945:             const vH = video.videoHeight;
+946:             const side = Math.min(vW, vH);
+947:             const sX = (vW - side) / 2;
+948:             const sY = (vH - side) / 2;
+949: 
+950:             const snapCanvas = document.createElement('canvas');
+951:             snapCanvas.width = side;
+952:             snapCanvas.height = side;
+953:             const ctx = snapCanvas.getContext('2d');
+954: 
+955:             if (cameraFacingMode === 'user') {
+956:                 ctx.translate(side, 0);
+957:                 ctx.scale(-1, 1);
+958:             }
+959:             ctx.drawImage(video, sX, sY, side, side, 0, 0, side, side);
+960: 
+961:             const capturedDataUrl = snapCanvas.toDataURL('image/jpeg', 0.95);
+962:             playSound('click');
+963:             closeCameraCaptureModal();
+964: 
+965:             openImageCropper(capturedDataUrl);
+966:         }
+967: 
+968:         function closeCameraCaptureModal() {
+969:             stopCameraStream();
+970:             closeModal('modal-camera-capture');
+971:         }
+972: 
+973:         // File Browser & Drag and Drop Handlers
+974:         function triggerProfileFileInput() {
+975:             const input = getEl('profile-file-input');
+976:             if (input) {
+977:                 input.value = '';
+978:                 input.click();
+979:             }
+980:         }
+981: 
+982:         function handleProfileFileInputChange(e) {
+983:             const file = e.target.files && e.target.files[0];
+984:             if (file) {
+985:                 if (!file.type.startsWith('image/')) {
+986:                     showToast("Please select a valid image file.", 4000);
+987:                     return;
+988:                 }
+989:                 openImageCropper(file);
+990:             }
+991:         }
+992: 
+993:         let avatarDropzoneAttached = false;
+994:         function initAvatarDragAndDrop() {
+995:             if (avatarDropzoneAttached) return;
+996:             avatarDropzoneAttached = true;
+997: 
+998:             const dropzone = getEl('profile-avatar-dropzone');
+999:             if (!dropzone) return;
+1000: 
+1001:             ['dragenter', 'dragover'].forEach(name => {
+1002:                 dropzone.addEventListener(name, (e) => {
+1003:                     e.preventDefault();
+1004:                     e.stopPropagation();
+1005:                     dropzone.classList.add('drag-over');
+1006:                 }
+1007:             });
+1008: 
+1009:             ['dragleave', 'drop'].forEach(name => {
+1010:                 dropzone.addEventListener(name, (e) => {
+1011:                     e.preventDefault();
+1012:                     e.stopPropagation();
+1013:                     dropzone.classList.remove('drag-over');
+1014:                 }
+1015:             });
+1016: 
+1017:             dropzone.addEventListener('drop', (e) => {
+1018:                 const files = e.dataTransfer && e.dataTransfer.files;
+1019:                 if (files && files.length > 0) {
+1020:                     const file = files[0];
+1021:                     if (file.type.startsWith('image/')) {
+1022:                         openImageCropper(file);
+1023:                     }
+1024:                         showToast("Please drop a valid image file.", 3000);
+1025:                     }
+1026:                 }
+1027:             });
+1028:         }
+1029: 
+1030:         // Interactive Cropper Engine
+1031:         function openImageCropper(imageSource) {
+1032:             const img = new Image();
+1033:             img.crossOrigin = 'anonymous';
+1034:             img.onload = () => {
+1035:                 cropperImage = img;
+1036:                 cropperRotation = 0;
+1037:                 cropperOffsetX = 0;
+1038:                 cropperOffsetY = 0;
+1039:                 
+1040:                 const baseMin = Math.max(250 / img.width, 250 / img.height);
+1041:                 cropperMinScale = Math.max(0.15, baseMin * 0.8);
+1042:                 cropperScale = Math.max(cropperMinScale, baseMin * 1.15);
+1043:                 
+1044:                 const zoomRange = getEl('cropper-zoom-range');
+1045:                 if (zoomRange) {
+1046:                     zoomRange.min = cropperMinScale;
+1047:                     zoomRange.max = cropperMinScale * 4;
+1048:                     zoomRange.step = (cropperMinScale * 3) / 100;
+1049:                     zoomRange.value = cropperScale;
+1050:                 }
+1051: 
+1052:                 openModal('modal-image-cropper');
+1053:                 setupCropperEvents();
+1054:                 drawCropperCanvas();
+1055:             };
+1056:             img.onerror = () => {
+1057:                 showToast("Failed to load selected image. Please try another file.", 4000);
+1058:             };
+1059: 
+1060:             if (typeof imageSource === 'string') {
+1061:                 img.src = imageSource;
+1062:             } else if (imageSource instanceof File || imageSource instanceof Blob) {
+1063:                 const reader = new FileReader();
+1064:                 reader.onload = (e) => { img.src = e.target.result; };
+1065:                 reader.readAsDataURL(imageSource);
+1066:             }
+1067:         }
+1068: 
+1069:         function drawCropperCanvas() {
+1070:             const canvas = getEl('cropper-main-canvas');
+1071:             if (!canvas || !cropperImage) return;
+1072:             const ctx = canvas.getContext('2d');
+1073:             const width = canvas.width;
+1074:             const height = canvas.height;
+1075: 
+1076:             ctx.clearRect(0, 0, width, height);
+1077:             ctx.save();
+1078: 
+1079:             ctx.translate(width / 2 + cropperOffsetX, height / 2 + cropperOffsetY);
+1080:             ctx.rotate((cropperRotation * Math.PI) / 180);
+1081:             ctx.scale(cropperScale, cropperScale);
+1082: 
+1083:             const imgW = cropperImage.width;
+1084:             const imgH = cropperImage.height;
+1085:             ctx.drawImage(cropperImage, -imgW / 2, -imgH / 2, imgW, imgH);
+1086: 
+1087:             ctx.restore();
+1088:         }
+1089: 
+1090:         function handleCropperZoomInput(val) {
+1091:             cropperScale = parseFloat(val);
+1092:             drawCropperCanvas();
+1093:         }
+1094: 
+1095:         function rotateCropperImage() {
+1096:             cropperRotation = (cropperRotation + 90) % 360;
+1097:             drawCropperCanvas();
+1098:             playSound('click');
+1099:         }
+1100: 
+1101:         function resetCropperTransform() {
+1102:             cropperRotation = 0;
+1103:             cropperOffsetX = 0;
+1104:             cropperOffsetY = 0;
+1105:             const baseMin = Math.max(250 / cropperImage.width, 250 / cropperImage.height);
+1106:             cropperScale = Math.max(cropperMinScale, baseMin * 1.15);
+1107:             const zoomRange = getEl('cropper-zoom-range');
+1108:             if (zoomRange) zoomRange.value = cropperScale;
+1109:             drawCropperCanvas();
+1110:             playSound('click');
+1111:         }
+1112: 
+1113:         function setupCropperEvents() {
+1114:             if (cropperEventsAttached) return;
+1115:             cropperEventsAttached = true;
+1116: 
+1117:             const container = getEl('cropper-stage-container');
+1118:             if (!container) return;
+1119: 
+1120:             // Mouse Drag
+1121:             container.addEventListener('mousedown', (e) => {
+1122:                 isCropperDragging = true;
+1123:                 cropperDragStartX = e.clientX - cropperOffsetX;
+1124:                 cropperDragStartY = e.clientY - cropperOffsetY;
+1125:             });
+1126:             window.addEventListener('mousemove', (e) => {
+1127:                 if (!isCropperDragging) return;
+1128:                 cropperOffsetX = e.clientX - cropperDragStartX;
+1129:                 cropperOffsetY = e.clientY - cropperDragStartY;
+1130:                 drawCropperCanvas();
+1131:             });
+1132:             window.addEventListener('mouseup', () => {
+1133:                 isCropperDragging = false;
+1134:             });
+1135: 
+1136:             // Touch Drag
+1137:             let lastTouchDist = 0;
+1138:             container.addEventListener('touchstart', (e) => {
+1139:                 if (e.touches.length === 1) {
+1140:                     isCropperDragging = true;
+1141:                     cropperDragStartX = e.touches[0].clientX - cropperOffsetX;
+1142:                     cropperDragStartY = e.touches[0].clientY - cropperOffsetY;
+1143:                 }
+1144:                     isCropperDragging = false;
+1145:                     lastTouchDist = Math.hypot(
+1146:                         e.touches[0].clientX - e.touches[1].clientX,
+1147:                         e.touches[0].clientY - e.touches[1].clientY
+1148:                     );
+1149:                 }
+1150:             }, { passive: true });
+1151: 
+1152:             container.addEventListener('touchmove', (e) => {
+1153:                 if (e.touches.length === 1 && isCropperDragging) {
+1154:                     cropperOffsetX = e.touches[0].clientX - cropperDragStartX;
+1155:                     cropperOffsetY = e.touches[0].clientY - cropperDragStartY;
+1156:                     drawCropperCanvas();
+1157:                 }
+1158:                     const dist = Math.hypot(
+1159:                         e.touches[0].clientX - e.touches[1].clientX,
+1160:                         e.touches[0].clientY - e.touches[1].clientY
+1161:                     );
+1162:                     if (lastTouchDist > 0) {
+1163:                         const factor = dist / lastTouchDist;
+1164:                         cropperScale = Math.min(cropperMinScale * 4, Math.max(cropperMinScale, cropperScale * factor));
+1165:                         const zoomRange = getEl('cropper-zoom-range');
+1166:                         if (zoomRange) zoomRange.value = cropperScale;
+1167:                         drawCropperCanvas();
+1168:                     }
+1169:                     lastTouchDist = dist;
+1170:                 }
+1171:             }, { passive: true });
+1172: 
+1173:             container.addEventListener('touchend', () => {
+1174:                 isCropperDragging = false;
+1175:                 lastTouchDist = 0;
+1176:             });
+1177: 
+1178:             // Wheel Zoom
+1179:             container.addEventListener('wheel', (e) => {
+1180:                 e.preventDefault();
+1181:                 const delta = e.deltaY < 0 ? 0.06 : -0.06;
+1182:                 cropperScale = Math.min(cropperMinScale * 4, Math.max(cropperMinScale, cropperScale * (1 + delta)));
+1183:                 const zoomRange = getEl('cropper-zoom-range');
+1184:                 if (zoomRange) zoomRange.value = cropperScale;
+1185:                 drawCropperCanvas();
+1186:             }, { passive: false });
+1187:         }
+1188: 
+1189:         async function saveCroppedAvatar() {
+1190:             if (!cropperImage || !currentUser) return;
+1191:             const saveBtn = getEl('btn-save-cropped-avatar');
+1192:             if (saveBtn) { saveBtn.innerText = 'Saving...'; saveBtn.disabled = true; }
+1193: 
+1194:             try {
+1195:                 const outputCanvas = document.createElement('canvas');
+1196:                 const outSize = 300;
+1197:                 outputCanvas.width = outSize;
+1198:                 outputCanvas.height = outSize;
+1199:                 const oCtx = outputCanvas.getContext('2d');
+1200: 
+1201:                 oCtx.beginPath();
+1202:                 oCtx.arc(outSize / 2, outSize / 2, outSize / 2, 0, Math.PI * 2);
+1203:                 oCtx.closePath();
+1204:                 oCtx.clip();
+1205: 
+1206:                 const maskDiameter = 250;
+1207:                 const ratio = outSize / maskDiameter;
+1208: 
+1209:                 oCtx.translate(outSize / 2 + (cropperOffsetX * ratio), outSize / 2 + (cropperOffsetY * ratio));
+1210:                 oCtx.rotate((cropperRotation * Math.PI) / 180);
+1211:                 oCtx.scale(cropperScale * ratio, cropperScale * ratio);
+1212: 
+1213:                 oCtx.drawImage(cropperImage, -cropperImage.width / 2, -cropperImage.height / 2, cropperImage.width, cropperImage.height);
+1214: 
+1215:                 const croppedDataUrl = outputCanvas.toDataURL('image/jpeg', 0.88);
+1216: 
+1217:                 await supabaseClient.from('profiles').update({
+1218:                     photo_url: croppedDataUrl,
+1219:                     updated_at: new Date().toISOString()
+1220:                 }
+1221: 
+1222:                 if (currentUserProfile) {
+1223:                     currentUserProfile.photoURL = croppedDataUrl;
+1224:                 }
+1225: 
+1226:                 try {
+1227:                     if (currentUser.updateProfile) {
+1228:                         await currentUser.updateProfile({ photoURL: croppedDataUrl });
+1229:                     }
+1230:                 }
+1231:                     console.warn("Auth update profile ignored:", authErr);
+1232:                 }
+1233: 
+1234:                 closeCropperModal();
+1235:                 updateUserHeaderUI(currentUser, currentUserProfile);
+1236:                 renderProfileModalDetails();
+1237:                 showToast("✨ Profile picture updated successfully!", 4000);
+1238:                 playSound('correct');
+1239:             } catch (err) {
+1240:                 console.error("Failed to save avatar:", err);
+1241:                 showToast("Failed to save avatar: " + (err.message || 'Unknown error'), 5000);
+1242:             } finally {
+1243:                 if (saveBtn) { saveBtn.innerText = '💾 Save Avatar'; saveBtn.disabled = false; }
+1244:             }
+1245:         }
+1246: 
+1247:         function closeCropperModal() {
+1248:             closeModal('modal-image-cropper');
+1249:         }
+1250: 
+1251:         async function sendProfilePasswordReset() {
+1252:             if (!currentUser || !currentUser.email) return;
+1253:             try {
+1254:                 const currentAppUrl = window.location.origin + window.location.pathname;
+1255:                 const { error } = await supabaseClient.auth.resetPasswordForEmail(currentUser.email, {
+1256:                     redirectTo: currentAppUrl
+1257:                 }
+1258:                 if (error) throw error;
+1259: 
+1260:                 showToast(`📧 A password reset link has been sent to ${currentUser.email}. Please check your Inbox and Spam folder!`, 6000);
+1261:                 playSound('correct');
+1262:             } catch (err) {
+1263:                 console.error("Profile reset password error:", err);
+1264:                 showToast("Failed to send reset link: " + (err.message || 'Unknown error'), 5000);
+1265:             }
+1266:         }
+1267: 
+1268:         async function handleSignOut() {
+1269:             try {
+1270:                 if (supabaseClient) {
+1271:                     await supabaseClient.auth.signOut();
+1272:                 }
+1273:                 closeModal('modal-user-profile');
+1274:                 closeModal('modal-admin');
+1275:                 hideBannedScreen();
+1276:                 playSound('click');
+1277:             } catch (err) {
+1278:                 console.error("Sign out error:", err);
+1279:             }
+1280:         }
+1281: 
+1282:         // Appeal Submission Logic
+1283:         async function handleAppealSubmit(e) {
+1284:             e.preventDefault();
+1285:             const contact = (getEl('appeal-contact')?.value || '').trim();
+1286:             const message = (getEl('appeal-message')?.value || '').trim();
+1287:             const errBox = getEl('appeal-error-box');
+1288:             const succBox = getEl('appeal-success-box');
+1289: 
+1290:             if (!contact || !message) {
+1291:                 if (errBox) { errBox.innerText = 'Please provide contact information and an explanation.'; errBox.style.display = 'block'; }
+1292:                 return;
+1293:             }
+1294: 
+1295:             try {
+1296:                 const btn = getEl('appeal-submit-btn');
+1297:                 if (btn) { btn.innerText = 'Submitting Appeal...'; btn.disabled = true; }
+1298: 
+1299:                 const appealDoc = {
+1300:                     id: 'app_' + Math.random().toString(36).substring(2, 9),
+1301:                     user_id: (currentUser ? currentUser.id : 'guest-appeal'),
+1302:                     user_email: (currentUser ? currentUser.email : contact),
+1303:                     contact_info: contact,
+1304:                     message: message,
+1305:                     status: 'pending',
+1306:                     submitted_at: new Date().toISOString()
+1307:                 }
+1308: 
+1309:                 await supabaseClient.from('appeals').insert([appealDoc]);
+1310: 
+1311:                 if (succBox) {
+1312:                     succBox.innerText = "Thanks for submitting! We will review your submission soon inshallah.";
+1313:                     succBox.style.display = 'block';
+1314:                 }
+1315:                 if (errBox) errBox.style.display = 'none';
+1316: 
+1317:                 const form = getEl('appeal-form');
+1318:                 if (form) form.reset();
+1319:                 playSound('correct');
+1320:             } catch (err) {
+1321:                 console.error("Failed to submit appeal:", err);
+1322:                 if (errBox) {
+1323:                     errBox.innerText = 'Failed to submit appeal. Please try again.';
+1324:                     errBox.style.display = 'block';
+1325:                 }
+1326:             } finally {
+1327:                 const btn = getEl('appeal-submit-btn');
+1328:                 if (btn) { btn.innerText = 'Submit Appeal Request'; btn.disabled = false; }
+1329:             }
+1330:         }
+1331: 
+1332:         // ==========================================
+1333:         // ADMIN MODERATION PANEL LOGIC
+1334:         // ==========================================
+1335:         let adminUsersList = [];
+1336:         let adminAppealsList = [];
+1337: 
+1338:         function openAdminModal() {
+1339:             if (!currentUser) return;
+1340:             const isUserAdmin = (currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
+1341:             if (!isUserAdmin) {
+1342:                 alert("Access restricted to administrators only.");
+1343:                 return;
+1344:             }
+1345: 
+1346:             openModal('modal-admin');
+1347:             loadAdminData();
+1348:         }
+1349: 
+1350:         function switchAdminTab(tab) {
+1351:             currentAdminTab = tab;
+1352:             const usersBtn = getEl('admin-tab-users-btn');
+1353:             const appealsBtn = getEl('admin-tab-appeals-btn');
+1354:             const usersSec = getEl('admin-section-users');
+1355:             const appealsSec = getEl('admin-section-appeals');
+1356: 
+1357:             if (tab === 'users') {
+1358:                 if (usersBtn) { usersBtn.style.background = 'rgba(16, 185, 129, 0.25)'; usersBtn.style.borderColor = 'var(--accent)'; }
+1359:                 if (appealsBtn) { appealsBtn.style.background = 'rgba(255, 255, 255, 0.08)'; appealsBtn.style.borderColor = 'var(--glass-border)'; }
+1360:                 if (usersSec) usersSec.style.display = 'block';
+1361:                 if (appealsSec) appealsSec.style.display = 'none';
+1362:             } else {
+1363:                 if (appealsBtn) { appealsBtn.style.background = 'rgba(16, 185, 129, 0.25)'; appealsBtn.style.borderColor = 'var(--accent)'; }
+1364:                 if (usersBtn) { usersBtn.style.background = 'rgba(255, 255, 255, 0.08)'; usersBtn.style.borderColor = 'var(--glass-border)'; }
+1365:                 if (appealsSec) appealsSec.style.display = 'block';
+1366:                 if (usersSec) usersSec.style.display = 'none';
+1367:             }
+1368:             playSound('click');
+1369:         }
+1370: 
+1371:         function escapeHtml(unsafe) {
+1372:             if (typeof unsafe !== 'string') return '';
+1373:             return unsafe
+1374:                  .replace(/&/g, "&amp;")
+1375:                  .replace(/</g, "&lt;")
+1376:                  .replace(/>/g, "&gt;")
+1377:                  .replace(/"/g, "&quot;")
+1378:                  .replace(/'/g, "&#039;");
+1379:         }
+1380: 
+1381:         function normalizeUserProfile(u) {
+1382:             if (!u) return null;
+1383:             const uid = u.id || u.userId || u.user_id || u.email;
+1384:             if (!uid) return null;
+1385:             const email = u.email || u.user_email || '';
+1386:             const displayName = u.display_name || u.displayName || u.sender_name || (email ? email.split('@')[0] : 'Member');
+1387:             const firstName = u.first_name || u.firstName || displayName.split(' ')[0] || 'Member';
+1388:             const lastName = u.last_name || u.lastName || displayName.split(' ').slice(1).join(' ') || '';
+1389:             const photoURL = u.photo_url || u.photoURL || u.avatar_url || u.avatarUrl || u.sender_avatar || '';
+1390:             const avatarGradient = u.avatar_gradient || u.avatarGradient || u.sender_gradient || 'emerald';
+1391:             const status = u.status || 'active';
+1392:             const banReason = u.ban_reason || u.banReason || '';
+1393:             const isAdmin = (u.is_admin === true) || (u.isAdmin === true) || (email && email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+1394: 
+1395:             return {
+1396:                 id: uid,
+1397:                 userId: uid,
+1398:                 email: email,
+1399:                 user_email: email,
+1400:                 display_name: displayName,
+1401:                 displayName: displayName,
+1402:                 first_name: firstName,
+1403:                 firstName: firstName,
+1404:                 last_name: lastName,
+1405:                 lastName: lastName,
+1406:                 photo_url: photoURL,
+1407:                 photoURL: photoURL,
+1408:                 avatar_gradient: avatarGradient,
+1409:                 avatarGradient: avatarGradient,
+1410:                 status: status,
+1411:                 ban_reason: banReason,
+1412:                 banReason: banReason,
+1413:                 is_admin: isAdmin,
+1414:                 isAdmin: isAdmin,
+1415:                 created_at: u.created_at || u.createdAt || new Date().toISOString(),
+1416:                 last_login_at: u.last_login_at || u.lastLoginAt || new Date().toISOString()
+1417:             };
+1418:         }
+1419: 
+1420:         async function loadAdminData() {
+1421:             let aggregatedMap = new Map();
+1422: 
+1423:             const addUserToMap = (raw) => {
+1424:                 const norm = normalizeUserProfile(raw);
+1425:                 if (norm && norm.id) {
+1426:                     if (!aggregatedMap.has(norm.id)) {
+1427:                         aggregatedMap.set(norm.id, norm);
+1428:                     }
+1429:                         const existing = aggregatedMap.get(norm.id);
+1430:                         const merged = { ...norm, ...existing }; if (!merged.photo_url && norm.photo_url) merged.photo_url = norm.photo_url; if (!merged.photoURL && norm.photoURL) merged.photoURL = norm.photoURL; aggregatedMap.set(norm.id, merged);
+1431:                     }
+1432:                 }
+1433:             };
+1434: 
+1435:             // 0. Active session user
+1436:             if (currentUserProfile) addUserToMap(currentUserProfile);
+1437:             else if (currentUser) addUserToMap({ id: currentUser.id, email: currentUser.email, display_name: currentUser.email ? currentUser.email.split('@')[0] : 'User' });
+1438: 
+1439:             // 1. Fetch from Supabase profiles
+1440:             try {
+1441:                 const { data: usersData } = await supabaseClient.from('profiles').select('*');
+1442:                 if (usersData) usersData.forEach(addUserToMap);
+1443:             } catch (e) {}
+1444: 
+1445:             // 2. Fetch from community messages
+1446:             try {
+1447:                 const { data: commData } = await supabaseClient.from('community_messages').select('user_id, user_email, display_name, avatar_url, avatar_gradient, is_admin');
+1448:                 if (commData) {
+1449:                     commData.forEach(m => addUserToMap({
+1450:                         id: m.user_id,
+1451:                         email: m.user_email,
+1452:                         display_name: m.display_name,
+1453:                         photo_url: m.avatar_url,
+1454:                         avatar_gradient: m.avatar_gradient,
+1455:                         is_admin: m.is_admin
+1456:                     }
+1457:                 }
+1458:             } catch (e) {}
+1459: 
+1460:             // 3. Fetch from direct messages
+1461:             try {
+1462:                 const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, sender_avatar, sender_gradient, recipient_id');
+1463:                 if (dmData) {
+1464:                     dmData.forEach(d => {
+1465:                         addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name, photo_url: d.sender_avatar, avatar_gradient: d.sender_gradient });
+1466:                         if (d.recipient_id) addUserToMap({ id: d.recipient_id });
+1467:                     }
+1468:                 }
+1469:             } catch (e) {}
+1470: 
+1471:             // 4. LocalStorage known users cache
+1472:             try {
+1473:                 const cachedKnown = localStorage.getItem('known_app_users');
+1474:                 if (cachedKnown) {
+1475:                     const parsed = JSON.parse(cachedKnown);
+1476:                     if (Array.isArray(parsed)) parsed.forEach(addUserToMap);
+1477:                 }
+1478:             } catch (e) {}
+1479: 
+1480:             // 5. LocalStorage fallback community/direct messages
+1481:             try {
+1482:                 const fallbackComm = JSON.parse(localStorage.getItem('fallback_community_messages') || '[]');
+1483:                 fallbackComm.forEach(m => addUserToMap({ id: m.user_id, email: m.user_email, display_name: m.display_name }));
+1484: 
+1485:                 const fallbackDm = JSON.parse(localStorage.getItem('fallback_direct_messages') || '[]');
+1486:                 fallbackDm.forEach(d => addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name }));
+1487:             } catch (e) {}
+1488: 
+1489:             adminUsersList = Array.from(aggregatedMap.values());
+1490:             renderAdminUsersList();
+1491: 
+1492:             try {
+1493:                 localStorage.setItem('known_app_users', JSON.stringify(adminUsersList));
+1494:             } catch (e) {}
+1495: 
+1496:             try {
+1497:                 const { data: appeals, error: appealErr } = await supabaseClient.from('appeals').select('*').order('submitted_at', { ascending: false });
+1498:                 adminAppealsList = appeals || [];
+1499:                 renderAdminAppealsList();
+1500: 
+1501:                 const countEl = getEl('admin-appeals-count');
+1502:                 if (countEl) countEl.innerText = adminAppealsList.length;
+1503:             } catch (err) {
+1504:                 console.error("Error loading admin appeals:", err);
+1505:             }
+1506:         }
+1507: 
+1508:         function renderAdminUsersList() {
+1509:             const container = getEl('admin-users-container');
+1510:             if (!container) return;
+1511:             const search = (getEl('admin-search-users')?.value || '').toLowerCase().trim();
+1512: 
+1513:             container.innerHTML = '';
+1514: 
+1515:             const filtered = adminUsersList.filter(u => {
+1516:                 if (!search) return true;
+1517:                 const name = (u.displayName || u.display_name || `${u.firstName || u.first_name || ''} ${u.lastName || u.last_name || ''}`).toLowerCase();
+1518:                 const email = (u.email || '').toLowerCase();
+1519:                 const id = (u.id || u.userId || '').toLowerCase();
+1520:                 return name.includes(search) || email.includes(search) || id.includes(search);
+1521:             });
+1522: 
+1523:             if (filtered.length === 0) {
+1524:                 container.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-muted);">No users found matching query.</div>`;
+1525:                 return;
+1526:             }
+1527: 
+1528:             filtered.forEach(u => {
+1529:                 const item = document.createElement('div');
+1530:                 item.className = 'custom-order-item';
+1531:                 item.style.padding = '10px 14px';
+1532: 
+1533:                 const isBanned = (u.status === 'banned');
+1534:                 const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (u.isAdmin === true) || (u.is_admin === true);
+1535:                 
+1536:                 const uAvatarInfo = getUserAvatarInfo(u, u);
+1537:                 const avatarContent = `<img src="${uAvatarInfo.photoURL}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+1538:                 const avatarBg = 'transparent';
+1539: 
+1540:                 item.innerHTML = `
+1541:                     <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
+1542:                         <div class="user-avatar-circle" style="width:36px; height:36px; font-size:0.9rem; background:${avatarBg}; flex-shrink:0;">
+1543:                             ${avatarContent}
+1544:                         </div>
+1545:                         <div style="flex:1; min-width:0;">
+1546:                             <div style="font-weight:700; font-size:0.92rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+1547:                                 <span>${u.displayName || u.display_name || `${u.firstName || u.first_name || ''} ${u.lastName || u.last_name || ''}`}</span>
+1548:                                 ${isUserAdmin ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 6px; border-radius:4px;">ADMIN</span>' : ''}
+1549:                                 ${isBanned ? '<span style="font-size:0.7rem; background:rgba(239,68,68,0.25); color:#f87171; padding:1px 6px; border-radius:4px;">🚫 BANNED</span>' : '<span style="font-size:0.7rem; background:rgba(16,185,129,0.2); color:var(--accent); padding:1px 6px; border-radius:4px;">ACTIVE</span>'}
+1550:                             </div>
+1551:                             <div style="font-size:0.8rem; color:var(--text-muted); word-break:break-all;">
+1552:                                 ${u.email || 'No email'} | UID: <span style="font-family:monospace; font-size:0.72rem;">${(u.id || u.userId || '').substring(0, 8)}...</span>
+1553:                             </div>
+1554:                             ${isBanned && (u.banReason || u.ban_reason) ? `<div style="font-size:0.75rem; color:#fca5a5; margin-top:2px;">Reason: ${u.banReason || u.ban_reason}</div>` : ''}
+1555:                         </div>
+1556:                     </div>
+1557:                     <div>
+1558:                         <button class="btn-mini" onclick="openAdminBanDialog('${u.id || u.userId}')" style="padding:6px 12px; background:${isBanned ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}; border-color:${isBanned ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'};">
+1559:                             ${isBanned ? '✅ Unban / Unlock' : '🚫 Ban User'}
+1560:                         </button>
+1561:                     </div>
+1562:                 `;
+1563: 
+1564:                 container.appendChild(item);
+1565:             });
+1566:         }
+1567: 
+1568:         function renderAdminAppealsList() {
+1569:             const container = getEl('admin-appeals-container');
+1570:             if (!container) return;
+1571:             container.innerHTML = '';
+1572: 
+1573:             if (adminAppealsList.length === 0) {
+1574:                 container.innerHTML = `<div style="padding:30px; text-align:center; color:var(--text-muted);">No appeals submitted yet.</div>`;
+1575:                 return;
+1576:             }
+1577: 
+1578:             adminAppealsList.forEach(app => {
+1579:                 const item = document.createElement('div');
+1580:                 item.className = 'custom-order-item';
+1581:                 item.style.flexDirection = 'column';
+1582:                 item.style.alignItems = 'stretch';
+1583:                 item.style.padding = '14px';
+1584:                 item.style.marginBottom = '10px';
+1585: 
+1586:                 item.innerHTML = `
+1587:                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+1588:                         <div>
+1589:                             <strong style="color:var(--text-main); font-size:0.95rem;">${app.user_email || app.userEmail || 'User'}</strong>
+1590:                             <div style="font-size:0.8rem; color:var(--accent);">Contact: ${app.contact_info || app.contactInfo}</div>
+1591:                         </div>
+1592:                         <span style="font-size:0.75rem; padding:2px 8px; border-radius:6px; background:rgba(245,158,11,0.2); color:var(--gold);">
+1593:                             ${app.status || 'Pending'}
+1594:                         </span>
+1595:                     </div>
+1596:                     <div style="font-size:0.88rem; color:var(--text-main); line-height:1.45; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; margin-bottom:10px;">
+1597:                         "${app.message}"
+1598:                     </div>
+1599:                     <div style="display:flex; gap:8px; justify-content:flex-end;">
+1600:                         <button class="btn-mini" onclick="openAdminBanDialog('${app.user_id || app.userId}')" style="padding:6px 12px; background:rgba(16,185,129,0.2); border-color:var(--accent);">
+1601:                             Manage Account Status
+1602:                         </button>
+1603:                         <button class="btn-mini" onclick="resolveAppeal('${app.id}')" style="padding:6px 12px; background:rgba(255,255,255,0.1);">
+1604:                             ✓ Mark Resolved
+1605:                         </button>
+1606:                     </div>
+1607:                 `;
+1608: 
+1609:                 container.appendChild(item);
+1610:             });
+1611:         }
+1612: 
+1613:         function openAdminBanDialog(userId) {
+1614:             const user = adminUsersList.find(u => (u.id === userId || u.userId === userId));
+1615:             if (!user) return;
+1616:             adminBanTargetUser = user;
+1617: 
+1618:             const nameEl = getEl('admin-ban-target-name');
+1619:             const emailEl = getEl('admin-ban-target-email');
+1620:             const selectEl = getEl('admin-ban-status-select');
+1621:             const reasonInput = getEl('admin-ban-reason-input');
+1622: 
+1623:             if (nameEl) nameEl.innerText = user.displayName || user.display_name || `${user.firstName || user.first_name || ''} ${user.lastName || user.last_name || ''}`.trim() || 'User';
+1624:             if (emailEl) emailEl.innerText = user.email || user.id;
+1625:             if (selectEl) selectEl.value = (user.status === 'banned') ? 'banned' : 'banned';
+1626:             if (reasonInput) reasonInput.value = user.banReason || user.ban_reason || 'Fake name provided (Violation of Real Name Policy)';
+1627: 
+1628:             openModal('modal-admin-ban-dialog');
+1629:         }
+1630: 
+1631:         async function confirmAdminBanAction() {
+1632:             if (!adminBanTargetUser) return;
+1633:             const newStatus = getEl('admin-ban-status-select')?.value || 'banned';
+1634:             const reason = (getEl('admin-ban-reason-input')?.value || '').trim();
+1635: 
+1636:             try {
+1637:                 const btn = getEl('admin-ban-confirm-btn');
+1638:                 if (btn) { btn.innerText = 'Saving...'; btn.disabled = true; }
+1639: 
+1640:                 await supabaseClient.from('profiles').update({
+1641:                     status: newStatus,
+1642:                     ban_reason: (newStatus === 'banned') ? reason : '',
+1643:                     moderated_at: new Date().toISOString()
+1644:                 }
+1645: 
+1646:                 closeModal('modal-admin-ban-dialog');
+1647:                 await loadAdminData();
+1648:                 playSound('correct');
+1649:             } catch (err) {
+1650:                 console.error("Error applying moderation action:", err);
+1651:                 alert("Failed to update user status: " + err.message);
+1652:             } finally {
+1653:                 const btn = getEl('admin-ban-confirm-btn');
+1654:                 if (btn) { btn.innerText = 'Save Action'; btn.disabled = false; }
+1655:             }
+1656:         }
+1657: 
+1658:         async function resolveAppeal(appealId) {
+1659:             try {
+1660:                 await supabaseClient.from('appeals').update({
+1661:                     status: 'resolved',
+1662:                     resolved_at: new Date().toISOString()
+1663:                 }
+1664:                 await loadAdminData();
+1665:                 playSound('correct');
+1666:             } catch (err) {
+1667:                 console.error("Error resolving appeal:", err);
+1668:             }
+1669:         }
+1670: 
+1671:         // Maintenance mode enabled
+1672:         const MAINTENANCE_MODE = false;
+1673: 
+1674:         function checkAdminAccess() {
+1675:             return (currentUser && currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && (currentUserProfile.isAdmin || currentUserProfile.is_admin));
+1676:         }
+1677: 
+1678:         function initAppRouting() {
+1679:             if (MAINTENANCE_MODE && !checkAdminAccess()) {
+1680:                 switchScreen('screen-maintenance');
+1681:             } else {
+1682:                 switchScreen('screen-menu');
+1683:             }
+1684:             updateUserHeaderUI(currentUser, currentUserProfile);
+1685:         }
+1686: 
+1687:         // Listen for immediate hash or popstate navigation changes (e.g. typing /#preview and hitting Enter)
+1688:         window.addEventListener('hashchange', initAppRouting);
+1689:         window.addEventListener('popstate', initAppRouting);
+1690: 
+1691:         let quizSettings = {
+1692:             orderMode: 'random', // 'random', 'sequential', 'custom'
+1693:             customOrderList: wordsData.map((_, i) => i), // Array of indices
+1694:             whitelistedWords: [], // Array of word indices [0..73] excluded from test
+1695:             fields: {
+1696:                 meaning: true,
+1697:                 pos: true,
+1698:                 occ: true,
+1699:                 root: true,
+1700:                 arabic: true
+1701:             },
+1702:             wordDisplay: 'arabic' // 'arabic' or 'aralish'
+1703:         };
+1704: 
+1705:         let currentTheme = 'emerald';
+1706:         let currentMode = 'dark';
+1707:         let quizWords = [];
+1708:         let currentIndex = 0;
+1709:         let score = 0;
+1710:         let isAnswered = false;
+1711: 
+1712:         // Sound Feedback Engine
+1713:         let audioCtx = null;
+1714:         let soundMuted = false;
+1715: 
+1716:         function getAudioContext() {
+1717:             if (!audioCtx) {
+1718:                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+1719:             }
+1720:             if (audioCtx.state === 'suspended') {
+1721:                 audioCtx.resume();
+1722:             }
+1723:             return audioCtx;
+1724:         }
+1725: 
+1726:         function toggleSound() {
+1727:             soundMuted = !soundMuted;
+1728:             const btn = getEl('sound-toggle-btn');
+1729:             if (btn) btn.innerText = soundMuted ? '🔇 Muted' : '🔊 Sound';
+1730:             if (!soundMuted) playSound('click');
+1731:         }
+1732: 
+1733:         function playSound(type) {
+1734:             if (soundMuted) return;
+1735:             try {
+1736:                 const ctx = getAudioContext();
+1737:                 if (!ctx) return;
+1738:                 const now = ctx.currentTime;
+1739: 
+1740:                 if (type === 'correct') {
+1741:                     const freqs = [523.25, 659.25, 783.99, 1046.50];
+1742:                     freqs.forEach((freq, i) => {
+1743:                         const osc = ctx.createOscillator();
+1744:                         const gain = ctx.createGain();
+1745:                         osc.type = 'sine';
+1746:                         osc.frequency.setValueAtTime(freq, now + i * 0.08);
+1747:                         gain.gain.setValueAtTime(0, now + i * 0.08);
+1748:                         gain.gain.linearRampToValueAtTime(0.12, now + i * 0.08 + 0.02);
+1749:                         gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+1750:                         osc.connect(gain);
+1751:                         gain.connect(ctx.destination);
+1752:                         osc.start(now + i * 0.08);
+1753:                         osc.stop(now + i * 0.08 + 0.35);
+1754:                     }
+1755:                 }
+1756:                     const osc = ctx.createOscillator();
+1757:                     const gain = ctx.createGain();
+1758:                     osc.type = 'triangle';
+1759:                     osc.frequency.setValueAtTime(164.81, now);
+1760:                     osc.frequency.exponentialRampToValueAtTime(130.81, now + 0.22);
+1761:                     gain.gain.setValueAtTime(0.15, now);
+1762:                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+1763:                     osc.connect(gain);
+1764:                     gain.connect(ctx.destination);
+1765:                     osc.start(now);
+1766:                     osc.stop(now + 0.3);
+1767:                 }
+1768:                     const osc = ctx.createOscillator();
+1769:                     const gain = ctx.createGain();
+1770:                     osc.type = 'sine';
+1771:                     osc.frequency.setValueAtTime(500, now);
+1772:                     osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
+1773:                     gain.gain.setValueAtTime(0.05, now);
+1774:                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+1775:                     osc.connect(gain);
+1776:                     gain.connect(ctx.destination);
+1777:                     osc.start(now);
+1778:                     osc.stop(now + 0.04);
+1779:                 }
+1780:             } catch (e) {}
+1781:         }
+1782:         
+1783:         // Utils
+1784:         const shuffle = (array) => [...array].sort(() => Math.random() - 0.5);
+1785:         const getEl = (id) => document.getElementById(id);
+1786:         
+1787:         function normalizeArabic(text) {
+1788:             return text.replace(/[\u064B-\u065F]/g, '')
+1789:                        .replace(/[أإآ]/g, 'ا')
+1790:                        .replace(/ة/g, 'ه');
+1791:         }
+1792: 
+1793:         // Theme & Mode Switcher Engine
+1794:         function triggerThemeAnimation(e) {
+1795:             let x = window.innerWidth / 2;
+1796:             let y = window.innerHeight / 2;
+1797:             if (e && e.clientX !== undefined && e.clientY !== undefined && (e.clientX !== 0 || e.clientY !== 0)) {
+1798:                 x = e.clientX;
+1799:                 y = e.clientY;
+1800:             } else if (e && e.target && typeof e.target.getBoundingClientRect === 'function') {
+1801:                 const rect = e.target.getBoundingClientRect();
+1802:                 x = rect.left + rect.width / 2;
+1803:                 y = rect.top + rect.height / 2;
+1804:             }
+1805: 
+1806:             const ripple = document.createElement('div');
+1807:             ripple.className = 'theme-switch-ripple';
+1808:             ripple.style.left = x + 'px';
+1809:             ripple.style.top = y + 'px';
+1810: 
+1811:             const computedStyles = getComputedStyle(document.documentElement);
+1812:             const primaryColor = computedStyles.getPropertyValue('--primary').trim() || '#6366f1';
+1813:             const secondaryColor = computedStyles.getPropertyValue('--secondary').trim() || '#ec4899';
+1814:             const accentColor = computedStyles.getPropertyValue('--accent').trim() || '#38bdf8';
+1815: 
+1816:             ripple.style.background = `radial-gradient(circle, ${primaryColor} 0%, ${secondaryColor} 45%, ${accentColor} 75%, rgba(0,0,0,0) 95%)`;
+1817: 
+1818:             document.body.appendChild(ripple);
+1819: 
+1820:             document.body.classList.add('theme-swapping');
+1821:             setTimeout(() => {
+1822:                 document.body.classList.remove('theme-swapping');
+1823:             }, 500);
+1824: 
+1825:             setTimeout(() => {
+1826:                 if (ripple && ripple.parentNode) {
+1827:                     ripple.parentNode.removeChild(ripple);
+1828:                 }
+1829:             }, 600);
+1830:         }
+1831: 
+1832:         function setTheme(themeName, e) {
+1833:             currentTheme = themeName;
+1834:             document.documentElement.setAttribute('data-theme', themeName);
+1835:             playSound('click');
+1836: 
+1837:             if (e) triggerThemeAnimation(e);
+1838: 
+1839:             document.querySelectorAll('.theme-pill').forEach(pill => {
+1840:                 pill.classList.remove('active');
+1841:                 if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${themeName}'`)) {
+1842:                     pill.classList.add('active');
+1843:                 }
+1844:             });
+1845: 
+1846:             saveThemePreferences();
+1847:         }
+1848: 
+1849:         function toggleMode(e) {
+1850:             currentMode = (currentMode === 'dark') ? 'light' : 'dark';
+1851:             applyMode(currentMode, e);
+1852:         }
+1853: 
+1854:         function applyMode(mode, e) {
+1855:             currentMode = mode;
+1856:             document.documentElement.setAttribute('data-mode', currentMode);
+1857:             playSound('click');
+1858: 
+1859:             const iconEls = document.querySelectorAll('.mode-icon-spin');
+1860:             iconEls.forEach(icon => {
+1861:                 icon.style.transform = 'rotate(360deg) scale(1.3)';
+1862:                 setTimeout(() => { icon.style.transform = 'rotate(0deg) scale(1)'; }, 600);
+1863:             });
+1864: 
+1865:             document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+1866:                 const icon = btn.querySelector('.mode-icon-spin');
+1867:                 const text = btn.querySelector('.mode-text');
+1868:                 if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+1869:                 if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
+1870:             });
+1871: 
+1872:             if (e) triggerThemeAnimation(e);
+1873: 
+1874:             saveThemePreferences();
+1875:         }
+1876: 
+1877:         function saveThemePreferences() {
+1878:             try {
+1879:                 localStorage.setItem('quran_app_theme', currentTheme);
+1880:                 localStorage.setItem('quran_app_mode', currentMode);
+1881:             } catch (err) {}
+1882:         }
+1883: 
+1884:         function loadThemePreferences() {
+1885:             try {
+1886:                 const savedTheme = localStorage.getItem('quran_app_theme');
+1887:                 const savedMode = localStorage.getItem('quran_app_mode');
+1888:                 if (savedTheme) currentTheme = savedTheme;
+1889:                 if (savedMode) currentMode = savedMode;
+1890:             } catch (err) {}
+1891: 
+1892:             document.documentElement.setAttribute('data-theme', currentTheme);
+1893:             document.documentElement.setAttribute('data-mode', currentMode);
+1894: 
+1895:             document.querySelectorAll('.theme-pill').forEach(pill => {
+1896:                 pill.classList.remove('active');
+1897:                 if (pill.getAttribute('onclick') && pill.getAttribute('onclick').includes(`'${currentTheme}'`)) {
+1898:                     pill.classList.add('active');
+1899:                 }
+1900:             });
+1901: 
+1902:             document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+1903:                 const icon = btn.querySelector('.mode-icon-spin');
+1904:                 const text = btn.querySelector('.mode-text');
+1905:                 if (icon) icon.innerText = (currentMode === 'dark') ? '🌙' : '☀️';
+1906:                 if (text) text.innerText = (currentMode === 'dark') ? 'Dark Mode' : 'Light Mode';
+1907:             });
+1908:         }
+1909: 
+1910:         // Modal Controls
+1911:         function openModal(id) {
+1912:             getEl(id).classList.add('active');
+1913:             playSound('click');
+1914:         }
+1915:         function closeModal(id) {
+1916:             getEl(id).classList.remove('active');
+1917:             playSound('click');
+1918:         }
+1919: 
+1920:         function openDownloadModal() {
+1921:             openModal('modal-download-app');
+1922:         }
+1923: 
+1924:         function isAppDownloadedOrInstalled() {
+1925:             try {
+1926:                 const ua = (navigator.userAgent || '').toLowerCase();
+1927:                 
+1928:                 // 1. Explicit user dismiss / already downloaded flag in localStorage
+1929:                 if (localStorage.getItem('quran_app_is_downloaded') === 'true') return true;
+1930:                 
+1931:                 // 2. WebIntoApp & Android WebView indicators
+1932:                 if (ua.includes('webintoapp') || ua.includes('web2app') || ua.includes('wv') || ua.includes('quransplngb')) return true;
+1933:                 if (window.WebIntoApp || window.Android || window.JSInterface) return true;
+1934:                 if (ua.includes('android') && (ua.includes('version/4.0') || ua.includes('wv') || ua.includes('; wv;'))) return true;
+1935:                 
+1936:                 // 3. Standalone PWA / WebApp mode
+1937:                 if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+1938:                 if (window.navigator && window.navigator.standalone === true) return true;
+1939:                 
+1940:                 // 4. Referrer detection
+1941:                 if (document.referrer && (document.referrer.includes('android-app://') || document.referrer.includes('webintoapp'))) return true;
+1942:                 
+1943:                 // 5. URL Query Params
+1944:                 if (window.location && (
+1945:                     window.location.search.includes('isApp=true') ||
+1946:                     window.location.search.includes('app=true') ||
+1947:                     window.location.search.includes('installed=true') ||
+1948:                     window.location.search.includes('standalone=true') ||
+1949:                     window.location.search.includes('webintoapp')
+1950:                 )) return true;
+1951:             } catch (e) {}
+1952:             return false;
+1953:         }
+1954: 
+1955:         function updateDownloadAppVisibility() {
+1956:             const isDownloaded = isAppDownloadedOrInstalled();
+1957:             const cornerBtn = getEl('corner-download-bar');
+1958:             if (cornerBtn) {
+1959:                 if (isDownloaded) {
+1960:                     cornerBtn.style.setProperty('display', 'none', 'important');
+1961:                 }
+1962:                     cornerBtn.style.display = 'flex';
+1963:                 }
+1964:             }
+1965:         }
+1966: 
+1967:         function dismissDownloadPromptPermanently(e) {
+1968:             if (e) {
+1969:                 if (e.stopPropagation) e.stopPropagation();
+1970:                 if (e.preventDefault) e.preventDefault();
+1971:             }
+1972:             try {
+1973:                 localStorage.setItem('quran_app_is_downloaded', 'true');
+1974:             } catch (err) {}
+1975:             updateDownloadAppVisibility();
+1976:             closeModal('modal-download-welcome');
+1977:             closeModal('modal-download-app');
+1978:         }
+1979: 
+1980:         function handleApkDownloadClick() {
+1981:             try {
+1982:                 localStorage.setItem('quran_app_is_downloaded', 'true');
+1983:             } catch (e) {}
+1984:             updateDownloadAppVisibility();
+1985:         }
+1986: 
+1987:         function checkAndShowWelcomeDownloadPrompt() {
+1988:             if (isAppDownloadedOrInstalled()) {
+1989:                 updateDownloadAppVisibility();
+1990:                 return; // NEVER show download popup if app is already downloaded / running inside the app!
+1991:             }
+1992:             try {
+1993:                 const hasDismissed = sessionStorage.getItem('quran_app_welcome_download_dismissed');
+1994:                 if (!hasDismissed) {
+1995:                     setTimeout(() => {
+1996:                         if (!isAppDownloadedOrInstalled()) {
+1997:                             openModal('modal-download-welcome');
+1998:                         }
+1999:                     }, 1500);
+2000:                 }
+2001:             } catch (err) {}
+2002:             updateDownloadAppVisibility();
+2003:         }
+2004: 
+2005:         function closeWelcomeDownloadModal() {
+2006:             try {
+2007:                 sessionStorage.setItem('quran_app_welcome_download_dismissed', 'true');
+2008:             } catch (err) {}
+2009:             closeModal('modal-download-welcome');
+2010:         }
+2011: 
+2012:         // Clear Inputs & Confirm Modal
+2013:         function promptClearQuizInputs() {
+2014:             if (isAnswered) return;
+2015:             openModal('modal-confirm-clear');
+2016:         }
+2017: 
+2018:         function confirmClearQuizInputs() {
+2019:             closeModal('modal-confirm-clear');
+2020:             clearQuizInputs();
+2021:             playSound('click');
+2022:         }
+2023: 
+2024:         function clearArabicInput() {
+2025:             if (isAnswered) return;
+2026:             const input = getEl('input-arabic');
+2027:             input.value = '';
+2028:             input.classList.remove('correct', 'wrong');
+2029:         }
+2030: 
+2031:         function clearQuizInputs() {
+2032:             if (isAnswered) return;
+2033:             getEl('input-meaning').selectedIndex = 0;
+2034:             getEl('input-pos').selectedIndex = 0;
+2035:             getEl('input-occ').selectedIndex = 0;
+2036:             const rootInput = getEl('input-root');
+2037:             if (rootInput) rootInput.selectedIndex = 0;
+2038:             getEl('input-arabic').value = '';
+2039:             
+2040:             ['input-meaning', 'input-pos', 'input-occ', 'input-root', 'input-arabic'].forEach(id => {
+2041:                 const el = getEl(id);
+2042:                 if (el) el.classList.remove('correct', 'wrong');
+2043:             });
+2044:             
+2045:             const msgEl = getEl('result-msg');
+2046:             msgEl.classList.remove('show');
+2047:         }
+2048: 
+2049:         // Screen Navigation
+2050:         function switchScreen(screenId) {
+2051:             document.querySelectorAll('.glass-panel').forEach(panel => {
+2052:                 panel.classList.remove('active');
+2053:             });
+2054:             const target = getEl(screenId);
+2055:             if (target) {
+2056:                 target.classList.add('active');
+2057:             }
+2058: 
+2059:             // Hide sign in / user bar on maintenance screen
+2060:             const topBar = getEl('user-top-bar');
+2061:             if (topBar) {
+2062:                 if (screenId === 'screen-maintenance') {
+2063:                     topBar.style.display = 'none';
+2064:                 }
+2065:                     topBar.style.display = 'flex';
+2066:                 }
+2067:             }
+2068:         }
+2069: 
+2070:         function showMenu() { switchScreen('screen-menu'); }
+2071: 
+2072:         function openSettings() {
+2073:             switchScreen('screen-settings');
+2074:             syncSettingsUI();
+2075:         }
+2076: 
+2077:         function openStudyMode() {
+2078:             switchScreen('screen-study');
+2079:             renderFlashcards();
+2080:         }
+2081: 
+2082:         // Settings Logic
+2083:         function setOrderMode(mode) {
+2084:             quizSettings.orderMode = mode;
+2085:             playSound('click');
+2086:             syncSettingsUI();
+2087:         }
+2088: 
+2089:         function setWordDisplay(format) {
+2090:             quizSettings.wordDisplay = format;
+2091:             playSound('click');
+2092:             syncSettingsUI();
+2093:         }
+2094: 
+2095:         function saveSettings() {
+2096:             quizSettings.fields.meaning = getEl('toggle-field-meaning').checked;
+2097:             quizSettings.fields.pos = getEl('toggle-field-pos').checked;
+2098:             quizSettings.fields.occ = getEl('toggle-field-occ').checked;
+2099:             quizSettings.fields.root = getEl('toggle-field-root').checked;
+2100:             quizSettings.fields.arabic = getEl('toggle-field-arabic').checked;
+2101: 
+2102:             // Ensure at least 1 field is enabled
+2103:             if (!quizSettings.fields.meaning && !quizSettings.fields.pos && !quizSettings.fields.occ && !quizSettings.fields.root && !quizSettings.fields.arabic) {
+2104:                 quizSettings.fields.meaning = true;
+2105:                 getEl('toggle-field-meaning').checked = true;
+2106:             }
+2107: 
+2108:             try {
+2109:                 localStorage.setItem('quran_quiz_settings', JSON.stringify(quizSettings));
+2110:             } catch(e) {}
+2111: 
+2112:             updateWhitelistBadges();
+2113:         }
+2114: 
+2115:         function loadSavedSettings() {
+2116:             try {
+2117:                 const saved = localStorage.getItem('quran_quiz_settings');
+2118:                 if (saved) {
+2119:                     const parsed = JSON.parse(saved);
+2120:                     quizSettings = { ...quizSettings, ...parsed };
+2121:                     if (!Array.isArray(quizSettings.whitelistedWords)) {
+2122:                         quizSettings.whitelistedWords = [];
+2123:                     }
+2124:                     if (!Array.isArray(quizSettings.customOrderList) || quizSettings.customOrderList.length !== wordsData.length) {
+2125:                         quizSettings.customOrderList = wordsData.map((_, i) => i);
+2126:                     }
+2127:                 }
+2128:             } catch(e) {}
+2129:             syncSettingsUI();
+2130:             updateWhitelistBadges();
+2131:         }
+2132: 
+2133:         function syncSettingsUI() {
+2134:             // Order options
+2135:             ['random', 'sequential', 'custom'].forEach(mode => {
+2136:                 const btn = getEl(`order-opt-${mode}`);
+2137:                 if (btn) {
+2138:                     if (quizSettings.orderMode === mode) btn.classList.add('active');
+2139:                     else btn.classList.remove('active');
+2140:                 }
+2141:             });
+2142: 
+2143:             getEl('custom-order-btn-row').style.display = (quizSettings.orderMode === 'custom') ? 'block' : 'none';
+2144: 
+2145:             // Display options
+2146:             ['arabic', 'aralish'].forEach(format => {
+2147:                 const btn = getEl(`display-opt-${format}`);
+2148:                 if (btn) {
+2149:                     if (quizSettings.wordDisplay === format) btn.classList.add('active');
+2150:                     else btn.classList.remove('active');
+2151:                 }
+2152:             });
+2153: 
+2154:             // Toggles
+2155:             getEl('toggle-field-meaning').checked = quizSettings.fields.meaning;
+2156:             getEl('toggle-field-pos').checked = quizSettings.fields.pos;
+2157:             getEl('toggle-field-occ').checked = quizSettings.fields.occ;
+2158:             getEl('toggle-field-root').checked = quizSettings.fields.root !== false;
+2159:             getEl('toggle-field-arabic').checked = quizSettings.fields.arabic;
+2160:             
+2161:             updateWhitelistBadges();
+2162:         }
+2163: 
+2164:         // --- WHITELIST / KNOWN WORDS EXCLUDER MANAGER ---
+2165:         function updateWhitelistBadges() {
+2166:             if (!Array.isArray(quizSettings.whitelistedWords)) {
+2167:                 quizSettings.whitelistedWords = [];
+2168:             }
+2169:             const count = quizSettings.whitelistedWords.length;
+2170:             const remaining = wordsData.length - count;
+2171:             
+2172:             const menuBadge = getEl('menu-whitelist-badge');
+2173:             if (menuBadge) menuBadge.innerText = count;
+2174: 
+2175:             const settingsBadge = getEl('settings-whitelist-badge');
+2176:             if (settingsBadge) settingsBadge.innerText = count;
+2177: 
+2178:             const summaryText = getEl('whitelist-summary-text');
+2179:             if (summaryText) {
+2180:                 summaryText.innerText = `${count} / ${wordsData.length} words whitelisted (${remaining} remaining in test)`;
+2181:             }
+2182:         }
+2183: 
+2184:         function openWhitelistModal() {
+2185:             if (!Array.isArray(quizSettings.whitelistedWords)) {
+2186:                 quizSettings.whitelistedWords = [];
+2187:             }
+2188:             openModal('modal-whitelist-words');
+2189:             renderWhitelistList();
+2190:             updateWhitelistBadges();
+2191:         }
+2192: 
+2193:         function renderWhitelistList() {
+2194:             const container = getEl('whitelist-container');
+2195:             if (!container) return;
+2196:             const searchVal = (getEl('whitelist-search')?.value || '').toLowerCase().trim();
+2197:             container.innerHTML = '';
+2198: 
+2199:             wordsData.forEach((word, index) => {
+2200:                 const isWhitelisted = quizSettings.whitelistedWords.includes(index);
+2201:                 
+2202:                 if (searchVal) {
+2203:                     const matchArabic = word.a.includes(searchVal);
+2204:                     const matchTranslit = word.t.toLowerCase().includes(searchVal);
+2205:                     const matchMeaning = word.m.toLowerCase().includes(searchVal);
+2206:                     const matchCategory = word.p.toLowerCase().includes(searchVal);
+2207:                     if (!matchArabic && !matchTranslit && !matchMeaning && !matchCategory) return;
+2208:                 }
+2209: 
+2210:                 const item = document.createElement('div');
+2211:                 item.className = `whitelist-item ${isWhitelisted ? 'is-whitelisted' : ''}`;
+2212:                 item.onclick = () => {
+2213:                     toggleWordWhitelist(index);
+2214:                 }
+2215: 
+2216:                 item.innerHTML = `
+2217:                     <input type="checkbox" class="whitelist-checkbox" ${isWhitelisted ? 'checked' : ''} onclick="event.stopPropagation(); toggleWordWhitelist(${index});">
+2218:                     <div style="font-family: 'Amiri', serif; font-size: 1.3rem; font-weight: 700; color: var(--gold); min-width: 65px;" dir="rtl">${word.a}</div>
+2219:                     <div style="flex: 1; min-width: 120px;">
+2220:                         <strong style="color: var(--text-main); font-size: 0.95rem;">${word.t}</strong>
+2221:                         <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 6px;">— ${word.m} (${word.p})</span>
+2222:                     </div>
+2223:                     ${isWhitelisted ? '<span class="whitelist-tag">✓ Known</span>' : ''}
+2224:                 `;
+2225: 
+2226:                 container.appendChild(item);
+2227:             });
+2228:         }
+2229: 
+2230:         function toggleWordWhitelist(wordIndex) {
+2231:             if (!Array.isArray(quizSettings.whitelistedWords)) {
+2232:                 quizSettings.whitelistedWords = [];
+2233:             }
+2234:             const pos = quizSettings.whitelistedWords.indexOf(wordIndex);
+2235:             if (pos > -1) {
+2236:                 quizSettings.whitelistedWords.splice(pos, 1);
+2237:             } else {
+2238:                 quizSettings.whitelistedWords.push(wordIndex);
+2239:             }
+2240:             saveSettings();
+2241:             renderWhitelistList();
+2242:             updateFlashcardButtonState(wordIndex);
+2243:             playSound('click');
+2244:         }
+2245: 
+2246:         function toggleWordWhitelistFromCard(btnEl, wordIndex) {
+2247:             toggleWordWhitelist(wordIndex);
+2248:         }
+2249: 
+2250:         function updateFlashcardButtonState(wordIndex) {
+2251:             const btn = document.querySelector(`.flashcard-whitelist-btn[data-word-index="${wordIndex}"]`);
+2252:             if (btn) {
+2253:                 const isWhitelisted = quizSettings.whitelistedWords.includes(wordIndex);
+2254:                 if (isWhitelisted) {
+2255:                     btn.classList.add('is-known');
+2256:                     btn.innerText = '✓ Known';
+2257:                 }
+2258:                     btn.classList.remove('is-known');
+2259:                     btn.innerText = '🛡️ Mark Known';
+2260:                 }
+2261:             }
+2262:         }
+2263: 
+2264:         function toggleSelectAllWhitelist(shouldSelectAll) {
+2265:             if (shouldSelectAll) {
+2266:                 quizSettings.whitelistedWords = wordsData.map((_, i) => i);
+2267:             } else {
+2268:                 quizSettings.whitelistedWords = [];
+2269:             }
+2270:             saveSettings();
+2271:             renderWhitelistList();
+2272:             wordsData.forEach((_, i) => updateFlashcardButtonState(i));
+2273:             playSound('click');
+2274:         }
+2275: 
+2276:         function clearAllWhitelistedWords() {
+2277:             quizSettings.whitelistedWords = [];
+2278:             saveSettings();
+2279:             renderWhitelistList();
+2280:             wordsData.forEach((_, i) => updateFlashcardButtonState(i));
+2281:             playSound('click');
+2282:         }
+2283: 
+2284:         // Custom Order Manager
+2285:         function openCustomOrderModal() {
+2286:             if (!Array.isArray(quizSettings.customOrderList) || quizSettings.customOrderList.length !== wordsData.length) {
+2287:                 quizSettings.customOrderList = wordsData.map((_, i) => i);
+2288:             }
+2289:             openModal('modal-custom-order');
+2290:             renderCustomOrderList();
+2291:         }
+2292: 
+2293:         function renderCustomOrderList() {
+2294:             const container = getEl('custom-order-container');
+2295:             const searchVal = (getEl('custom-order-search').value || '').toLowerCase();
+2296:             container.innerHTML = '';
+2297: 
+2298:             quizSettings.customOrderList.forEach((wordIndex, posIndex) => {
+2299:                 const word = wordsData[wordIndex];
+2300:                 if (!word) return;
+2301:                 if (searchVal && !word.a.includes(searchVal) && !word.t.toLowerCase().includes(searchVal) && !word.m.toLowerCase().includes(searchVal)) {
+2302:                     return;
+2303:                 }
+2304: 
+2305:                 const item = document.createElement('div');
+2306:                 item.className = 'order-item';
+2307:                 item.innerHTML = `
+2308:                     <div class="order-item-num">#${posIndex + 1}</div>
+2309:                     <div class="order-item-arabic" dir="rtl">${word.a}</div>
+2310:                     <div class="order-item-text">
+2311:                         <strong>${word.t}</strong> — ${word.m}
+2312:                     </div>
+2313:                     <div class="order-item-actions">
+2314:                         <button class="btn-mini" onclick="moveCustomItem(${posIndex}, -1)">▲</button>
+2315:                         <button class="btn-mini" onclick="moveCustomItem(${posIndex}, 1)">▼</button>
+2316:                     </div>
+2317:                 `;
+2318:                 container.appendChild(item);
+2319:             });
+2320:         }
+2321: 
+2322:         function moveCustomItem(index, direction) {
+2323:             const newIndex = index + direction;
+2324:             if (newIndex < 0 || newIndex >= quizSettings.customOrderList.length) return;
+2325:             
+2326:             const list = quizSettings.customOrderList;
+2327:             const temp = list[index];
+2328:             list[index] = list[newIndex];
+2329:             list[newIndex] = temp;
+2330: 
+2331:             playSound('click');
+2332:             renderCustomOrderList();
+2333:         }
+2334: 
+2335:         function resetCustomOrderToDefault() {
+2336:             quizSettings.customOrderList = wordsData.map((_, i) => i);
+2337:             playSound('click');
+2338:             renderCustomOrderList();
+2339:         }
+2340: 
+2341:         // Generate Flashcards
+2342:         function renderFlashcards() {
+2343:             const grid = getEl('study-grid');
+2344:             grid.innerHTML = '';
+2345:             
+2346:             wordsData.forEach((word, index) => {
+2347:                 const isWhitelisted = Array.isArray(quizSettings.whitelistedWords) && quizSettings.whitelistedWords.includes(index);
+2348:                 const card = document.createElement('div');
+2349:                 card.className = 'flashcard';
+2350:                 card.style.opacity = '1';
+2351:                 card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease';
+2352:                 
+2353:                 card.innerHTML = `
+2354:                     <button class="flashcard-whitelist-btn ${isWhitelisted ? 'is-known' : ''}" data-word-index="${index}" onclick="event.stopPropagation(); toggleWordWhitelistFromCard(this, ${index});">
+2355:                         ${isWhitelisted ? '✓ Known' : '🛡️ Mark Known'}
+2356:                     </button>
+2357:                     <div class="flashcard-inner">
+2358:                         <div class="flashcard-front">
+2359:                             <div class="arabic">${word.a}</div>
+2360:                             <div style="color: var(--text-muted); font-size: 0.95rem; font-weight: 600;">${word.t}</div>
+2361:                         </div>
+2362:                         <div class="flashcard-back">
+2363:                             <h3 style="font-size: 1.1rem; margin-bottom: 5px;">${word.m}</h3>
+2364:                             <p style="font-size: 0.85rem; margin: 4px 0;"><strong>Category:</strong> ${word.p}</p>
+2365:                             ${word.r ? `<p style="font-size: 0.85rem; margin: 4px 0;"><strong>Root:</strong> <span dir="rtl" style="font-family: 'Amiri', serif; font-size: 1rem; color: var(--gold);">${word.r}</span></p>` : ''}
+2366:                             <p style="font-size: 0.85rem; margin: 4px 0;"><strong>Freq:</strong> ${word.o} times</p>
+2367:                         </div>
+2368:                     </div>
+2369:                 `;
+2370:                 
+2371:                 card.onclick = () => card.classList.toggle('flipped');
+2372:                 grid.appendChild(card);
+2373:             });
+2374:         }
+2375: 
+2376:         // Keyboard & Modal Escape listener
+2377:         document.addEventListener('keydown', function(e) {
+2378:             if (e.key === 'Escape') {
+2379:                 closeModal('modal-custom-order');
+2380:                 closeModal('modal-confirm-clear');
+2381:                 closeModal('modal-whitelist-words');
+2382:                 closeModal('modal-all-whitelisted-warning');
+2383:             }
+2384:         });
+2385: 
+2386:         // Initialize Animated Keyboard
+2387:         function renderKeyboard() {
+2388:             const kbContainer = getEl('arabic-keyboard');
+2389:             kbContainer.innerHTML = '';
+2390:             let keyIndex = 0;
+2391: 
+2392:             kbLayout.forEach(row => {
+2393:                 const rowDiv = document.createElement('div');
+2394:                 let isCentered = row.length < 10 && row.length > 3;
+2395:                 rowDiv.className = 'keyboard-row' + (isCentered ? ' centered-row' : '');
+2396:                 
+2397:                 row.forEach(key => {
+2398:                     const btn = document.createElement('div');
+2399:                     let isSpace = key.includes('Space');
+2400:                     let isClear = key.includes('Clear');
+2401:                     let isBackspace = key.includes('⌫') || key.includes('Backspace');
+2402: 
+2403:                     let classNames = 'key';
+2404:                     if (isSpace) classNames += ' space-key';
+2405:                     else if (isBackspace) classNames += ' backspace-key';
+2406:                     else if (isClear) classNames += ' clear-key action-key';
+2407: 
+2408:                     btn.className = classNames;
+2409:                     btn.textContent = key;
+2410:                     btn.onclick = () => handleKeyPress(key, btn);
+2411: 
+2412:                     setTimeout(() => { btn.classList.add('show'); }, keyIndex * 8);
+2413:                     keyIndex++;
+2414: 
+2415:                     rowDiv.appendChild(btn);
+2416:                 }
+2417:                 kbContainer.appendChild(rowDiv);
+2418:             });
+2419:         }
+2420: 
+2421:         function handleKeyPress(key, btnElement) {
+2422:             if(isAnswered) return;
+2423:             playSound('click');
+2424:             const input = getEl('input-arabic');
+2425:             
+2426:             if (key === '⌫' || key === 'Backspace' || key.includes('⌫')) {
+2427:                 input.value = input.value.slice(0, -1);
+2428:             } else if (key === 'Space ␣' || key === 'Space' || key.includes('Space')) {
+2429:                 input.value += ' ';
+2430:             } else if (key === 'Clear' || key === 'Clear Text' || key.includes('Clear')) {
+2431:                 clearArabicInput();
+2432:             } else {
+2433:                 input.value += key;
+2434:             }
+2435:         }
+2436: 
+2437:         function clearAllWhitelistedWordsAndStartQuiz() {
+2438:             quizSettings.whitelistedWords = [];
+2439:             saveSettings();
+2440:             closeModal('modal-all-whitelisted-warning');
+2441:             startQuiz();
+2442:         }
+2443: 
+2444:         // Setup Quiz
+2445:         function startQuiz() {
+2446:             if (!currentUser && !checkAdminAccess()) {
+2447:                 openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", 'Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.');
+2448:                 return;
+2449:             }
+2450:             saveSettings();
+2451: 
+2452:             // Prepare Candidate Words Based on Settings Order
+2453:             let candidateWords = [];
+2454:             if (quizSettings.orderMode === 'random') {
+2455:                 candidateWords = shuffle([...wordsData]);
+2456:             } else if (quizSettings.orderMode === 'sequential') {
+2457:                 candidateWords = [...wordsData];
+2458:             } else if (quizSettings.orderMode === 'custom') {
+2459:                 candidateWords = quizSettings.customOrderList.map(i => wordsData[i]);
+2460:             }
+2461: 
+2462:             // Exclude Whitelisted (Known) Words
+2463:             const whitelistedSet = new Set(quizSettings.whitelistedWords || []);
+2464:             quizWords = candidateWords.filter(w => {
+2465:                 const origIndex = wordsData.indexOf(w);
+2466:                 return !whitelistedSet.has(origIndex);
+2467:             });
+2468: 
+2469:             if (quizWords.length === 0) {
+2470:                 openModal('modal-all-whitelisted-warning');
+2471:                 return;
+2472:             }
+2473: 
+2474:             switchScreen('screen-quiz');
+2475: 
+2476:             // Adjust Visible Input Fields
+2477:             getEl('group-meaning').style.display = quizSettings.fields.meaning ? 'flex' : 'none';
+2478:             getEl('group-pos').style.display = quizSettings.fields.pos ? 'flex' : 'none';
+2479:             getEl('group-occ').style.display = quizSettings.fields.occ ? 'flex' : 'none';
+2480:             const groupRoot = getEl('group-root');
+2481:             if (groupRoot) groupRoot.style.display = quizSettings.fields.root ? 'flex' : 'none';
+2482:             getEl('group-arabic').style.display = quizSettings.fields.arabic ? 'flex' : 'none';
+2483: 
+2484:             currentIndex = 0;
+2485:             score = 0;
+2486:             loadWord();
+2487:         }
+2488: 
+2489:         function updateProgress() {
+2490:             const progressPercent = (currentIndex / quizWords.length) * 100;
+2491:             getEl('progress-bar').style.width = `${progressPercent}%`;
+2492:             getEl('progress-text').innerText = `Word ${currentIndex + 1} / ${quizWords.length}`;
+2493:         }
+2494: 
+2495:         function loadWord() {
+2496:             isAnswered = false;
+2497:             const word = quizWords[currentIndex];
+2498:             
+2499:             updateProgress();
+2500:             getEl('score-text').innerText = `Score: ${score}`;
+2501:             
+2502:             const promptEl = getEl('word-prompt-display');
+2503:             promptEl.style.opacity = 0;
+2504:             setTimeout(() => {
+2505:                 if (quizSettings.wordDisplay === 'aralish') {
+2506:                     promptEl.innerText = word.t;
+2507:                     promptEl.classList.add('aralish-mode');
+2508:                     promptEl.removeAttribute('dir');
+2509:                 }
+2510:                     promptEl.innerText = word.a;
+2511:                     promptEl.classList.remove('aralish-mode');
+2512:                     promptEl.setAttribute('dir', 'rtl');
+2513:                 }
+2514:                 promptEl.style.opacity = 1;
+2515:                 promptEl.style.transition = 'opacity 0.4s ease';
+2516:             }, 180);
+2517: 
+2518:             getEl('input-arabic').value = '';
+2519:             
+2520:             const msgEl = getEl('result-msg');
+2521:             msgEl.classList.remove('show');
+2522:             
+2523:             getEl('btn-action').innerText = 'Check Answer';
+2524:             getEl('btn-action').onclick = checkAnswer;
+2525:             
+2526:             ['input-meaning', 'input-pos', 'input-occ', 'input-arabic'].forEach(id => {
+2527:                 getEl(id).classList.remove('correct', 'wrong');
+2528:             });
+2529: 
+2530:             // Generate Options if visible
+2531:             if (quizSettings.fields.meaning) {
+2532:                 const meaningSelect = getEl('input-meaning');
+2533:                 const wrongMeanings = shuffle(wordsData.filter(w => w.m !== word.m)).slice(0, 3).map(w => w.m);
+2534:                 const allMeanings = shuffle([word.m, ...wrongMeanings]);
+2535:                 meaningSelect.innerHTML = '<option value="" disabled selected>Select meaning...</option>';
+2536:                 allMeanings.forEach(m => {
+2537:                     meaningSelect.innerHTML += `<option value="${m}">${m}</option>`;
+2538:                 }
+2539:             }
+2540: 
+2541:             if (quizSettings.fields.pos) {
+2542:                 getEl('input-pos').value = '';
+2543:             }
+2544: 
+2545:             if (quizSettings.fields.occ) {
+2546:                 const occSelect = getEl('input-occ');
+2547:                 const wrongOcc = [
+2548:                     Math.max(1, word.o + Math.floor(Math.random() * 50) + 5),
+2549:                     Math.max(1, word.o - Math.floor(Math.random() * 20) - 2),
+2550:                     wordsData[Math.floor(Math.random() * wordsData.length)].o
+2551:                 ];
+2552:                 const allOcc = shuffle([...new Set([word.o, ...wrongOcc])]); 
+2553:                 occSelect.innerHTML = '<option value="" disabled selected>Select count...</option>';
+2554:                 allOcc.forEach(o => {
+2555:                     occSelect.innerHTML += `<option value="${o}">${o}</option>`;
+2556:                 }
+2557:             }
+2558: 
+2559:             if (quizSettings.fields.root) {
+2560:                 const groupRoot = getEl('group-root');
+2561:                 const rootSelect = getEl('input-root');
+2562:                 if (groupRoot && rootSelect) {
+2563:                     groupRoot.style.display = 'flex';
+2564:                     const correctRoot = word.r ? word.r : "None";
+2565:                     const wrongRoots = shuffle(wordsData.filter(w => w.r && w.r !== word.r)).slice(0, 3).map(w => w.r);
+2566:                     let optionsList = [correctRoot, ...wrongRoots];
+2567:                     if (correctRoot !== "None") {
+2568:                         optionsList.push("None");
+2569:                     }
+2570:                     const allRoots = shuffle([...new Set(optionsList)]);
+2571:                     
+2572:                     rootSelect.innerHTML = '<option value="" disabled selected>Select root letters...</option>';
+2573:                     rootSelect.innerHTML += `<option value="None">None (Proper Noun / Pronoun / Particle)</option>`;
+2574:                     allRoots.filter(r => r !== "None").forEach(r => {
+2575:                         rootSelect.innerHTML += `<option value="${r}">${r}</option>`;
+2576:                     }
+2577:                 }
+2578:             }
+2579: 
+2580:             if (quizSettings.fields.arabic) {
+2581:                 renderKeyboard();
+2582:             }
+2583:         }
+2584: 
+2585:         // Confetti Celebration Generator
+2586:         function fireConfetti() {
+2587:             const colors = ['#6366f1', '#ec4899', '#10b981', '#fbbf24', '#38bdf8'];
+2588:             for(let i=0; i<40; i++) {
+2589:                 const conf = document.createElement('div');
+2590:                 conf.style.position = 'fixed';
+2591:                 conf.style.top = '-10px';
+2592:                 conf.style.left = Math.random() * 100 + 'vw';
+2593:                 conf.style.width = (Math.random() * 8 + 6) + 'px';
+2594:                 conf.style.height = (Math.random() * 12 + 8) + 'px';
+2595:                 conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+2596:                 conf.style.borderRadius = '4px';
+2597:                 conf.style.zIndex = '999';
+2598:                 conf.style.opacity = '0.9';
+2599:                 conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+2600:                 
+2601:                 const fallDuration = (Math.random() * 2 + 2);
+2602:                 conf.style.transition = `all ${fallDuration}s linear`;
+2603:                 document.body.appendChild(conf);
+2604: 
+2605:                 setTimeout(() => {
+2606:                     conf.style.top = '105vh';
+2607:                     conf.style.transform = `rotate(${Math.random() * 720}deg)`;
+2608:                     conf.style.opacity = '0';
+2609:                 }, 50);
+2610: 
+2611:                 setTimeout(() => conf.remove(), fallDuration * 1000 + 100);
+2612:             }
+2613:         }
+2614: 
+2615:         function checkAnswer() {
+2616:             const word = quizWords[currentIndex];
+2617:             let allCorrect = true;
+2618:             let missingInputs = false;
+2619: 
+2620:             // Validate Meaning
+2621:             if (quizSettings.fields.meaning) {
+2622:                 const valMeaning = getEl('input-meaning').value;
+2623:                 if (!valMeaning) missingInputs = true;
+2624:                 else if (valMeaning === word.m) getEl('input-meaning').classList.add('correct');
+2625:                 else { getEl('input-meaning').classList.add('wrong'); allCorrect = false; }
+2626:             }
+2627: 
+2628:             // Validate POS
+2629:             if (quizSettings.fields.pos) {
+2630:                 const valPos = getEl('input-pos').value;
+2631:                 if (!valPos) missingInputs = true;
+2632:                 else if (valPos === word.p) getEl('input-pos').classList.add('correct');
+2633:                 else { getEl('input-pos').classList.add('wrong'); allCorrect = false; }
+2634:             }
+2635: 
+2636:             // Validate Occurrences
+2637:             if (quizSettings.fields.occ) {
+2638:                 const valOcc = parseInt(getEl('input-occ').value);
+2639:                 if (isNaN(valOcc)) missingInputs = true;
+2640:                 else if (valOcc === word.o) getEl('input-occ').classList.add('correct');
+2641:                 else { getEl('input-occ').classList.add('wrong'); allCorrect = false; }
+2642:             }
+2643: 
+2644:             // Validate Root Letters
+2645:             if (quizSettings.fields.root) {
+2646:                 const valRoot = getEl('input-root').value;
+2647:                 const correctRoot = word.r ? word.r : "None";
+2648:                 if (!valRoot) missingInputs = true;
+2649:                 else if (valRoot === correctRoot) getEl('input-root').classList.add('correct');
+2650:                 else { getEl('input-root').classList.add('wrong'); allCorrect = false; }
+2651:             }
+2652: 
+2653:             // Validate Arabic Sight Typing
+2654:             if (quizSettings.fields.arabic) {
+2655:                 const valArabic = normalizeArabic(getEl('input-arabic').value.trim());
+2656:                 const correctArabic = normalizeArabic(word.a);
+2657:                 if (!valArabic) missingInputs = true;
+2658:                 else if (valArabic === correctArabic) getEl('input-arabic').classList.add('correct');
+2659:                 else { getEl('input-arabic').classList.add('wrong'); allCorrect = false; }
+2660:             }
+2661: 
+2662:             if (missingInputs) {
+2663:                 const btn = getEl('btn-action');
+2664:                 btn.classList.add('shake');
+2665:                 setTimeout(() => btn.classList.remove('shake'), 600);
+2666:                 return;
+2667:             }
+2668: 
+2669:             isAnswered = true;
+2670:             const msgEl = getEl('result-msg');
+2671:             msgEl.classList.add('show');
+2672:             
+2673:             if (allCorrect) {
+2674:                 score++;
+2675:                 getEl('score-text').innerText = `Score: ${score}`;
+2676:                 msgEl.innerText = "✨ Perfect! Outstanding job! ✨";
+2677:                 msgEl.style.color = "var(--success)";
+2678:                 playSound('correct');
+2679:                 fireConfetti();
+2680:             } else {
+2681:                 getEl('screen-quiz').classList.add('shake');
+2682:                 setTimeout(() => getEl('screen-quiz').classList.remove('shake'), 600);
+2683:                 playSound('incorrect');
+2684:                 
+2685:                 const rootStr = word.r ? `, Root: <b>${word.r}</b>` : '';
+2686:                 msgEl.innerHTML = `Incorrect. Word: <b>${word.a}</b> (${word.t}), Meaning: <b>${word.m}</b>${rootStr} (Occurs <b>${word.o}</b> times).`;
+2687:                 msgEl.style.color = "var(--danger)";
+2688:             }
+2689: 
+2690:             getEl('btn-action').innerText = 'Next Word →';
+2691:             getEl('btn-action').onclick = nextWord;
+2692:         }
+2693: 
+2694:         function nextWord() {
+2695:             currentIndex++;
+2696:             if (currentIndex >= quizWords.length) {
+2697:                 endQuiz();
+2698:             } else {
+2699:                 loadWord();
+2700:             }
+2701:         }
+2702: 
+2703:         function endQuiz() {
+2704:             switchScreen('screen-end');
+2705:             getEl('progress-bar').style.width = '100%';
+2706:             
+2707:             const finalScoreText = getEl('final-score-text');
+2708:             finalScoreText.innerText = `You scored ${score} out of ${quizWords.length}!`;
+2709:             
+2710:             if (score > quizWords.length / 2) {
+2711:                 setTimeout(fireConfetti, 300);
+2712:                 setTimeout(fireConfetti, 1200);
+2713:             }
+2714:         }
+2715: 
+2716:         const inspirationalQuotes = [
+2717:             "✨ May this website be a source of great benefit in studying and mastering the vocabulary of the Qur'an.",
+2718:             "📖 'And We have certainly made the Qur'an easy for remembrance, so is there any who will remember?' — Qur'an 54:17",
+2719:             "💡 'The best of you are those who learn the Qur'an and teach it.' — Sahih Al-Bukhari",
+2720:             "🌿 'Read! And your Lord is the Most Generous, who taught by the pen.' — Qur'an 96:3-4",
+2721:             "✨ 'Whoever follows a path in pursuit of knowledge, Allah will make easy for him a path to Paradise.' — Sahih Muslim",
+2722:             "🌙 'And say, \"My Lord, increase me in knowledge.\"' — Qur'an 20:114",
+2723:             "🤍 'Indeed, in the remembrance of Allah do hearts find rest.' — Qur'an 13:28",
+2724:             "🌟 'Verily, with hardship comes ease.' — Qur'an 94:6",
+2725:             "🕊️ 'The most beloved deeds to Allah are those performed consistently, even if they are small.' — Sahih Al-Bukhari",
+2726:             "💎 'When Allah wishes good for someone, He bestows upon them the deep understanding of religion.' — Sahih Al-Bukhari"
+2727:         ];
+2728:         let currentQuoteIndex = 0;
+2729: 
+2730:         function nextQuote() {
+2731:             const el1 = document.getElementById('quotes-ticker-text');
+2732:             const el2 = document.getElementById('quotes-ticker-text-2');
+2733:             
+2734:             [el1, el2].forEach(el => {
+2735:                 if (el) el.classList.add('fade-out');
+2736:             });
+2737: 
+2738:             setTimeout(() => {
+2739:                 currentQuoteIndex = (currentQuoteIndex + 1) % inspirationalQuotes.length;
+2740:                 const nextText = inspirationalQuotes[currentQuoteIndex];
+2741:                 
+2742:                 [el1, el2].forEach(el => {
+2743:                     if (el) {
+2744:                         el.innerText = nextText;
+2745:                         el.classList.remove('fade-out');
+2746:                     }
+2747:                 }
+2748:             }, 400);
+2749:         }
+2750: 
+2751:         // Auto-rotate every 6.2 seconds with smooth fade
+2752:         setInterval(nextQuote, 6200);
+2753: 
+2754:         // Initialize Theme Preferences, Settings, Routing and Auth Actions
+2755:         loadThemePreferences();
+2756:         loadSavedSettings();
+2757:         initSupabase();
+2758:         initAppRouting();
+2759:         checkAuthActionFromUrl();
+2760:         updateDownloadAppVisibility();
+2761:         checkAndShowWelcomeDownloadPrompt();
+2762: 
+2763:     
+--- BLOCK 7 ---
+1: 
+2:         let activeAnnouncementUserId = null;
+3: 
+4:         function showV1AnnouncementModal(userId) {
+5:             activeAnnouncementUserId = userId;
+6:             const modal = getEl('modal-v1-announcement');
+7:             if (modal) {
+8:                 modal.classList.add('active');
+9:                 modal.style.display = 'flex';
+10:             }
+11:         }
+12: 
+13:         function closeV1AnnouncementModal() {
+14:             const modal = getEl('modal-v1-announcement');
+15:             if (modal) {
+16:                 modal.classList.remove('active');
+17:                 modal.style.display = 'none';
+18:             }
+19:             if (activeAnnouncementUserId) {
+20:                 try {
+21:                     localStorage.setItem('dismissed_v1_announcement_' + activeAnnouncementUserId, 'true');
+22:                 }
+23:             }
+24:         }
+25: 
+26:     
+--- BLOCK 8 ---
+1: 
+2:         let communityChatMessagesList = [];
+3:         let currentChatTab = 'global';
+4:         let dmUsersList = [];
+5:         let activeDmRecipient = null;
+6:         let directMessagesList = [];
+7: 
+8:         function switchChatTab(tab) {
+9:             currentChatTab = tab;
+10:             const globalBtn = getEl('chat-tab-global-btn');
+11:             const dmBtn = getEl('chat-tab-dm-btn');
+12:             const globalSec = getEl('chat-section-global');
+13:             const dmSec = getEl('chat-section-dm');
+14: 
+15:             if (tab === 'global') {
+16:                 if (globalBtn) { globalBtn.style.background = 'rgba(16, 185, 129, 0.25)'; globalBtn.style.borderColor = 'var(--accent)'; }
+17:                 if (dmBtn) { dmBtn.style.background = 'rgba(255, 255, 255, 0.08)'; dmBtn.style.borderColor = 'transparent'; }
+18:                 if (globalSec) globalSec.style.display = 'flex';
+19:                 if (dmSec) dmSec.style.display = 'none';
+20:                 loadCommunityMessages();
+21:             } else {
+22:                 if (dmBtn) { dmBtn.style.background = 'rgba(16, 185, 129, 0.25)'; dmBtn.style.borderColor = 'var(--accent)'; }
+23:                 if (globalBtn) { globalBtn.style.background = 'rgba(255, 255, 255, 0.08)'; globalBtn.style.borderColor = 'transparent'; }
+24:                 if (dmSec) dmSec.style.display = 'flex';
+25:                 if (globalSec) globalSec.style.display = 'none';
+26:                 loadDmUsersAndMessages();
+27:             }
+28:         }
+29: 
+30:         async function openCommunityChatModal() {
+31:             if (!currentUser) {
+32:                 openAuthModal('login', "✨ Sign in to join the Community Chat & DMs!", "Sign in with your email, Google, or Discord account to chat with other learners.");
+33:                 return;
+34:             }
+35:             openModal('modal-community-chat');
+36:             switchChatTab('global');
+37:             if (currentUser) {
+38:                 try {
+39:                     localStorage.setItem('last_read_chat_timestamp_' + currentUser.id, Date.now().toString());
+40:                     const badge = getEl('chat-notification-badge');
+41:                     if (badge) {
+42:                         badge.style.display = 'none';
+43:                         badge.innerText = '0';
+44:                     }
+45:                 }
+46:             }
+47:         }
+48: 
+49:         function closeCommunityChatModal() {
+50:             closeModal('modal-community-chat');
+51:         }
+52: 
+53:         async function loadCommunityMessages() {
+54:             try {
+55:                 const { data, error } = await supabaseClient
+56:                     .from('community_messages')
+57:                     .select('*')
+58:                     .order('created_at', { ascending: true })
+59:                     .limit(100);
+60:                 
+61:                 if (!error && data) {
+62:                     communityChatMessagesList = data;
+63:                 }
+64:                     const cached = localStorage.getItem('fallback_community_messages');
+65:                     communityChatMessagesList = cached ? JSON.parse(cached) : [];
+66:                 }
+67:                 renderCommunityMessages();
+68:             } catch (err) {
+69:                 const cached = localStorage.getItem('fallback_community_messages');
+70:                 communityChatMessagesList = cached ? JSON.parse(cached) : [];
+71:                 renderCommunityMessages();
+72:             }
+73:         }
+74: 
+75:         function renderCommunityMessages() {
+76:             const container = getEl('community-chat-messages');
+77:             if (!container) return;
+78: 
+79:             if (communityChatMessagesList.length === 0) {
+80:                 container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:40px;">No messages yet. Be the first to say Assalaamualaykum! 👋</div>`;
+81:                 return;
+82:             }
+83: 
+84:             const isAdmin = checkAdminAccess();
+85:             let html = '';
+86:             communityChatMessagesList.forEach(msg => {
+87:                 const isMsgAdmin = (msg.user_email && msg.user_email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || msg.is_admin;
+88:                 const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+89:                 
+90:                 const pForAvatar = { 
+91:                     photo_url: msg.avatar_url, 
+92:                     avatar_gradient: msg.avatar_gradient || 'emerald',
+93:                     displayName: msg.display_name
+94:                 }
+95:                 const msgAvatarInfo = getUserAvatarInfo(null, pForAvatar);
+96:                 const avatarBg = 'transparent';
+97:                 const avatarContent = `<img src="${escapeHtml(msgAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+98: 
+99:                 html += `
+100:                     <div style="display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
+101:                         <div style="width: 36px; height: 36px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; overflow:hidden;">
+102:                             ${avatarContent}
+103:                         </div>
+104:                         <div style="flex: 1; min-width: 0;">
+105:                             <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+106:                                 <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">${escapeHtml(msg.display_name || 'User')}</span>
+107:                                 ${isMsgAdmin ? '<span style="font-size:0.65rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 6px; border-radius:4px; font-weight:700;">ADMIN</span>' : ''}
+108:                                 <span style="font-size: 0.72rem; color: var(--text-muted);">${timeStr}</span>
+109:                             </div>
+110:                             <div style="font-size: 0.92rem; color: var(--text-main); word-break: break-word; line-height: 1.4;">${escapeHtml(msg.message)}</div>
+111:                         </div>
+112:                         ${isAdmin ? `<button class="btn-mini" onclick="deleteCommunityMessage('${msg.id}')" style="padding: 3px 8px; font-size: 0.7rem; background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.4);" title="Delete / Moderate">🗑️</button>` : ''}
+113:                     </div>
+114:                 `;
+115:             });
+116:             container.innerHTML = html;
+117:             container.scrollTop = container.scrollHeight;
+118:         }
+119: 
+120:         async function sendCommunityMessage(e) {
+121:             e.preventDefault();
+122:             if (!currentUser) {
+123:                 openAuthModal('login');
+124:                 return;
+125:             }
+126:             const input = getEl('community-chat-input');
+127:             const text = (input?.value || '').trim();
+128:             if (!text) return;
+129: 
+130:             const profile = currentUserProfile || {};
+131:             const displayName = profile.display_name || profile.displayName || currentUser.email?.split('@')[0] || 'User';
+132:             const avatarUrl = profile.photo_url || profile.photoURL || profile.avatar_url || profile.avatarUrl || '';
+133:             const avatarGradient = profile.avatar_gradient || profile.avatarGradient || 'emerald';
+134:             const isAdmin = checkAdminAccess();
+135: 
+136:             const newMsg = {
+137:                 id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+138:                 user_id: currentUser.id,
+139:                 user_email: currentUser.email,
+140:                 display_name: displayName,
+141:                 avatar_url: avatarUrl,
+142:                 avatar_gradient: avatarGradient,
+143:                 message: text,
+144:                 created_at: new Date().toISOString(),
+145:                 is_admin: isAdmin
+146:             };
+147: 
+148:             try {
+149:                 const { error } = await supabaseClient.from('community_messages').insert([newMsg]);
+150:                 if (error) {
+151:                     communityChatMessagesList.push(newMsg);
+152:                     localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+153:                 }
+154:                     communityChatMessagesList.push(newMsg);
+155:                 }
+156:                 if (input) input.value = '';
+157:                 renderCommunityMessages();
+158:             } catch (err) {
+159:                 communityChatMessagesList.push(newMsg);
+160:                 localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+161:                 if (input) input.value = '';
+162:                 renderCommunityMessages();
+163:             }
+164:         }
+165: 
+166:         async function deleteCommunityMessage(msgId) {
+167:             if (!confirm("Are you sure you want to delete this message?")) return;
+168:             try {
+169:                 await supabaseClient.from('community_messages').delete().eq('id', msgId);
+170:                 communityChatMessagesList = communityChatMessagesList.filter(m => m.id !== msgId);
+171:                 localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+172:                 renderCommunityMessages();
+173:             } catch (err) {
+174:                 communityChatMessagesList = communityChatMessagesList.filter(m => m.id !== msgId);
+175:                 localStorage.setItem('fallback_community_messages', JSON.stringify(communityChatMessagesList));
+176:                 renderCommunityMessages();
+177:             }
+178:         }
+179: 
+180:         async function loadDmUsersAndMessages() {
+181:             let aggregatedMap = new Map();
+182: 
+183:             const addUserToMap = (raw) => {
+184:                 const norm = normalizeUserProfile(raw);
+185:                 if (norm && norm.id) {
+186:                     if (!aggregatedMap.has(norm.id)) {
+187:                         aggregatedMap.set(norm.id, norm);
+188:                     }
+189:                         const existing = aggregatedMap.get(norm.id);
+190:                         const merged = { ...norm, ...existing }; if (!merged.photo_url && norm.photo_url) merged.photo_url = norm.photo_url; if (!merged.photoURL && norm.photoURL) merged.photoURL = norm.photoURL; aggregatedMap.set(norm.id, merged);
+191:                     }
+192:                 }
+193:             };
+194: 
+195:             // 0. Active session user
+196:             if (currentUserProfile) addUserToMap(currentUserProfile);
+197:             else if (currentUser) addUserToMap({ id: currentUser.id, email: currentUser.email, display_name: currentUser.email ? currentUser.email.split('@')[0] : 'User' });
+198: 
+199:             // 1. Fetch from Supabase profiles
+200:             try {
+201:                 const { data: usersData } = await supabaseClient.from('profiles').select('*');
+202:                 if (usersData) usersData.forEach(addUserToMap);
+203:             } catch (e) {}
+204: 
+205:             // 2. Fetch from community messages
+206:             try {
+207:                 const { data: commData } = await supabaseClient.from('community_messages').select('user_id, user_email, display_name, avatar_url, avatar_gradient, is_admin');
+208:                 if (commData) {
+209:                     commData.forEach(m => addUserToMap({
+210:                         id: m.user_id,
+211:                         email: m.user_email,
+212:                         display_name: m.display_name,
+213:                         photo_url: m.avatar_url,
+214:                         avatar_gradient: m.avatar_gradient,
+215:                         is_admin: m.is_admin
+216:                     }
+217:                 }
+218:             } catch (e) {}
+219: 
+220:             // 3. Fetch from direct messages
+221:             try {
+222:                 const { data: dmData } = await supabaseClient.from('direct_messages').select('sender_id, sender_email, sender_name, sender_avatar, sender_gradient, recipient_id');
+223:                 if (dmData) {
+224:                     dmData.forEach(d => {
+225:                         addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name, photo_url: d.sender_avatar, avatar_gradient: d.sender_gradient });
+226:                         if (d.recipient_id) addUserToMap({ id: d.recipient_id });
+227:                     }
+228:                 }
+229:             } catch (e) {}
+230: 
+231:             // 4. LocalStorage known users cache
+232:             try {
+233:                 const cachedKnown = localStorage.getItem('known_app_users');
+234:                 if (cachedKnown) {
+235:                     const parsed = JSON.parse(cachedKnown);
+236:                     if (Array.isArray(parsed)) parsed.forEach(addUserToMap);
+237:                 }
+238:             } catch (e) {}
+239: 
+240:             // 5. LocalStorage fallback community/direct messages
+241:             try {
+242:                 const fallbackComm = JSON.parse(localStorage.getItem('fallback_community_messages') || '[]');
+243:                 fallbackComm.forEach(m => addUserToMap({ id: m.user_id, email: m.user_email, display_name: m.display_name }));
+244: 
+245:                 const fallbackDm = JSON.parse(localStorage.getItem('fallback_direct_messages') || '[]');
+246:                 fallbackDm.forEach(d => addUserToMap({ id: d.sender_id, email: d.sender_email, display_name: d.sender_name }));
+247:             } catch (e) {}
+248: 
+249:             // Cache current aggregated list back to localStorage
+250:             try {
+251:                 const allArr = Array.from(aggregatedMap.values());
+252:                 localStorage.setItem('known_app_users', JSON.stringify(allArr));
+253:             } catch (e) {}
+254: 
+255:             const myId = currentUser ? currentUser.id : '';
+256:             const myEmail = currentUser ? currentUser.email : '';
+257:             dmUsersList = Array.from(aggregatedMap.values()).filter(u => {
+258:                 const uid = u.id || u.userId;
+259:                 const uemail = u.email;
+260:                 if (myId && uid && (uid === myId)) return false;
+261:                 if (myEmail && uemail && (uemail.toLowerCase() === myEmail.toLowerCase())) return false;
+262:                 return true;
+263:             });
+264: 
+265:             try {
+266:                 const { data: dmData2 } = await supabaseClient.from('direct_messages').select('*').order('created_at', { ascending: true });
+267:                 directMessagesList = dmData2 || [];
+268:             } catch (e) {
+269:                 const cached = localStorage.getItem('fallback_direct_messages');
+270:                 directMessagesList = cached ? JSON.parse(cached) : [];
+271:             }
+272: 
+273:             if (dmUsersList.length > 0 && !activeDmRecipient) {
+274:                 activeDmRecipient = dmUsersList[0];
+275:             }
+276: 
+277:             renderDmUsersList();
+278:             if (activeDmRecipient) {
+279:                 renderDmConversation();
+280:                 const form = getEl('dm-input-form');
+281:                 if (form) form.style.display = 'flex';
+282:             }
+283:         }
+284: 
+285:         function renderDmUsersList() {
+286:             const container = getEl('dm-users-list');
+287:             if (!container) return;
+288: 
+289:             if (dmUsersList.length === 0) {
+290:                 container.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); padding:10px;">No other members found yet.</div>`;
+291:                 return;
+292:             }
+293: 
+294:             let html = '';
+295:             dmUsersList.forEach(u => {
+296:                 const name = u.display_name || u.displayName || u.email || 'Member';
+297:                 const isSelected = activeDmRecipient && (activeDmRecipient.id === u.id || activeDmRecipient.userId === u.userId);
+298:                 const isUserAdmin = (u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || u.isAdmin || u.is_admin;
+299:                 const uId = u.id || u.userId;
+300:                 
+301:                 const uAvatarInfo = getUserAvatarInfo(null, u);
+302:                 const avatarBg = 'transparent';
+303:                 const avatarContent = `<img src="${escapeHtml(uAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;">`;
+304: 
+305:                 html += `
+306:                     <div onclick="selectDmUserById('${escapeHtml(uId)}')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
+307:                         <div style="width: 28px; height: 28px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow:hidden; flex-shrink:0;">
+308:                             ${avatarContent}
+309:                         </div>
+310:                         <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
+311:                             ${escapeHtml(name)}
+312:                             ${isUserAdmin ? ' <span style="font-size:0.6rem; background:rgba(239,68,68,0.3); color:#fca5a5; padding:1px 4px; border-radius:3px;">ADMIN</span>' : ''}
+313:                         </div>
+314:                     </div>
+315:                 `;
+316:             });
+317:             container.innerHTML = html;
+318:         }
+319: 
+320:         function selectDmUserById(userId) {
+321:             const target = dmUsersList.find(u => (u.id === userId || u.userId === userId));
+322:             if (target) {
+323:                 activeDmRecipient = target;
+324:                 renderDmUsersList();
+325:                 renderDmConversation();
+326:                 const form = getEl('dm-input-form');
+327:                 if (form) form.style.display = 'flex';
+328:             }
+329:         }
+330: 
+331:         function selectDmUser(userObj) {
+332:             if (!userObj) return;
+333:             activeDmRecipient = userObj;
+334:             renderDmUsersList();
+335:             renderDmConversation();
+336:             const form = getEl('dm-input-form');
+337:             if (form) form.style.display = 'flex';
+338:         }
+339: 
+340:         function renderDmConversation() {
+341:             const header = getEl('dm-active-header');
+342:             const container = getEl('dm-chat-messages');
+343:             if (!header || !container || !activeDmRecipient) return;
+344: 
+345:             const recipientName = activeDmRecipient.display_name || activeDmRecipient.displayName || activeDmRecipient.email || 'Member';
+346:             header.innerText = 'Chatting with ' + recipientName;
+347: 
+348:             const myId = currentUser.id;
+349:             const recipientId = activeDmRecipient.id || activeDmRecipient.userId;
+350:             const isAdmin = checkAdminAccess();
+351: 
+352:             // Messages between the current user and the selected recipient
+353:             const conversation = directMessagesList.filter(m => {
+354:                 return (m.sender_id === myId && m.recipient_id === recipientId) || (m.sender_id === recipientId && m.recipient_id === myId);
+355:             });
+356: 
+357:             if (conversation.length === 0) {
+358:                 container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:30px;">No private messages with ${escapeHtml(recipientName)} yet. Say hello! 👋</div>`;
+359:                 return;
+360:             }
+361: 
+362:             let html = '';
+363:             conversation.forEach(msg => {
+364:                 const isMe = msg.sender_id === myId;
+365:                 const timeStr = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+366:                 const senderProfile = isMe ? currentUserProfile : activeDmRecipient;
+367:                 const senderName = msg.sender_name || senderProfile?.display_name || senderProfile?.displayName || 'User';
+368: 
+369:                 // Use robust avatar info parsing
+370:                 const pForAvatar = { 
+371:                     ...senderProfile, 
+372:                     photo_url: msg.sender_avatar || senderProfile?.photo_url || senderProfile?.photoURL, 
+373:                     avatar_gradient: senderProfile?.avatar_gradient || senderProfile?.avatarGradient || 'emerald',
+374:                     displayName: senderName
+375:                 }
+376:                 const msgAvatarInfo = getUserAvatarInfo(null, pForAvatar);
+377:                 const avatarBg = 'transparent';
+378:                 const avatarHtml = `<img src="${escapeHtml(msgAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+379: 
+380:                 html += `
+381:                     <div style="display: flex; align-items: flex-start; gap: 8px; flex-direction: ${isMe ? 'row-reverse' : 'row'}; margin-bottom: 10px;">
+382:                         <div style="width: 32px; height: 32px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow: hidden; flex-shrink: 0;">
+383:                             ${avatarHtml}
+384:                         </div>
+385:                         <div style="display: flex; flex-direction: column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 75%;">
+386:                             <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 2px;">${escapeHtml(senderName)} • ${timeStr}</div>
+387:                             <div style="background: ${isMe ? 'var(--primary, #10b981)' : 'rgba(255,255,255,0.08)'}; color: ${isMe ? '#000' : 'var(--text-main)'}; padding: 8px 12px; border-radius: 10px; font-size: 0.9rem; word-break: break-word; line-height: 1.4;">
+388:                                 ${escapeHtml(msg.message)}
+389:                             </div>
+390:                             ${isAdmin ? `<button class="btn-mini" onclick="deleteDirectMessage('${msg.id}')" style="margin-top:2px; padding:2px 6px; font-size:0.65rem; background:rgba(239,68,68,0.2); border-color:rgba(239,68,68,0.4);" title="Admin Moderate">🗑️ Remove</button>` : ''}
+391:                         </div>
+392:                     </div>
+393:                 `;
+394:             });
+395:             container.innerHTML = html;
+396:             container.scrollTop = container.scrollHeight;
+397:         }
+398: 
+399:         async function sendDirectMessage(e) {
+400:             e.preventDefault();
+401:             if (!currentUser || !activeDmRecipient) return;
+402:             const input = getEl('dm-chat-input');
+403:             const text = (input?.value || '').trim();
+404:             if (!text) return;
+405: 
+406:             const profile = currentUserProfile || {};
+407:             const myName = profile.display_name || profile.displayName || currentUser.email?.split('@')[0] || 'User';
+408:             const myAvatar = profile.photo_url || profile.photoURL || profile.avatar_url || '';
+409:             const myGradient = profile.avatar_gradient || profile.avatarGradient || 'emerald';
+410:             const recipientId = activeDmRecipient.id || activeDmRecipient.userId;
+411: 
+412:             const newDm = {
+413:                 id: 'dm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+414:                 sender_id: currentUser.id,
+415:                 sender_email: currentUser.email,
+416:                 sender_name: myName,
+417:                 sender_avatar: myAvatar,
+418:                 sender_gradient: myGradient,
+419:                 recipient_id: recipientId,
+420:                 message: text,
+421:                 created_at: new Date().toISOString()
+422:             };
+423: 
+424:             try {
+425:                 const { error } = await supabaseClient.from('direct_messages').insert([newDm]);
+426:                 if (error) {
+427:                     directMessagesList.push(newDm);
+428:                     localStorage.setItem('fallback_direct_messages', JSON.stringify(directMessagesList));
+429:                 }
+430:                     directMessagesList.push(newDm);
+431:                 }
+432:                 if (input) input.value = '';
+433:                 renderDmConversation();
+434:             } catch (err) {
+435:                 directMessagesList.push(newDm);
+436:                 localStorage.setItem('fallback_direct_messages', JSON.stringify(directMessagesList));
+437:                 if (input) input.value = '';
+438:                 renderDmConversation();
+439:             }
+440:         }
+441: 
+442:         async function deleteDirectMessage(dmId) {
+443:             if (!confirm("Are you sure you want to delete this message (Admin Safety)?")) return;
+444:             try {
+445:                 await supabaseClient.from('direct_messages').delete().eq('id', dmId);
+446:                 directMessagesList = directMessagesList.filter(d => d.id !== dmId);
+447:                 localStorage.setItem('fallback_direct_messages', JSON.stringify(directMessagesList));
+448:                 renderDmConversation();
+449:             } catch (err) {
+450:                 directMessagesList = directMessagesList.filter(d => d.id !== dmId);
+451:                 localStorage.setItem('fallback_direct_messages', JSON.stringify(directMessagesList));
+452:                 renderDmConversation();
+453:             }
+454:         }
+455: 
+456:         async function checkChatUnreadNotifications() {
+457:             if (!currentUser) return;
+458:             try {
+459:                 const { data, error } = await supabaseClient
+460:                     .from('community_messages')
+461:                     .select('created_at, user_id')
+462:                     .order('created_at', { ascending: false })
+463:                     .limit(50);
+464:                 
+465:                 let list = data || [];
+466:                 if (error || !data) {
+467:                     const cached = localStorage.getItem('fallback_community_messages');
+468:                     list = cached ? JSON.parse(cached) : [];
+469:                 }
+470: 
+471:                 const lastReadTime = parseInt(localStorage.getItem('last_read_chat_timestamp_' + currentUser.id) || '0', 10);
+472:                 const unreadCount = list.filter(m => new Date(m.created_at).getTime() > lastReadTime && m.user_id !== currentUser.id).length;
+473: 
+474:                 const badge = getEl('chat-notification-badge');
+475:                 if (badge) {
+476:                     if (unreadCount > 0) {
+477:                         badge.style.display = 'inline-block';
+478:                         badge.innerText = unreadCount > 9 ? '9+' : unreadCount.toString();
+479:                     }
+480:                         badge.style.display = 'none';
+481:                     }
+482:                 }
+483:             } catch (e) {}
+484:         }
+485: 
+486:         async function linkAuthProvider(provider) {
+487:             try {
+488:                 const { data, error } = await supabaseClient.auth.linkIdentity({
+489:                     provider: provider,
+490:                     options: {
+491:                         redirectTo: window.location.origin + window.location.pathname
+492:                     }
+493:                 }
+494:                 if (error) throw error;
+495:                 alert("Redirecting to link your " + provider + " account...");
+496:             } catch (err) {
+497:                 console.error("Link identity error:", err);
+498:                 const msg = err.message || err.toString();
+499:                 if (msg.includes("Manual linking is disabled")) {
+500:                     alert("⚠️ Supabase Manual Linking is disabled in your Supabase project settings.\n\nTo enable account linking:\n1. Open your Supabase Dashboard\n2. Go to Authentication -> Providers (or Settings)\n3. Enable 'Allow manual linking' / 'Secure Email Linking'\n\nNote: If both accounts use the same email address, they will automatically sync your profile data!");
+501:                 }
+502:                     alert("Error linking account: " + msg);
+503:                 }
+504:             }
+505:         }
+506: 
+507:         setInterval(checkChatUnreadNotifications, 8000);
+508: 
+509:     
+--- BLOCK 9 ---
+1: 
+2:         // Ad Blocker Detection Logic
+3:         window.addEventListener('DOMContentLoaded', () => {
+4:             setTimeout(() => {
+5:                 let adBlocked = false;
+6: 
+7:                 // Test 1: Bait element check (triggers EasyList and common CSS ad block rules)
+8:                 const bait = document.createElement('div');
+9:                 bait.className = 'adsbox pub_300x250 pub_300x250_m text-ad textAd text_ad ad-text adsbygoogle ad-banner advertisement';
+10:                 bait.style.width = '1px';
+11:                 bait.style.height = '1px';
+12:                 bait.style.position = 'absolute';
+13:                 bait.style.left = '-10000px';
+14:                 bait.style.top = '-10000px';
+15:                 document.body.appendChild(bait);
+16: 
+17:                 setTimeout(() => {
+18:                     if (
+19:                         bait.offsetHeight === 0 ||
+20:                         window.getComputedStyle(bait).display === 'none' ||
+21:                         window.getComputedStyle(bait).visibility === 'hidden'
+22:                     ) {
+23:                         adBlocked = true;
+24:                     }
+25:                     bait.remove();
+26: 
+27:                     // Test 2: Check if bottom ad banner container or ad scripts were suppressed
+28:                     const adContainer = document.getElementById('ad-banner-wrapper');
+29:                     if (adContainer && adContainer.children.length === 0) {
+30:                         adBlocked = true;
+31:                     }
+32: 
+33:                     if (adBlocked) {
+34:                         showAdBlockModal();
+35:                     }
+36:                 }
+37:             }, 1200);
+38:         });
+39: 
+40:         function showAdBlockModal() {
+41:             const modal = document.getElementById('adblock-modal');
+42:             if (modal) {
+43:                 modal.style.display = 'flex';
+44:             }
+45:         }
+46: 
+47:     
+--- BLOCK 11 ---
+1: 
+2: let presenceChannel = null;
+3: let onlineUsers = {}; // uid -> user profile data
+4: let typingUsers = {}; // uid -> { timestamp, name, channel }
+5: 
+6: function initRealtimePresence() {
+7:     if (!currentUser || !supabaseClient) return;
+8:     
+9:     if (presenceChannel) {
+10:         supabaseClient.removeChannel(presenceChannel);
+11:     }
+12:     
+13:     presenceChannel = supabaseClient.channel('global_presence', {
+14:         config: {
+15:             presence: {
+16:                 key: currentUser.id,
+17:             },
+18:         },
+19:     });
+20: 
+21:     presenceChannel
+22:         .on('presence', { event: 'sync' }, () => {
+23:             const newState = presenceChannel.presenceState();
+24:             onlineUsers = {};
+25:             for (const key in newState) {
+26:                 if (newState[key].length > 0) {
+27:                     onlineUsers[key] = newState[key][0];
+28:                 }
+29:             }
+30:             renderOnlineUsersBadge();
+31:             renderDmUsersList();
+32:         })
+33:         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+34:             onlineUsers[key] = newPresences[0];
+35:             renderOnlineUsersBadge();
+36:             renderDmUsersList();
+37:         })
+38:         .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+39:             delete onlineUsers[key];
+40:             renderOnlineUsersBadge();
+41:             renderDmUsersList();
+42:         })
+43:         .on('broadcast', { event: 'typing' }, ({ payload }) => {
+44:             if (payload.userId !== currentUser.id) {
+45:                 typingUsers[payload.userId] = {
+46:                     timestamp: Date.now(),
+47:                     name: payload.name,
+48:                     channel: payload.channel // 'global' or dm 'userId'
+49:                 }
+50:                 renderTypingIndicators();
+51:             }
+52:         })
+53:         .subscribe(async (status) => {
+54:             if (status === 'SUBSCRIBED') {
+55:                 const pForPresence = currentUserProfile || {};
+56:                 await presenceChannel.track({
+57:                     id: currentUser.id,
+58:                     email: currentUser.email,
+59:                     display_name: pForPresence.display_name || pForPresence.displayName || currentUser.email.split('@')[0],
+60:                     photo_url: pForPresence.photo_url || pForPresence.photoURL || '',
+61:                     avatar_gradient: pForPresence.avatar_gradient || pForPresence.avatarGradient || 'emerald',
+62:                     is_admin: pForPresence.is_admin || false
+63:                 }
+64:             }
+65:         });
+66:         
+67:     setInterval(() => {
+68:         const now = Date.now();
+69:         let changed = false;
+70:         for (const uid in typingUsers) {
+71:             if (now - typingUsers[uid].timestamp > 3000) {
+72:                 delete typingUsers[uid];
+73:                 changed = true;
+74:             }
+75:         }
+76:         if (changed) renderTypingIndicators();
+77:     }, 1000);
+78: }
+79: 
+80: function broadcastTyping(channelContext) {
+81:     if (!presenceChannel || !currentUser) return;
+82:     const p = currentUserProfile || {};
+83:     presenceChannel.send({
+84:         type: 'broadcast',
+85:         event: 'typing',
+86:         payload: {
+87:             userId: currentUser.id,
+88:             name: p.display_name || p.displayName || currentUser.email.split('@')[0],
+89:             channel: channelContext
+90:         }
+91:     }).catch(err => console.error(err));
+92: }
+93: 
+94: function renderTypingIndicators() {
+95:     const globalInd = document.getElementById('global-typing-indicator');
+96:     const dmInd = document.getElementById('dm-typing-indicator');
+97:     
+98:     let globalTypers = [];
+99:     let dmTypers = [];
+100:     
+101:     for (const uid in typingUsers) {
+102:         const t = typingUsers[uid];
+103:         if (t.channel === 'global') globalTypers.push(t.name);
+104:         // if they are typing in DM to ME
+105:         if (t.channel === currentUser.id && activeDmRecipient && (activeDmRecipient.id === uid || activeDmRecipient.userId === uid)) {
+106:             dmTypers.push(t.name);
+107:         }
+108:     }
+109:     
+110:     if (globalInd) {
+111:         if (globalTypers.length > 0) {
+112:             globalInd.innerHTML = `<span class="typing-anim">💬</span> ${escapeHtml(globalTypers.join(', '))} ${globalTypers.length > 1 ? 'are' : 'is'} typing...`;
+113:         } else {
+114:             globalInd.innerHTML = '';
+115:         }
+116:     }
+117:     
+118:     if (dmInd) {
+119:         if (dmTypers.length > 0) {
+120:             dmInd.style.display = 'flex';
+121:             dmInd.innerHTML = `<span class="typing-anim">💬</span> ${escapeHtml(dmTypers.join(', '))} ${dmTypers.length > 1 ? 'are' : 'is'} typing...`;
+122:         } else {
+123:             dmInd.style.display = 'none';
+124:             dmInd.innerHTML = '';
+125:         }
+126:     }
+127: }
+128: 
+129: function renderOnlineUsersBadge() {
+130:     const badge = document.getElementById('online-users-badge');
+131:     const dropdown = document.getElementById('online-users-dropdown');
+132:     if (!badge || !dropdown) return;
+133:     
+134:     const count = Object.keys(onlineUsers).length;
+135:     badge.innerHTML = `🟢 ${count} Online`;
+136:     
+137:     let html = '';
+138:     for (const uid in onlineUsers) {
+139:         const u = onlineUsers[uid];
+140:         const isMe = currentUser && uid === currentUser.id;
+141:         const nameStr = escapeHtml(u.display_name || u.email || 'Member') + (isMe ? ' (You)' : '');
+142:         html += `
+143:             <div style="display: flex; align-items: center; gap: 8px;">
+144:                 <div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; background: transparent; flex-shrink: 0;">
+145:                     <img src="${escapeHtml(u.photo_url || DEFAULT_AVATAR)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='${DEFAULT_AVATAR}'">
+146:                 </div>
+147:                 <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">
+148:                     ${nameStr}
+149:                 </div>
+150:                 <div style="font-size: 0.6rem; color: var(--accent);">🟢</div>
+151:             </div>
+152:         `;
+153:     }
+154:     dropdown.innerHTML = html;
+155: }
+156: 
+157: function cleanupRealtimePresence() {
+158:     if (presenceChannel && supabaseClient) {
+159:         supabaseClient.removeChannel(presenceChannel);
+160:         presenceChannel = null;
+161:     }
+162:     onlineUsers = {};
+163:     typingUsers = {};
+164:     renderOnlineUsersBadge();
+165:     renderTypingIndicators();\n    
