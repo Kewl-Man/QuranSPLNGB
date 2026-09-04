@@ -107,3 +107,23 @@ CREATE POLICY "Appeals insert" ON public.appeals FOR INSERT WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Appeals update" ON public.appeals;
 CREATE POLICY "Appeals update" ON public.appeals FOR UPDATE USING (true);
+
+-- Test History Table
+CREATE TABLE IF NOT EXISTS test_history (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    score INT NOT NULL,
+    total_questions INT NOT NULL,
+    quiz_settings JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now())
+);
+
+ALTER TABLE test_history ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own test history"
+    ON test_history FOR SELECT
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own test history"
+    ON test_history FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
