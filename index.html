@@ -2497,6 +2497,9 @@
             <div class="theme-pill" onclick="setTheme('cyber', event)">
                 <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
             </div>
+            <div class="theme-pill" onclick="setTheme('noir', event)">
+                <span class="theme-dot" style="background:#000000; border: 1px solid var(--glass-border);"></span> Noir
+            </div>
         </div>
     </div>
 
@@ -2639,6 +2642,9 @@
                     <div class="theme-pill" onclick="setTheme('cyber', event)">
                         <span class="theme-dot" style="background:#06b6d4;"></span> Cyber
                     </div>
+            <div class="theme-pill" onclick="setTheme('noir', event)">
+                <span class="theme-dot" style="background:#000000; border: 1px solid var(--glass-border);"></span> Noir
+            </div>
                 </div>
             </div>
         </div>
@@ -6044,7 +6050,7 @@
                 playSound('incorrect');
                 
                 const rootStr = word.r ? `, Root: <b>${word.r}</b>` : '';
-                msgEl.innerHTML = `Incorrect. Word: <b>${word.a}</b> (${word.t}), Meaning: <b>${word.m}</b>${rootStr} (Occurs <b>${word.o}</b> times).`;
+                msgEl.innerHTML = `Incorrect. Word: <b>${word.a}</b> (${word.t}), Meaning: <b>${word.m}</b>, Type: <b>${word.p}</b>${rootStr} (Occurs <b>${word.o}</b> times).`;
                 msgEl.style.color = "var(--danger)";
             }
 
