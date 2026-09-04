@@ -644,9 +644,9 @@
             margin: -6px auto 24px auto;
             padding: 12px 18px;
             border-radius: 14px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.08));
-            border: 1px solid rgba(16, 185, 129, 0.28);
-            color: var(--accent);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
             font-size: 0.92rem;
             font-weight: 500;
             line-height: 1.5;
@@ -660,8 +660,8 @@
         }
 
         .dedication-banner:hover {
-            border-color: rgba(16, 185, 129, 0.5);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.12));
+            border-color: var(--primary);
+            background: var(--primary-glow);
         }
 
         .quotes-ticker-text {
@@ -685,9 +685,9 @@
         }
 
         [data-mode="light"] .dedication-banner {
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(16, 185, 129, 0.15));
-            border-color: rgba(5, 150, 105, 0.35);
-            color: #065f46;
+            background: var(--glass-bg);
+            border-color: var(--glass-border);
+            color: var(--primary-hover);
         }
 
         .word-prompt {
@@ -850,7 +850,7 @@
         select.correct, input.correct {
             border-color: var(--success) !important;
             background: rgba(16, 185, 129, 0.15) !important;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+            box-shadow: 0 0 15px var(--glass-border) !important;
         }
 
         select.wrong, input.wrong {
@@ -1453,8 +1453,8 @@
             border-color: var(--primary);
         }
         .whitelist-item.is-whitelisted {
-            background: rgba(16, 185, 129, 0.12);
-            border-color: rgba(16, 185, 129, 0.4);
+            background: var(--glass-bg);
+            border-color: var(--glass-border);
         }
         .whitelist-checkbox {
             width: 20px;
@@ -1467,7 +1467,7 @@
             font-size: 0.72rem;
             padding: 3px 8px;
             border-radius: 10px;
-            background: rgba(16, 185, 129, 0.2);
+            background: var(--primary-glow);
             color: #6ee7b7;
             font-weight: 600;
             white-space: nowrap;
@@ -1885,7 +1885,7 @@
 
         .avatar-uploader-card:hover, .avatar-uploader-card.drag-over {
             border-color: var(--accent);
-            background: rgba(16, 185, 129, 0.12);
+            background: var(--glass-bg);
             transform: scale(1.01);
         }
 
@@ -2155,8 +2155,8 @@
         }
 
         .auth-success-banner {
-            background: rgba(16, 185, 129, 0.18);
-            border: 1px solid rgba(16, 185, 129, 0.45);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             color: #6ee7b7;
             padding: 10px 14px;
             border-radius: 10px;
@@ -2235,7 +2235,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            background: rgba(16, 185, 129, 0.18);
+            background: var(--glass-bg);
             border: 1px solid rgba(61, 220, 132, 0.5);
             padding: 7px 16px;
             border-radius: 999px;
@@ -2283,7 +2283,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: rgba(16, 185, 129, 0.12);
+            background: var(--glass-bg);
             border: 1px solid rgba(61, 220, 132, 0.35);
             color: #34d399;
             padding: 11px 18px;
@@ -2475,7 +2475,7 @@
                 </button>
             </div>
             <div id="user-profile-widget-inline" style="display: none; align-items: center; gap: 8px;">
-                <button class="user-profile-pill" onclick="openCommunityChatModal()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent); position: relative;">
+                <button class="user-profile-pill" onclick="openCommunityChatModal()" style="background: var(--primary-glow); border: 1px solid var(--accent); position: relative;">
                     <span>💬 Chat</span>
                     <span id="chat-notification-badge" style="display: none; position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 6px rgba(239,68,68,0.5);">0</span>
                 </button>
@@ -2954,7 +2954,7 @@
 
             <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; align-items: center;">
                 <input type="text" id="whitelist-search" placeholder="Search Arabic, Aralish, or English meaning..." oninput="renderWhitelistList()" style="flex: 1; min-width: 180px; padding: 10px 15px; font-size: 0.9rem;">
-                <button class="btn-mini" onclick="toggleSelectAllWhitelist(true)" style="padding: 10px 14px; background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.4);">Check All</button>
+                <button class="btn-mini" onclick="toggleSelectAllWhitelist(true)" style="padding: 10px 14px; background: var(--primary-glow); border-color: var(--glass-border);">Check All</button>
                 <button class="btn-mini" onclick="toggleSelectAllWhitelist(false)" style="padding: 10px 14px; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);">Uncheck All</button>
             </div>
 
@@ -3007,7 +3007,7 @@
             </div>
 
             <!-- Error / Success Banners -->
-            <div class="auth-prompt-callout" id="auth-prompt-callout" style="background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; text-align: center;">
+            <div class="auth-prompt-callout" id="auth-prompt-callout" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; text-align: center;">
                 <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 3px;" id="auth-prompt-callout-title">
                     ✨ Sign in today to continue using! (It's FREE!)
                 </div>
@@ -3136,7 +3136,7 @@
                     <div id="profile-modal-name" style="font-weight: 700; font-size: 1.12rem; color: var(--text-main); word-break: break-word;">User Name</div>
                     <div id="profile-modal-email" style="font-size: 0.84rem; color: var(--text-muted); word-break: break-all;">user@example.com</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
-                        <div id="profile-modal-role" style="display: inline-block; font-size: 0.72rem; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.2); color: var(--accent); font-weight: 700;">Member</div>
+                        <div id="profile-modal-role" style="display: inline-block; font-size: 0.72rem; padding: 2px 8px; border-radius: 6px; background: var(--primary-glow); color: var(--accent); font-weight: 700;">Member</div>
                         <span id="profile-photo-badge" style="font-size: 0.72rem; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 6px;">Default Avatar</span>
                     </div>
                 </div>
@@ -3154,7 +3154,7 @@
                 </div>
 
                 <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;" onclick="event.stopPropagation()">
-                    <button type="button" class="btn-mini" onclick="openCameraCaptureModal()" style="padding: 8px 14px; background: rgba(16, 185, 129, 0.25); border-color: var(--accent); font-weight: 600;">
+                    <button type="button" class="btn-mini" onclick="openCameraCaptureModal()" style="padding: 8px 14px; background: var(--primary-glow); border-color: var(--accent); font-weight: 600;">
                         📷 Take Photo (Camera)
                     </button>
                     <button type="button" class="btn-mini" onclick="triggerProfileFileInput()" style="padding: 8px 14px; background: rgba(255, 255, 255, 0.1); border-color: var(--glass-border); font-weight: 600;">
@@ -3293,7 +3293,7 @@
 
             <!-- Tabs: Users & Appeals -->
             <div style="display: flex; gap: 10px; margin: 14px 0;">
-                <button class="btn-mini" id="admin-tab-users-btn" onclick="switchAdminTab('users')" style="flex: 1; padding: 8px 14px; background: rgba(16, 185, 129, 0.25); border-color: var(--accent);">
+                <button class="btn-mini" id="admin-tab-users-btn" onclick="switchAdminTab('users')" style="flex: 1; padding: 8px 14px; background: var(--primary-glow); border-color: var(--accent);">
                     👥 Users List
                 </button>
                 <button class="btn-mini" id="admin-tab-appeals-btn" onclick="switchAdminTab('appeals')" style="flex: 1; padding: 8px 14px; background: rgba(255, 255, 255, 0.08);">
@@ -4185,7 +4185,7 @@
             const isUserAdmin = (currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) || (currentUserProfile && currentUserProfile.isAdmin);
             if (roleEl) {
                 roleEl.innerText = isUserAdmin ? '👑 Administrator' : 'Verified Member';
-                roleEl.style.background = isUserAdmin ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+                roleEl.style.background = isUserAdmin ? 'rgba(239, 68, 68, 0.2)' : 'var(--primary-glow)';
                 roleEl.style.color = isUserAdmin ? '#fca5a5' : 'var(--accent)';
             }
 
@@ -4212,7 +4212,7 @@
             if (btnLinkGoogle) {
                 if (hasGoogle) {
                     btnLinkGoogle.innerHTML = '✅ Google Linked';
-                    btnLinkGoogle.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btnLinkGoogle.style.background = 'var(--primary-glow)';
                     btnLinkGoogle.style.borderColor = 'var(--accent)';
                     btnLinkGoogle.onclick = null;
                     btnLinkGoogle.style.cursor = 'default';
@@ -4229,7 +4229,7 @@
             if (btnLinkDiscord) {
                 if (hasDiscord) {
                     btnLinkDiscord.innerHTML = '✅ Discord Linked';
-                    btnLinkDiscord.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btnLinkDiscord.style.background = 'var(--primary-glow)';
                     btnLinkDiscord.style.borderColor = 'var(--accent)';
                     btnLinkDiscord.onclick = null;
                     btnLinkDiscord.style.cursor = 'default';
@@ -4756,12 +4756,12 @@
             const appealsSec = getEl('admin-section-appeals');
 
             if (tab === 'users') {
-                if (usersBtn) { usersBtn.style.background = 'rgba(16, 185, 129, 0.25)'; usersBtn.style.borderColor = 'var(--accent)'; }
+                if (usersBtn) { usersBtn.style.background = 'var(--primary-glow)'; usersBtn.style.borderColor = 'var(--accent)'; }
                 if (appealsBtn) { appealsBtn.style.background = 'rgba(255, 255, 255, 0.08)'; appealsBtn.style.borderColor = 'var(--glass-border)'; }
                 if (usersSec) usersSec.style.display = 'block';
                 if (appealsSec) appealsSec.style.display = 'none';
             } else {
-                if (appealsBtn) { appealsBtn.style.background = 'rgba(16, 185, 129, 0.25)'; appealsBtn.style.borderColor = 'var(--accent)'; }
+                if (appealsBtn) { appealsBtn.style.background = 'var(--primary-glow)'; appealsBtn.style.borderColor = 'var(--accent)'; }
                 if (usersBtn) { usersBtn.style.background = 'rgba(255, 255, 255, 0.08)'; usersBtn.style.borderColor = 'var(--glass-border)'; }
                 if (appealsSec) appealsSec.style.display = 'block';
                 if (usersSec) usersSec.style.display = 'none';
@@ -6342,7 +6342,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
 
             <!-- Chat Tabs: Global vs DMs -->
             <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                <button class="btn-mini" id="chat-tab-global-btn" onclick="switchChatTab('global')" style="flex: 1; padding: 8px 14px; background: rgba(16, 185, 129, 0.25); border-color: var(--accent); font-weight: 700;">
+                <button class="btn-mini" id="chat-tab-global-btn" onclick="switchChatTab('global')" style="flex: 1; padding: 8px 14px; background: var(--primary-glow); border-color: var(--accent); font-weight: 700;">
                     🌍 Global Community Chat
                 </button>
                 <button class="btn-mini" id="chat-tab-dm-btn" onclick="switchChatTab('dm')" style="flex: 1; padding: 8px 14px; background: rgba(255, 255, 255, 0.08); font-weight: 700;">
@@ -6406,13 +6406,13 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             const dmSec = getEl('chat-section-dm');
 
             if (tab === 'global') {
-                if (globalBtn) { globalBtn.style.background = 'rgba(16, 185, 129, 0.25)'; globalBtn.style.borderColor = 'var(--accent)'; }
+                if (globalBtn) { globalBtn.style.background = 'var(--primary-glow)'; globalBtn.style.borderColor = 'var(--accent)'; }
                 if (dmBtn) { dmBtn.style.background = 'rgba(255, 255, 255, 0.08)'; dmBtn.style.borderColor = 'transparent'; }
                 if (globalSec) globalSec.style.display = 'flex';
                 if (dmSec) dmSec.style.display = 'none';
                 loadCommunityMessages();
             } else {
-                if (dmBtn) { dmBtn.style.background = 'rgba(16, 185, 129, 0.25)'; dmBtn.style.borderColor = 'var(--accent)'; }
+                if (dmBtn) { dmBtn.style.background = 'var(--primary-glow)'; dmBtn.style.borderColor = 'var(--accent)'; }
                 if (globalBtn) { globalBtn.style.background = 'rgba(255, 255, 255, 0.08)'; globalBtn.style.borderColor = 'transparent'; }
                 if (dmSec) dmSec.style.display = 'flex';
                 if (globalSec) globalSec.style.display = 'none';
@@ -6696,7 +6696,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                 const avatarContent = `<img src="${escapeHtml(uAvatarInfo.photoURL)}" style="width:100%;height:100%;object-fit:cover;">`;
 
                 html += `
-                    <div onclick="selectDmUserById('${escapeHtml(uId)}')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
+                    <div onclick="selectDmUserById('${escapeHtml(uId)}')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; background: ${isSelected ? 'var(--primary-glow)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? 'var(--accent)' : 'transparent'};">
                         <div style="width: 28px; height: 28px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; overflow:hidden; flex-shrink:0;">
                             ${avatarContent}
                         </div>
@@ -6909,7 +6909,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             <p style="color: var(--text-muted, #a7f3d0); font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
                 We noticed you are using an ad blocker. To keep QuranSPLNGB free and running, please disable your ad blocker or whitelist our site, then click below to continue.
             </p>
-            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: #000; font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: #000; font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px var(--glass-border); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                 I've Disabled It — Refresh Page
             </button>
         </div>
