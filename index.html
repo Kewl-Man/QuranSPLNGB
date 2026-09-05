@@ -236,6 +236,7 @@
             --orb-2: #171717;
             --orb-3: #0a0a0a;
             --card-bg: rgba(10, 10, 10, 0.7);
+            --btn-text: #000000;
         }
 
 
@@ -995,7 +996,7 @@
         /* --- Buttons --- */
         .btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white;
+            color: var(--btn-text, white);
             border: none;
             padding: 15px 22px;
             font-size: 0.95rem;
@@ -1319,7 +1320,7 @@
         }
         .option-btn.active {
             background: var(--primary);
-            color: white;
+            color: var(--btn-text, white);
             border-color: var(--primary);
             box-shadow: 0 4px 12px var(--primary-glow);
         }
@@ -1490,7 +1491,7 @@
         .flashcard-whitelist-btn:hover {
             transform: scale(1.08);
             background: var(--primary);
-            color: white;
+            color: var(--btn-text, white);
         }
         .flashcard-whitelist-btn.is-known {
             background: var(--success);
@@ -6161,7 +6162,7 @@
                                 <div style="background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 8px;">
                                     <div style="font-weight: 600; margin-bottom: 4px;">${w.a} (${w.t})</div>
                                     <div style="color: var(--text-muted);">Missed: ${parts || 'Unknown'}</div>
-                                    <div style="margin-top: 4px; font-size: 0.8rem; color: var(--text-muted);">Meaning: ${w.m} | Type: ${w.p} ${w.r ? '| Root: ' + w.r : ''}</div>
+                                    <div style="margin-top: 4px; font-size: 0.8rem; color: var(--text-muted);">Meaning: ${w.m} | Type: ${w.p} ${w.r ? '| Root: ' + w.r : ''} | Occurs: ${w.o}</div>
                                 </div>
                             `;
                         });
@@ -6296,7 +6297,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
 
 <b>Jazakallahu Khairan</b>
             </div>
-            <button class="btn btn-primary" style="width: 100%; font-weight: 700; background: var(--primary, #10b981); color: #000;" onclick="closeV1AnnouncementModal()">
+            <button class="btn btn-primary" style="width: 100%; font-weight: 700; background: var(--primary, #10b981); color: var(--btn-text, white);" onclick="closeV1AnnouncementModal()">
                 Alhamdulillah, Let's Get Started! 🚀
             </button>
         </div>
@@ -6777,7 +6778,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 75%;">
                             <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 2px;">${escapeHtml(senderName)} • ${timeStr}</div>
-                            <div style="background: ${isMe ? 'var(--primary, #10b981)' : 'rgba(255,255,255,0.08)'}; color: ${isMe ? '#000' : 'var(--text-main)'}; padding: 8px 12px; border-radius: 10px; font-size: 0.9rem; word-break: break-word; line-height: 1.4;">
+                            <div style="background: ${isMe ? 'var(--primary, #10b981)' : 'rgba(255,255,255,0.08)'}; color: ${isMe ? 'var(--btn-text, white)' : 'var(--text-main)'}; padding: 8px 12px; border-radius: 10px; font-size: 0.9rem; word-break: break-word; line-height: 1.4;">
                                 ${escapeHtml(msg.message)}
                             </div>
                             ${isAdmin ? `<button class="btn-mini" onclick="deleteDirectMessage('${msg.id}')" style="margin-top:2px; padding:2px 6px; font-size:0.65rem; background:rgba(239,68,68,0.2); border-color:rgba(239,68,68,0.4);" title="Admin Moderate">🗑️ Remove</button>` : ''}
@@ -6909,7 +6910,7 @@ We added sign-in with <b>email, Google, and Discord</b>, <b>plus Global Communit
             <p style="color: var(--text-muted, #a7f3d0); font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
                 We noticed you are using an ad blocker. To keep QuranSPLNGB free and running, please disable your ad blocker or whitelist our site, then click below to continue.
             </p>
-            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: #000; font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px var(--glass-border); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+            <button onclick="window.location.reload();" style="background: var(--primary, #10b981); color: var(--btn-text, white); font-weight: 700; font-size: 16px; padding: 14px 28px; border: none; border-radius: 12px; cursor: pointer; width: 100%; box-shadow: 0 4px 14px var(--glass-border); transition: transform 0.2s, opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
                 I've Disabled It — Refresh Page
             </button>
         </div>
