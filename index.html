@@ -2502,6 +2502,7 @@
 
         <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
             <button class="btn" id="btn-play-quiz" onclick="startQuiz()">🎮 Play Interactive Quiz</button>
+            <button class="btn btn-outline" id="btn-start-fresh-quiz" onclick="startQuiz(true)" style="display: none;">🔄 Start Fresh New Quiz</button>
             <button class="btn btn-secondary" id="btn-menu-study" onclick="openStudyMode()">📖 Study Mode (Flashcards)</button>
             <button class="btn btn-secondary" id="btn-menu-whitelist" onclick="openWhitelistModal()" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; width: 100%; box-sizing: border-box; gap: 8px;">
                 <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; text-align: left;">🛡️ Whitelist Known Words</span>
@@ -3649,7 +3650,7 @@
                         hideBannedScreen();
                         const maintScreen = getEl('screen-maintenance');
                         if (maintScreen && maintScreen.classList.contains('active')) {
-                            switchScreen('screen-menu');
+                            showMenu();
                         }
                         updateUserHeaderUI(currentUser, currentUserProfile);
 
@@ -4019,7 +4020,7 @@
                     if (error) throw error;
 
                     closeModal('modal-auth');
-                    switchScreen('screen-menu');
+                    showMenu();
                     updateUserHeaderUI(data.user, currentUserProfile);
                     playSound('correct');
                     showToast("🎉 Signed in successfully! Welcome back.", 4000);
@@ -4091,7 +4092,7 @@
                     }
 
                     closeModal('modal-auth');
-                    switchScreen('screen-menu');
+                    showMenu();
                     updateUserHeaderUI(user, currentUserProfile);
                     if (typeof initRealtimePresence === 'function') initRealtimePresence();
                     playSound('correct');
@@ -5087,7 +5088,7 @@
             if (MAINTENANCE_MODE && !checkAdminAccess()) {
                 switchScreen('screen-maintenance');
             } else {
-                switchScreen('screen-menu');
+                showMenu();
             }
             updateUserHeaderUI(currentUser, currentUserProfile);
         }
@@ -5476,13 +5477,32 @@
             }
         }
 
-        function showMenu() { switchScreen('screen-menu'); }
+        function updateMenuButtons() {
+            let savedSessionStr = null;
+            try { savedSessionStr = localStorage.getItem('savedQuizSession'); } catch(e) {}
+            const playBtn = getEl('btn-play-quiz');
+            const freshBtn = getEl('btn-start-fresh-quiz');
+            if (playBtn && freshBtn) {
+                if (savedSessionStr) {
+                    playBtn.innerText = '🎮 Resume Incomplete Quiz';
+                    freshBtn.style.display = 'block';
+                } else {
+                    playBtn.innerText = '🎮 Play Interactive Quiz';
+                    freshBtn.style.display = 'none';
+                }
+            }
+        }
+
+        function showMenu() { 
+            updateMenuButtons();
+            switchScreen('screen-menu'); 
+        }
 
         function quitQuiz() {
-            if (currentUser && currentQuizIndex > 0) {
-                // Save progress if they've answered at least one question
+            if (currentUser && (currentIndex > 0 || isAnswered)) {
                 saveTestHistory(score, quizWords.length, quizSettings, quizWords, false);
             }
+            saveCurrentQuizState();
             showMenu();
         }
 
@@ -5954,14 +5974,44 @@
         }
 
         // Setup Quiz
-        function startQuiz() {
+        function startQuiz(forceNew = false) {
             if (!currentUser && !checkAdminAccess()) {
                 openAuthModal('login', "✨ Sign in today to continue using! (It's FREE!)", 'Sign in or create a free account to unlock interactive quizzes, flashcards, word tracking, and customized settings.');
                 return;
             }
             saveSettings();
 
-            // Prepare Candidate Words Based on Settings Order
+            if (!forceNew) {
+                let savedSessionStr = null;
+            try { savedSessionStr = localStorage.getItem('savedQuizSession'); } catch(e) {}
+                if (savedSessionStr) {
+                    try {
+                        const savedSession = JSON.parse(savedSessionStr);
+                        if (savedSession && savedSession.quizWords && savedSession.currentIndex >= 0) {
+                            quizWords = savedSession.quizWords;
+                            currentIndex = savedSession.currentIndex;
+                            score = savedSession.score;
+                            wrongAnswersLog = savedSession.wrongAnswersLog || [];
+                            
+                            switchScreen('screen-quiz');
+                            
+                            // Adjust Visible Input Fields
+                            getEl('group-meaning').style.display = quizSettings.fields.meaning ? 'flex' : 'none';
+                            getEl('group-pos').style.display = quizSettings.fields.pos ? 'flex' : 'none';
+                            getEl('group-occ').style.display = quizSettings.fields.occ ? 'flex' : 'none';
+                            const groupRoot = getEl('group-root');
+                            if (groupRoot) groupRoot.style.display = quizSettings.fields.root ? 'flex' : 'none';
+                            getEl('group-arabic').style.display = quizSettings.fields.arabic ? 'flex' : 'none';
+                            
+                            loadWord();
+                            return;
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse saved session", e);
+                    }
+                }
+            }
+
             let candidateWords = [];
             if (quizSettings.orderMode === 'random') {
                 candidateWords = shuffle([...wordsData]);
@@ -6005,7 +6055,20 @@
             getEl('progress-text').innerText = `Word ${currentIndex + 1} / ${quizWords.length}`;
         }
 
+        function saveCurrentQuizState() {
+            if (currentIndex >= 0 && currentIndex < quizWords.length) {
+                try { localStorage.setItem('savedQuizSession', JSON.stringify({
+                    quizWords,
+                    currentIndex,
+                    score,
+                    wrongAnswersLog,
+                    quizSettings
+                })); } catch(e) {}
+            }
+        }
+
         function loadWord() {
+            saveCurrentQuizState();
             isAnswered = false;
             const word = quizWords[currentIndex];
             
@@ -6328,6 +6391,7 @@
         }
 
         function endQuiz() {
+            try { localStorage.removeItem('savedQuizSession'); } catch(e) {}
             switchScreen('screen-end');
             getEl('progress-bar').style.width = '100%';
             
